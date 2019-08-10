@@ -84,7 +84,7 @@ function refresh_ali_cdn(){
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
         cdn_refresh_info = JSON.parse(data);
-        console.log('RefreshTaskID=' + cdn_refresh_info.RefreshTaskID);
+        console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
         console.log('RequestId=' + cdn_refresh_info.RequestId);
     });
 
