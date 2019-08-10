@@ -101,5 +101,5 @@ function refresh_ali_cdn(){
 
 check_first_package();
 
-check_task = setInterval(check_first_package, 900000);//check source site per 15 min aka 900 sec
+check_task = setInterval(check_first_package, 300000);//check source site per 5 min aka 300 sec
 
