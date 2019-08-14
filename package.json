@@ -1,6 +1,6 @@
 {
   "name": "gdsub_flutter_cdn_refresher",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "refresh ali cdn according to resource refreshes of https://pub.dev/api/packages",
   "main": "app.js",
   "scripts": {

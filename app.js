@@ -14,7 +14,14 @@ let check_task;
 
 
 function check_first_package(){
-    request.get(flutter_source_url, (err, response, body) => {
+    let options= {
+        url: flutter_source_url,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+
+    };
+    request.get(options, (err, response, body) => {
 
         if(err){
             console.error('encountered error while requesting package information from remote server, message:' + err.toString());
