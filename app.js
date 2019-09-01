@@ -1,5 +1,6 @@
 const request = require('request');
 const { spawn } = require('child_process');
+const flutter_checker = require('flutter_checker');
 
 const flutter_source_url = 'https://pub.dev/api/packages?page=1';
 const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
@@ -110,3 +111,4 @@ check_first_package();
 
 check_task = setInterval(check_first_package, 300000);//check source site per 5 min aka 300 sec
 
+flutter_checker.startCheckTask();
