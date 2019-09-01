@@ -46,39 +46,6 @@ mEmitter.on('remove_macos', (b, f) => {
 
 });
 
-var mEmitter_tmp = new MsgEmitter();
-
-mEmitter_tmp.on('remove_windows', (b, f) => {
-    removeFileFromBucket_tmp(bucket_tmp, f, (res)=> {
-        mEmitter_tmp.emit('remove_linux', bucket_tmp, qiniu_jsonfile_linux);
-        if(res){
-            setTimeout(requestSource, 300 * 1000, [url_qiniu_base_tmp + 'releases_windows.json']);
-
-        }
-    });
-});
-
-mEmitter_tmp.on('remove_linux', (b, f) => {
-
-    removeFileFromBucket_tmp(b, f, (res)=> {
-        mEmitter.emit('remove_macos', bucket_tmp, qiniu_jsonfile_macos);
-        if(res){
-            setTimeout(requestSource, 300 * 1000, [url_qiniu_base_tmp + 'releases_linux.json']);
-
-        }
-    });
-});
-
-mEmitter_tmp.on('remove_macos', (b, f) => {
-
-    removeFileFromBucket_tmp(b, f, (res)=> {
-
-        if(res){
-            setTimeout(requestSource, 300 * 1000, [url_qiniu_base_tmp + 'releases_macos.json']);
-            console.log('[tmp]file removing operation is done.');
-        }
-    });
-});
 
 
 const URL_FLUTTER_WINDOWS = 'https://storage.flutter-io.cn/flutter_infra/releases/releases_windows.json';
@@ -92,7 +59,7 @@ const qiniu_jsonfile_windows = 'flutter_infra/releases/releases_windows.json';
 
 const url_qiniu_base = 'https://storage-qn.flutter-io.cn/flutter_infra/releases/';
 
-const url_qiniu_base_tmp = 'https://storage.flutter-io.cn/flutter_infra/releases/';
+
 
 let version_windows = {
     'beta' : '',
@@ -136,12 +103,6 @@ config.zone = qiniu.zone.Zone_z1;//bucket: flutter-mirrors
 const bucket = 'flutter-mirrors';//'flutter'
 let bucketManager = null;
 
-//for temporary usage
-let mac_tmp = null;
-let config_tmp = new qiniu.conf.Config();
-config_tmp.zone = qiniu.zone.Zone_z2;
-const bucket_tmp = 'flutter';
-let bucketManager_tmp = null;
 
 
 function retriveFlutterVersion(platform){
@@ -199,7 +160,7 @@ function retriveFlutterVersion(platform){
 
                         console.log('files are updated, remove related files from Qiniu buckets');
                         mEmitter.emit('remove_windows', bucket, qiniu_jsonfile_windows);
-                        mEmitter_tmp.emit('remove_windows', bucket, qiniu_jsonfile_windows);
+
 
                     }
 
@@ -400,31 +361,6 @@ function removeFileFromBucket(b, f, callback){
 });
 }
 
-function removeFileFromBucket_tmp(b, f, callback){
-    bucketManager_tmp.delete(b, f, (err, respBody, respInfo) => {
-        let res = false;
-        if(err){
-            console.error('encountered error while deleting resources, err:' + err.message);
-            res = false;
-        }else{
-
-            // console.log('respInfo=' + JSON.stringify(respInfo));
-            if(respInfo.status === 200){
-                console.log('operation done.');
-                res = true;
-            }else if(respInfo.status === 612){
-                console.log('no such file or directory.');
-                res = false;
-            }else{
-                console.log(respInfo.data.error);
-                res = false;
-            }
-        }
-        if(typeof(callback) != 'undefined'){
-            callback(res);
-        }
-    });
-}
 
 const requestSource = function(url){
     https.get(url, (resp) => {
@@ -450,9 +386,6 @@ const startCheckTask = function(){
     let auth = JSON.parse(data);
     mac = new qiniu.auth.digest.Mac(auth.access_key, auth.secret_key);
     bucketManager = new qiniu.rs.BucketManager(mac, config);
-
-    mac_tmp = new qiniu.auth.digest.Mac(auth.access_key, auth.secret_key);
-    bucketManager_tmp = new qiniu.rs.BucketManager(mac_tmp, config_tmp);
 
     console.log('initializing version information data from official Google Cloud Storage node');
     checkVersion();
