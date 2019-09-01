@@ -80,7 +80,7 @@ let linux_beta = false;
 let linux_dev = false;
 let linux_stable = false;
 
-let flutter_cache = __dirname + '/';
+let flutter_cache = __dirname + '/json_cache/';
 
 let service_log = 'service_flutter.log';
 
