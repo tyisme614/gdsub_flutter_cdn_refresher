@@ -2,10 +2,10 @@ const request = require('request');
 const { spawn } = require('child_process');
 const flutter_checker = require('flutter_checker');
 
-const flutter_source_url = 'https://pub.dev/api/packages?page=1';
+const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
 const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 // const aliyuncli_cmd = '/usr/local/bin/aliyuncli cdn RefreshObjectCaches ';
-const aliyun_cdn_url = 'https://pub.flutter-io.cn/';
+const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
 
 let first_package = '';
