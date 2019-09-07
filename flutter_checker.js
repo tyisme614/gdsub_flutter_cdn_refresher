@@ -60,7 +60,7 @@ const qiniu_jsonfile_linux = 'flutter_infra/releases/releases_linux.json';
 const qiniu_jsonfile_macos = 'flutter_infra/releases/releases_macos.json';
 const qiniu_jsonfile_windows = 'flutter_infra/releases/releases_windows.json';
 
-const url_qiniu_base = 'https://storage-qn.flutter-io.cn/flutter_infra/releases/';
+const url_qiniu_base = 'https://storage.flutter-io.cn/flutter_infra/releases/';
 
 
 
