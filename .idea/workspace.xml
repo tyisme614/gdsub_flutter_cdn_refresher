@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="modified path for storing json files">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/flutter_checker.js" beforeDir="false" afterPath="$PROJECT_DIR$/flutter_checker.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
@@ -30,8 +30,8 @@
       <file leaf-file-name="flutter_checker.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/flutter_checker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="28">
-              <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+            <state relative-caret-position="365">
+              <caret line="368" column="37" selection-start-line="368" selection-start-column="37" selection-end-line="368" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -75,6 +75,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>request</find>
+      <find>_tmp</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -170,7 +171,7 @@
       <workItem from="1565429348648" duration="723000" />
       <workItem from="1565773015935" duration="838000" />
       <workItem from="1565938297997" duration="1516000" />
-      <workItem from="1567323112040" duration="10412000" />
+      <workItem from="1567323112040" duration="11602000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -214,11 +215,25 @@
       <option name="project" value="LOCAL" />
       <updated>1567336122328</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="v0.0.5&#10;added file checking for bucket flutter">
+      <created>1567342678496</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1567342678496</updated>
+    </task>
+    <task id="LOCAL-00008" summary="v0.0.6&#10;removed temporary code">
+      <created>1567352096864</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1567352096864</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="13832000" />
+    <option name="totallyTimeSpent" value="15022000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1920" height="1200" extended-state="0" />
@@ -232,7 +247,7 @@
       <window_info anchor="bottom" id="Run" order="2" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32917038" />
+      <window_info anchor="bottom" id="Terminal" order="7" weight="0.32917038" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -250,7 +265,7 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.21875" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.21875" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -276,7 +291,9 @@
     <MESSAGE value="v0.0.4&#10;added flutter version checker" />
     <MESSAGE value="fixed syntax error" />
     <MESSAGE value="modified path for storing json files" />
-    <option name="LAST_COMMIT_MESSAGE" value="modified path for storing json files" />
+    <MESSAGE value="v0.0.5&#10;added file checking for bucket flutter" />
+    <MESSAGE value="v0.0.6&#10;removed temporary code" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.0.6&#10;removed temporary code" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app.js">
@@ -372,8 +389,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/flutter_checker.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="28">
-          <caret line="48" column="4" selection-start-line="48" selection-start-column="4" selection-end-line="48" selection-end-column="4" />
+        <state relative-caret-position="365">
+          <caret line="368" column="37" selection-start-line="368" selection-start-column="37" selection-end-line="368" selection-end-column="37" />
         </state>
       </provider>
     </entry>

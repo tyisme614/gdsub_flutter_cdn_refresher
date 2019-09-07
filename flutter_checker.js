@@ -10,6 +10,7 @@ var mEmitter = new MsgEmitter();
 
 
 mEmitter.on('remove_windows', (b, f) => {
+    console.log('remove json file of windows version ');
     removeFileFromBucket(b, f, (res)=> {
         mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
         if(res){
@@ -25,6 +26,7 @@ mEmitter.on('remove_windows', (b, f) => {
 
 
 mEmitter.on('remove_linux', (b, f) => {
+    console.log('remove json file of linux version ');
     removeFileFromBucket(b, f, (res)=> {
         mEmitter.emit('remove_macos', bucket, qiniu_jsonfile_macos);
         if(res){
@@ -36,6 +38,7 @@ mEmitter.on('remove_linux', (b, f) => {
 });
 
 mEmitter.on('remove_macos', (b, f) => {
+    console.log('remove json file of macos version ');
     removeFileFromBucket(b, f, (res)=> {
         if(res){
             setTimeout(requestSource, 300 * 1000, [url_qiniu_base + 'releases_macos.json']);
@@ -363,6 +366,7 @@ function removeFileFromBucket(b, f, callback){
 
 
 const requestSource = function(url){
+    console.log('requesting ' + url);
     https.get(url, (resp) => {
         let data = '';
         // A chunk of data has been recieved.
