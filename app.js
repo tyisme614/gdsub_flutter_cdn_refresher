@@ -6,6 +6,7 @@ const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[dep
 const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 // const aliyuncli_cmd = '/usr/local/bin/aliyuncli cdn RefreshObjectCaches ';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
+const aliyun_cdn_base_url = 'https://pub.flutter-io.cn/packages/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
 
 let first_package = '';
@@ -53,14 +54,29 @@ function check_first_package(){
                                 keepSearching = false;
                                 i = data.packages.length;
                                 break;
-                            case 1001:
-                                console.log('different package, refreshing cdn resource:' + aliyun_cdn_url + pkg.name);
-                                refresh_ali_cdn_of_target(aliyun_cdn_url + pkg.name);
+                            case 1001:{
+                                let archive_name = get_archive_name(pkg);
+                                if(archive_name != null){
+                                    let target = aliyun_cdn_base_url + pkg.name + '/versions/' + archive_name;
+                                        console.log('different package, refreshing cdn resource:' + target);
+                                    refresh_ali_cdn_of_target(target);
+                                }else{
+                                    console.error('unable to retrieve archive name, failed to update cdn resource');
+                                }
+
+                            }
+
                                 break;
                             case 1002:
-                                console.log('same package, but the version is different, refreshing cdn resource:' + aliyun_cdn_url + pkg.name);
-                                updatedPackageURL.push(pkg);
-                                refresh_ali_cdn_of_target(aliyun_cdn_url + pkg.name);
+                                let archive_name = get_archive_name(pkg);
+                                if(archive_name != null){
+                                    let target = aliyun_cdn_base_url + pkg.name + '/versions/' + archive_name;
+                                    console.log('same package, but the version is different, refreshing cdn resource:' + target);
+                                    refresh_ali_cdn_of_target(target);
+                                }else{
+                                    console.error('unable to retrieve archive name, failed to update cdn resource');
+                                }
+
                                 index = i;
                                 keepSearching = false;
                                 i = data.packages.length;
@@ -113,6 +129,15 @@ function diff_package(pkg1, pkg2){
     }
 
     return 1000;
+}
+
+function get_archive_name(pkg){
+    let sub_str = pkg.latest.archive_url.split('/');
+    if(typeof(sub_str) != 'undefined' && sub_str.length >=7){
+        return sub_str[6];
+    }else{
+        return null;
+    }
 }
 
 function show_package_info(pkg){

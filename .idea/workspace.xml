@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.0.7&#10;changed base url of qiniu">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +20,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1298">
-              <caret line="59" column="142" selection-start-line="59" selection-start-column="142" selection-end-line="59" selection-end-column="142" />
+            <state relative-caret-position="296">
+              <caret line="79" column="42" lean-forward="true" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
             </state>
           </provider>
         </entry>
@@ -30,7 +29,7 @@
       <file leaf-file-name="flutter_checker.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/flutter_checker.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1496">
+            <state relative-caret-position="-5041">
               <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
             </state>
           </provider>
@@ -82,6 +81,7 @@
       <find>request</find>
       <find>_tmp</find>
       <find>refresh_ali_cdn</find>
+      <find>10</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -120,8 +120,8 @@
     </packageJsonPaths>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="width" value="1920" />
-    <option name="height" value="1200" />
+    <option name="width" value="1680" />
+    <option name="height" value="1050" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -186,7 +186,7 @@
       <workItem from="1567323112040" duration="12642000" />
       <workItem from="1567903791785" duration="110000" />
       <workItem from="1578751115708" duration="400000" />
-      <workItem from="1578752432271" duration="1871000" />
+      <workItem from="1578752432271" duration="3448000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -258,11 +258,25 @@
       <option name="project" value="LOCAL" />
       <updated>1567870762425</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="v0.0.8&#10;only refresh the cdn resources that are updated in source site">
+      <created>1578754628734</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1578754628734</updated>
+    </task>
+    <task id="LOCAL-00012" summary="v0.0.8&#10;fix code error">
+      <created>1578755257939</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1578755257939</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18443000" />
+    <option name="totallyTimeSpent" value="20020000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -270,6 +284,7 @@
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.24940476" />
       <window_info anchor="bottom" id="TODO" order="6" />
+      <window_info active="true" anchor="bottom" id="Messages" visible="true" weight="0.32984293" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="7" />
@@ -324,7 +339,9 @@
     <MESSAGE value="v0.0.6&#10;removed temporary code" />
     <MESSAGE value="v0.0.7&#10;added console outputs for debugging" />
     <MESSAGE value="v0.0.7&#10;changed base url of qiniu" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.0.7&#10;changed base url of qiniu" />
+    <MESSAGE value="v0.0.8&#10;only refresh the cdn resources that are updated in source site" />
+    <MESSAGE value="v0.0.8&#10;fix code error" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.0.8&#10;fix code error" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/app.js">
@@ -509,13 +526,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/flutter_checker.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1496">
-          <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/service_flutter.log">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -533,10 +543,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/flutter_checker.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-5041">
+          <caret line="68" column="15" lean-forward="true" selection-start-line="68" selection-start-column="15" selection-end-line="68" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1298">
-          <caret line="59" column="142" selection-start-line="59" selection-start-column="142" selection-end-line="59" selection-end-column="142" />
+        <state relative-caret-position="296">
+          <caret line="79" column="42" lean-forward="true" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
         </state>
       </provider>
     </entry>
