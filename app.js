@@ -42,8 +42,9 @@ function check_first_package(){
                     let index = 0;
                     let keepSearching = true;
                     let updatedPackageURL = [];
+                    let pkg = first_package;
                     for(let i=0; (keepSearching && i<data.packages.length); i++){
-                        let pkg = data.packages[i];
+                        pkg = data.packages[i];
                         let result = diff_package(pkg, first_package);
                         switch(result){
                             case 1000:
