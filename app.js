@@ -38,18 +38,51 @@ function check_first_package(){
                 }
             }else{
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    let pkg = data.packages[0];
-                    if(diff_package(pkg, first_package)){
-                        //packages resources have been updated, refresh cdn
-                        console.log('refresh cdn');
-                        refresh_ali_cdn();
-                        //update first_package
-                        first_package = pkg;
-                        console.log('first_package has been updated\n');
-                        console.log(show_package_info(first_package));
-                    }else{
-                        console.log('source site not updated');
+                    //find new index of the previous first package
+                    let index = 0;
+                    let keepSearching = true;
+                    let updatedPackageURL = [];
+                    for(let i=0; (keepSearching && i<data.packages.length); i++){
+                        let pkg = data.packages[i];
+                        let result = diff_package(pkg, first_package);
+                        switch(result){
+                            case 1000:
+                                console.log('same package, break loop');
+                                index = i;
+                                keepSearching = false;
+                                i = data.packages.length;
+                                break;
+                            case 1001:
+                                console.log('different package, refreshing cdn resource:' + aliyun_cdn_url + pkg.name);
+                                refresh_ali_cdn_of_target(aliyun_cdn_url + pkg.name);
+                                break;
+                            case 1002:
+                                console.log('same package, but the version is different, refreshing cdn resource:' + aliyun_cdn_url + pkg.name);
+                                updatedPackageURL.push(pkg);
+                                refresh_ali_cdn_of_target(aliyun_cdn_url + pkg.name);
+                                index = i;
+                                keepSearching = false;
+                                i = data.packages.length;
+                                break;
+                        }
+
                     }
+                    first_package = pkg;
+                    console.log('the index of previous first_package is '+index);
+
+
+                    // let pkg = data.packages[0];
+                    // if(diff_package(pkg, first_package)){
+                    //     //packages resources have been updated, refresh cdn
+                    //     console.log('refresh cdn');
+                    //     refresh_ali_cdn();
+                    //     //update first_package
+                    //     first_package = pkg;
+                    //     console.log('first_package has been updated\n');
+                    //     console.log(show_package_info(first_package));
+                    // }else{
+                    //     console.log('source site not updated');
+                    // }
 
 
                 }
@@ -63,16 +96,22 @@ function check_first_package(){
 
 }
 
+/**
+ * check the difference between the information of pkg1 and pkg2
+ * @param pkg1
+ * @param pkg2
+ * @returns {1001:the target packages are different; 1002:the target packages are the same but the version is different; 1000:They are the same package}
+ */
 function diff_package(pkg1, pkg2){
     if(pkg1.name != pkg2.name){
         //packages have been updated
-        return true;
+        return 1001;
     }else if(pkg1.latest.version != pkg2.latest.version){
         //same package, but a newer version has been published
-        return true;
+        return 1002;
     }
 
-    return false;
+    return 1000;
 }
 
 function show_package_info(pkg){
@@ -84,6 +123,26 @@ function show_package_info(pkg){
     info += 'url: ' + pkg.latest.url + '\n';
 
     return info;
+}
+
+function refresh_ali_cdn_of_target(url){
+
+    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', 'Directory']);
+
+    cmd.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        cdn_refresh_info = JSON.parse(data);
+        console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+        console.log('RequestId=' + cdn_refresh_info.RequestId);
+    });
+
+    cmd.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    cmd.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
 }
 
 function refresh_ali_cdn(){
