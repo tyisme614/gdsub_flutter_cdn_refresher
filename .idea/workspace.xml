@@ -20,8 +20,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="296">
-              <caret line="79" column="42" lean-forward="true" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
+            <state relative-caret-position="227">
+              <caret line="155" column="108" selection-start-line="155" selection-start-column="108" selection-end-line="155" selection-end-column="108" />
             </state>
           </provider>
         </entry>
@@ -186,7 +186,7 @@
       <workItem from="1567323112040" duration="12642000" />
       <workItem from="1567903791785" duration="110000" />
       <workItem from="1578751115708" duration="400000" />
-      <workItem from="1578752432271" duration="3448000" />
+      <workItem from="1578752432271" duration="4218000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -272,11 +272,18 @@
       <option name="project" value="LOCAL" />
       <updated>1578755257939</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="v0.0.8&#10;fix code error">
+      <created>1578756634492</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1578756634492</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="20020000" />
+    <option name="totallyTimeSpent" value="20790000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -552,8 +559,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="79" column="42" lean-forward="true" selection-start-line="79" selection-start-column="42" selection-end-line="79" selection-end-column="42" />
+        <state relative-caret-position="227">
+          <caret line="155" column="108" selection-start-line="155" selection-start-column="108" selection-end-line="155" selection-end-column="108" />
         </state>
       </provider>
     </entry>

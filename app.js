@@ -153,7 +153,7 @@ function show_package_info(pkg){
 
 function refresh_ali_cdn_of_target(url){
 
-    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', 'Directory']);
+    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', 'File']);
 
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
