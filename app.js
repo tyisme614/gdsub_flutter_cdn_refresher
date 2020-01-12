@@ -7,6 +7,7 @@ const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 // const aliyuncli_cmd = '/usr/local/bin/aliyuncli cdn RefreshObjectCaches ';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const aliyun_cdn_base_url = 'https://pub.flutter-io.cn/packages/';
+const cdn_base_address = 'pub.flutter-io.cn';
 // const aliyun_cdn_url = 'https://material-io.cn/';
 
 let first_package = '';
@@ -55,27 +56,27 @@ function check_first_package(){
                                 i = data.packages.length;
                                 break;
                             case 1001:{
-                                let archive_name = get_archive_name(pkg);
-                                if(archive_name != null){
-                                    let target = aliyun_cdn_base_url + pkg.name + '/versions/' + archive_name;
-                                        console.log('different package, refreshing cdn resource:' + target);
-                                    refresh_ali_cdn_of_target(target);
-                                }else{
-                                    console.error('unable to retrieve archive name, failed to update cdn resource');
-                                }
+                                let archive_url = replaceArchive_url(pkg, cdn_base_address);
+                                console.log('different package, refreshing cdn archive resource:' + archive_url);
+                                refresh_ali_cdn_of_target(archive_url, 'File');
+
+                                let package_url = replacePackage_url(pkg, cdn_base_address);
+                                console.log('different package, refreshing cdn package resource:' + package_url);
+                                refresh_ali_cdn_of_target(package_url, 'Directory');
+
 
                             }
 
                                 break;
                             case 1002:
-                                let archive_name = get_archive_name(pkg);
-                                if(archive_name != null){
-                                    let target = aliyun_cdn_base_url + pkg.name + '/versions/' + archive_name;
-                                    console.log('same package, but the version is different, refreshing cdn resource:' + target);
-                                    refresh_ali_cdn_of_target(target);
-                                }else{
-                                    console.error('unable to retrieve archive name, failed to update cdn resource');
-                                }
+                                let archive_url = replaceArchive_url(pkg, cdn_base_address);
+                                console.log('different package, refreshing cdn archive resource:' + archive_url);
+                                refresh_ali_cdn_of_target(archive_url, 'File');
+
+                                let package_url = replacePackage_url(pkg, cdn_base_address);
+                                console.log('different package, refreshing cdn package resource:' + package_url);
+                                refresh_ali_cdn_of_target(package_url, 'Directory');
+
 
                                 index = i;
                                 keepSearching = false;
@@ -131,6 +132,32 @@ function diff_package(pkg1, pkg2){
     return 1000;
 }
 
+function replacePackage_url(pkg, replacer){
+    let replaced_url = pkg.latest.archive_url.replace('pub.dartlang.org', replacer);
+    let index = replaced_url.lastIndexOf('/');
+    if(index != (replaced_url.length - 1)){
+        //append forward slash for meeting requirement of aliyuncli command
+        replaced_url += '/';
+    }
+
+    console.log('replaced_url is ' + replaced_url);
+    return replaced_url;
+}
+
+function replaceArchive_url(pkg, replacer){
+    let replaced_url = pkg.latest.archive_url.replace('pub.dartlang.org', replacer);
+    let index = replaced_url.lastIndexOf('/');
+    if(index != (replaced_url.length - 1)){
+        //append forward slash for meeting requirement of aliyuncli command
+        replaced_url += '/';
+    }
+
+    console.log('replaced_url is ' + replaced_url);
+    return replaced_url;
+}
+
+
+
 function get_archive_name(pkg){
     let sub_str = pkg.latest.archive_url.split('/');
     if(typeof(sub_str) != 'undefined' && sub_str.length >=7){
@@ -151,9 +178,14 @@ function show_package_info(pkg){
     return info;
 }
 
-function refresh_ali_cdn_of_target(url){
+/**
+ *
+ * @param url: the target resource url
+ * @param type: the target type, File or Directory
+ */
+function refresh_ali_cdn_of_target(url, type){
 
-    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', 'File']);
+    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
 
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
