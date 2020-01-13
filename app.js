@@ -56,28 +56,42 @@ function check_first_package(){
                                 i = data.packages.length;
                                 break;
                             case 1001:{
-                                let archive_url = replaceArchive_url(pkg, cdn_base_address);
-                                console.log('different package, refreshing cdn archive resource:' + archive_url);
-                                refresh_ali_cdn_of_target(archive_url, 'File');
-
+                                // let archive_url = replaceArchive_url(pkg, cdn_base_address);
+                                // console.log('different package, refreshing cdn archive resource:' + archive_url);
+                                // refresh_ali_cdn_of_target(archive_url, 'File');
+                                console.log('different package');
                                 let package_url = replacePackage_url(pkg, cdn_base_address);
-                                console.log('different package, refreshing cdn package resource:' + package_url);
+                                console.log('refreshing cdn package resource folder:' + package_url);
                                 refresh_ali_cdn_of_target(package_url, 'Directory');
 
+                                console.log('refreshing cdn package resource file:' + pkg.latest.package_url);
+                                refresh_ali_cdn_of_target(pkg.latest.package_url, 'File');
 
+
+                                let document_url = getDocument_url(pkg, cdn_base_address);
+                                console.log('different package, refreshing cdn documentation resource:' + document_url);
+                                refresh_ali_cdn_of_target(document_url, 'File');
                             }
 
                                 break;
                             case 1002:
-                                let archive_url = replaceArchive_url(pkg, cdn_base_address);
-                                console.log('different package, refreshing cdn archive resource:' + archive_url);
-                                refresh_ali_cdn_of_target(archive_url, 'File');
-
+                                // let archive_url = replaceArchive_url(pkg, cdn_base_address);
+                                // console.log('different package, refreshing cdn archive resource:' + archive_url);
+                                // refresh_ali_cdn_of_target(archive_url, 'File');
+                                console.log('same package, but the version is different');
                                 let package_url = replacePackage_url(pkg, cdn_base_address);
-                                console.log('different package, refreshing cdn package resource:' + package_url);
+                                console.log('refreshing cdn package resource folder:' + package_url);
                                 refresh_ali_cdn_of_target(package_url, 'Directory');
 
+                                console.log('refreshing cdn package resource file:' + pkg.latest.package_url);
+                                refresh_ali_cdn_of_target(pkg.latest.package_url, 'File');
 
+
+                                let document_url = getDocument_url(pkg, cdn_base_address);
+                                console.log('different package, refreshing cdn documentation resource:' + document_url);
+                                refresh_ali_cdn_of_target(document_url, 'File');
+
+                                console.log('checking cdn refreshing targets finished.');
                                 index = i;
                                 keepSearching = false;
                                 i = data.packages.length;
@@ -133,7 +147,7 @@ function diff_package(pkg1, pkg2){
 }
 
 function replacePackage_url(pkg, replacer){
-    let replaced_url = pkg.latest.archive_url.replace('pub.dartlang.org', replacer);
+    let replaced_url = pkg.latest.package_url.replace('pub.dartlang.org', replacer);
     let index = replaced_url.lastIndexOf('/');
     if(index != (replaced_url.length - 1)){
         //append forward slash for meeting requirement of aliyuncli command
@@ -146,16 +160,17 @@ function replacePackage_url(pkg, replacer){
 
 function replaceArchive_url(pkg, replacer){
     let replaced_url = pkg.latest.archive_url.replace('pub.dartlang.org', replacer);
-    let index = replaced_url.lastIndexOf('/');
-    if(index != (replaced_url.length - 1)){
-        //append forward slash for meeting requirement of aliyuncli command
-        replaced_url += '/';
-    }
 
     console.log('replaced_url is ' + replaced_url);
     return replaced_url;
 }
 
+function getDocument_url(pkg, replacer){
+        let package_url = pkg.latest.package_url.replace('pub.dartlang.org', replacer);
+        let document_url = package_url.replace(/packages/, 'documentation');
+
+        return document_url;
+}
 
 
 function get_archive_name(pkg){
