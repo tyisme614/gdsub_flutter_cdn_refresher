@@ -64,8 +64,9 @@ function check_first_package(){
                                 console.log('refreshing cdn package resource folder:' + package_url);
                                 refresh_ali_cdn_of_target(package_url, 'Directory');
 
-                                console.log('refreshing cdn package resource file:' + pkg.latest.package_url);
-                                refresh_ali_cdn_of_target(pkg.latest.package_url, 'File');
+                                let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                console.log('refreshing cdn package resource file:' + package_file);
+                                refresh_ali_cdn_of_target(package_file, 'File');
 
 
                                 let document_url = getDocument_url(pkg, cdn_base_address);
@@ -83,7 +84,8 @@ function check_first_package(){
                                 console.log('refreshing cdn package resource folder:' + package_url);
                                 refresh_ali_cdn_of_target(package_url, 'Directory');
 
-                                console.log('refreshing cdn package resource file:' + pkg.latest.package_url);
+                                let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                console.log('refreshing cdn package resource file:' + package_file);
                                 refresh_ali_cdn_of_target(pkg.latest.package_url, 'File');
 
 
