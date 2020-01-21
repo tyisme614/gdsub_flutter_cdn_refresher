@@ -47,6 +47,8 @@ function check_first_package(){
                     let pkg = first_package;
                     for(let i=0; (keepSearching && i<data.packages.length); i++){
                         pkg = data.packages[i];
+                        console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
+                        console.log('previous first package is ' + first_package.name + ' latest version is ' + first_package.latest.version);
                         let result = diff_package(pkg, first_package);
                         switch(result){
                             case 1000:
