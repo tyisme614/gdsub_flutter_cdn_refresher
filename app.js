@@ -33,9 +33,9 @@ function check_first_package(){
             let data = JSON.parse(body);
             if(first_package == ''){
                 //initialize first package
-                console.log('initializing first_package');
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    first_package = data.packages[0];
+                console.log('initializing first_package, refreshing cdn after service being restarted');
+                if(typeof(data.packages) !== 'undefined' && data.packages.length > 2){
+                    first_package = data.packages[1];
                     console.log(show_package_info(first_package));
                 }
             }else{
@@ -245,6 +245,6 @@ function refresh_ali_cdn(){
 
 check_first_package();
 
-check_task = setInterval(check_first_package, 300000);//check source site per 5 min aka 300 sec
+check_task = setInterval(check_first_package, 10000);//check source site per 5 min aka 300 sec
 
 flutter_checker.startCheckTask();
