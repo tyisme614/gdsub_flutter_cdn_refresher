@@ -34,9 +34,10 @@ function check_first_package(){
             if(first_package == ''){
                 //initialize first package
                 console.log('initializing first_package, refreshing cdn after service being restarted');
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 2){
-                    first_package = data.packages[1];
+                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                    first_package = data.packages[0];
                     console.log(show_package_info(first_package));
+                    refresh_ali_cdn();
                 }
             }else{
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
@@ -64,7 +65,7 @@ function check_first_package(){
                                 console.log('different package');
                                 let package_url = replacePackage_url(pkg, cdn_base_address);
                                 console.log('refreshing cdn package resource folder:' + package_url);
-                                refresh_ali_cdn_of_target(package_url, 'Directory');
+                                refresh_ali_cdn_of_target(package_url, 'File');
 
                                 let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
                                 console.log('refreshing cdn package resource file:' + package_file);
@@ -84,7 +85,7 @@ function check_first_package(){
                                 console.log('same package, but the version is different');
                                 let package_url = replacePackage_url(pkg, cdn_base_address);
                                 console.log('refreshing cdn package resource folder:' + package_url);
-                                refresh_ali_cdn_of_target(package_url, 'Directory');
+                                refresh_ali_cdn_of_target(package_url, 'File');
 
                                 let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
                                 console.log('refreshing cdn package resource file:' + package_file);
@@ -208,9 +209,23 @@ function refresh_ali_cdn_of_target(url, type){
 
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
-        cdn_refresh_info = JSON.parse(data);
-        console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-        console.log('RequestId=' + cdn_refresh_info.RequestId);
+        try{
+            cdn_refresh_info = JSON.parse(data);
+            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+            }
+
+            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                console.log('RequestId=' + cdn_refresh_info.RequestId);
+            }
+
+            if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+            }
+
+        }catch(e){
+            console.log('encountered error while parsing response data, exception:' + e.message);
+        }
     });
 
     cmd.stderr.on('data', (data) => {
@@ -227,9 +242,24 @@ function refresh_ali_cdn(){
 
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
-        cdn_refresh_info = JSON.parse(data);
-        console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-        console.log('RequestId=' + cdn_refresh_info.RequestId);
+        try{
+            cdn_refresh_info = JSON.parse(data);
+            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+            }
+
+            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                console.log('RequestId=' + cdn_refresh_info.RequestId);
+            }
+
+            if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+            }
+
+        }catch(e){
+            console.log('encountered error while parsing response data, exception:' + e.message);
+        }
+
     });
 
     cmd.stderr.on('data', (data) => {
@@ -245,6 +275,6 @@ function refresh_ali_cdn(){
 
 check_first_package();
 
-check_task = setInterval(check_first_package, 10000);//check source site per 5 min aka 300 sec
+check_task = setInterval(check_first_package, 300000);//check source site per 5 min aka 300 sec
 
 flutter_checker.startCheckTask();
