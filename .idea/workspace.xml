@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.0.11&#10;correct package file url">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="debug package checking &amp; update function">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
@@ -19,10 +19,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="700">
-              <caret line="43" column="34" lean-forward="true" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+            <state relative-caret-position="1092">
+              <caret line="90" column="70" selection-start-line="90" selection-start-column="70" selection-end-line="90" selection-end-column="70" />
               <folding>
-                <marker date="1579582797667" expanded="true" signature="2713:2714" ph="..." />
+                <marker date="1579584899544" expanded="true" signature="2759:2760" ph="..." />
               </folding>
             </state>
           </provider>
@@ -159,7 +159,7 @@
       <workItem from="1578752432271" duration="6864000" />
       <workItem from="1578892235463" duration="3140000" />
       <workItem from="1578992804453" duration="2633000" />
-      <workItem from="1579582619520" duration="180000" />
+      <workItem from="1579582619520" duration="2033000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -273,11 +273,25 @@
       <option name="project" value="LOCAL" />
       <updated>1578994167523</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="debug package checking &amp; update function">
+      <created>1579582840938</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1579582840939</updated>
+    </task>
+    <task id="LOCAL-00018" summary="debug package checking &amp; update function">
+      <created>1579583405831</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1579583405831</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="29389000" />
+    <option name="totallyTimeSpent" value="31242000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1592" y="-348" width="1096" height="1896" extended-state="6" />
@@ -342,7 +356,8 @@
     <MESSAGE value="v0.0.8&#10;fix parameter error of aliyuncli" />
     <MESSAGE value="v0.0.10&#10;changed cdn refreshing target urls" />
     <MESSAGE value="v0.0.11&#10;correct package file url" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.0.11&#10;correct package file url" />
+    <MESSAGE value="debug package checking &amp; update function" />
+    <option name="LAST_COMMIT_MESSAGE" value="debug package checking &amp; update function" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/node_modules/qiniu/index.js" />
@@ -373,10 +388,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="700">
-          <caret line="43" column="34" lean-forward="true" selection-start-line="43" selection-start-column="34" selection-end-line="43" selection-end-column="34" />
+        <state relative-caret-position="1092">
+          <caret line="90" column="70" selection-start-line="90" selection-start-column="70" selection-end-line="90" selection-end-column="70" />
           <folding>
-            <marker date="1579582797667" expanded="true" signature="2713:2714" ph="..." />
+            <marker date="1579584899544" expanded="true" signature="2759:2760" ph="..." />
           </folding>
         </state>
       </provider>
