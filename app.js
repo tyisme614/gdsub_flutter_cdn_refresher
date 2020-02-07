@@ -322,10 +322,6 @@ function refresh_target_from_cache(){
         let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target, 'File');
 
-    }else{
-        if(debug){
-            console.log('cache is empty, nothing to refresh...');
-        }
     }
 }
 
