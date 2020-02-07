@@ -21,8 +21,8 @@
       <file leaf-file-name="app.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="41" column="18" lean-forward="true" selection-start-line="35" selection-start-column="33" selection-end-line="41" selection-end-column="18" />
+            <state relative-caret-position="715">
+              <caret line="281" column="47" selection-start-line="281" selection-start-column="47" selection-end-line="281" selection-end-column="47" />
             </state>
           </provider>
         </entry>
@@ -38,7 +38,7 @@
       </file>
       <file leaf-file-name="service_flutter.log" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/service_flutter.log">
-          <provider selected="true" editor-type-id="text-editor" />
+          <provider selected="true" editor-type-id="LogFileEditorProvider" />
         </entry>
       </file>
       <file leaf-file-name="test_qiniu.js" pinned="false" current-in-tab="false">
@@ -72,10 +72,11 @@
     <findStrings>
       <find>request</find>
       <find>_tmp</find>
-      <find>refresh_ali_cdn</find>
       <find>10</find>
       <find>ile</find>
       <find>e.message</find>
+      <find>aliyun_cdn_url</find>
+      <find>refresh_ali_cdn</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -111,7 +112,7 @@
       <path value="$PROJECT_DIR$/package.json" />
     </packageJsonPaths>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
     <option name="width" value="1680" />
     <option name="height" value="985" />
@@ -190,7 +191,10 @@
       <workItem from="1578892235463" duration="3140000" />
       <workItem from="1578992804453" duration="2633000" />
       <workItem from="1579582619520" duration="2033000" />
-      <workItem from="1579622747274" duration="491000" />
+      <workItem from="1579622747274" duration="787000" />
+      <workItem from="1580611797371" duration="239000" />
+      <workItem from="1580992710386" duration="571000" />
+      <workItem from="1581055046404" duration="1186000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -318,14 +322,21 @@
       <option name="project" value="LOCAL" />
       <updated>1579583405831</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="v0.0.12&#10;*refresh package_url as file in CDN refreshing&#10;*wrapped json parsing code by try-catch block for processing exception messages responded by Aliyun Server.">
+      <created>1579623382189</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1579623382189</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="32094000" />
+    <option name="totallyTimeSpent" value="34386000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="985" extended-state="6" />
+    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" weight="0.24940476" />
@@ -343,31 +354,31 @@
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Messages" order="11" weight="0.32984293" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Messages" order="11" weight="0.32984293" />
     </layout>
     <layout-to-restore>
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info id="npm" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Run" order="2" weight="0.32917038" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
+      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
+      <window_info content_ui="combo" id="Project" order="0" weight="0.24940476" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info id="Favorites" order="3" side_tool="true" />
-      <window_info anchor="bottom" id="Version Control" order="10" />
-      <window_info anchor="bottom" id="Message" order="0" />
+      <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Terminal" order="8" weight="0.32917038" />
       <window_info anchor="bottom" id="Event Log" order="9" side_tool="true" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Find" order="1" />
+      <window_info anchor="bottom" id="Version Control" order="10" />
+      <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Messages" order="11" weight="0.32984293" />
-      <window_info content_ui="combo" id="Project" order="0" weight="0.24940476" />
+      <window_info id="Favorites" order="3" side_tool="true" />
     </layout-to-restore>
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -392,7 +403,8 @@
     <MESSAGE value="v0.0.10&#10;changed cdn refreshing target urls" />
     <MESSAGE value="v0.0.11&#10;correct package file url" />
     <MESSAGE value="debug package checking &amp; update function" />
-    <option name="LAST_COMMIT_MESSAGE" value="debug package checking &amp; update function" />
+    <MESSAGE value="v0.0.12&#10;*refresh package_url as file in CDN refreshing&#10;*wrapped json parsing code by try-catch block for processing exception messages responded by Aliyun Server." />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.0.12&#10;*refresh package_url as file in CDN refreshing&#10;*wrapped json parsing code by try-catch block for processing exception messages responded by Aliyun Server." />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/service_flutter.log">
@@ -617,7 +629,8 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/service_flutter.log">
-      <provider selected="true" editor-type-id="text-editor" />
+      <provider editor-type-id="text-editor" />
+      <provider selected="true" editor-type-id="LogFileEditorProvider" />
     </entry>
     <entry file="file://$PROJECT_DIR$/test_qiniu.js">
       <provider selected="true" editor-type-id="text-editor">
@@ -649,8 +662,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="41" column="18" lean-forward="true" selection-start-line="35" selection-start-column="33" selection-end-line="41" selection-end-column="18" />
+        <state relative-caret-position="715">
+          <caret line="281" column="47" selection-start-line="281" selection-start-column="47" selection-end-line="281" selection-end-column="47" />
         </state>
       </provider>
     </entry>

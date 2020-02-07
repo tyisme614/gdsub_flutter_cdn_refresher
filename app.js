@@ -37,6 +37,10 @@ function check_first_package(){
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
                     first_package = data.packages[0];
                     console.log(show_package_info(first_package));
+                    //for testing
+                    console.log(show_package_info(data.packages[1]));
+                    console.log(show_package_info(data.packages[2]));
+                    console.log(show_package_info(data.packages[3]));
                     refresh_ali_cdn();
                 }
             }else{
@@ -189,11 +193,11 @@ function get_archive_name(pkg){
 
 function show_package_info(pkg){
     let info  = 'package name: ' + pkg.name + '\n';
-    info += 'author: ' + pkg.latest.pubspec.author + '\n';
-    info += 'latest version: ' + pkg.latest.version + '\n';
-    info += 'archive_url: ' + pkg.latest.archive_url + '\n';
-    info += 'package_url: ' + pkg.latest.package_url + '\n';
-    info += 'url: ' + pkg.latest.url + '\n';
+    // info += 'author: ' + pkg.latest.pubspec.author + '\n';
+    // info += 'latest version: ' + pkg.latest.version + '\n';
+    // info += 'archive_url: ' + pkg.latest.archive_url + '\n';
+    // info += 'package_url: ' + pkg.latest.package_url + '\n';
+    // info += 'url: ' + pkg.latest.url + '\n';
 
     return info;
 }
@@ -205,76 +209,76 @@ function show_package_info(pkg){
  */
 function refresh_ali_cdn_of_target(url, type){
 
-    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
-
-    cmd.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
-        try{
-            cdn_refresh_info = JSON.parse(data);
-            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-            }
-
-            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-                console.log('RequestId=' + cdn_refresh_info.RequestId);
-            }
-
-            if(typeof(cdn_refresh_info.Code) != 'undefined'){
-                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-            }
-
-        }catch(e){
-            console.log('encountered error while parsing response data, exception:' + e.message);
-        }
-    });
-
-    cmd.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
-    });
-
-    cmd.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-    });
+    // let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
+    //
+    // cmd.stdout.on('data', (data) => {
+    //     console.log(`stdout: ${data}`);
+    //     try{
+    //         cdn_refresh_info = JSON.parse(data);
+    //         if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+    //             console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+    //         }
+    //
+    //         if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+    //             console.log('RequestId=' + cdn_refresh_info.RequestId);
+    //         }
+    //
+    //         if(typeof(cdn_refresh_info.Code) != 'undefined'){
+    //             console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+    //         }
+    //
+    //     }catch(e){
+    //         console.log('encountered error while parsing response data, exception:' + e.message);
+    //     }
+    // });
+    //
+    // cmd.stderr.on('data', (data) => {
+    //     console.log(`stderr: ${data}`);
+    // });
+    //
+    // cmd.on('close', (code) => {
+    //     console.log(`child process exited with code ${code}`);
+    // });
 }
 
 function refresh_ali_cdn(){
-    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', aliyun_cdn_url, '--ObjectType', 'Directory']);
-
-    cmd.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
-        try{
-            cdn_refresh_info = JSON.parse(data);
-            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-            }
-
-            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-                console.log('RequestId=' + cdn_refresh_info.RequestId);
-            }
-
-            if(typeof(cdn_refresh_info.Code) != 'undefined'){
-                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-            }
-
-        }catch(e){
-            console.log('encountered error while parsing response data, exception:' + e.message);
-        }
-
-    });
-
-    cmd.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
-    });
-
-    cmd.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-    });
+    // let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', aliyun_cdn_url, '--ObjectType', 'Directory']);
+    //
+    // cmd.stdout.on('data', (data) => {
+    //     console.log(`stdout: ${data}`);
+    //     try{
+    //         cdn_refresh_info = JSON.parse(data);
+    //         if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+    //             console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+    //         }
+    //
+    //         if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+    //             console.log('RequestId=' + cdn_refresh_info.RequestId);
+    //         }
+    //
+    //         if(typeof(cdn_refresh_info.Code) != 'undefined'){
+    //             console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+    //         }
+    //
+    //     }catch(e){
+    //         console.log('encountered error while parsing response data, exception:' + e.message);
+    //     }
+    //
+    // });
+    //
+    // cmd.stderr.on('data', (data) => {
+    //     console.log(`stderr: ${data}`);
+    // });
+    //
+    // cmd.on('close', (code) => {
+    //     console.log(`child process exited with code ${code}`);
+    // });
 }
 
 
 
 check_first_package();
 
-check_task = setInterval(check_first_package, 300000);//check source site per 5 min aka 300 sec
+check_task = setInterval(check_first_package, 10000);//check source site per 5 min aka 300 sec
 
 flutter_checker.startCheckTask();
