@@ -12,11 +12,40 @@ const cdn_base_address = 'pub.flutter-io.cn';
 
 let first_package = '';
 let cdn_refresh_info = '';
+let cdn_refresh_service_remain = 0;
+let present_day = 0;
+let refresh_interval = 300000;
+let alert_threshold = 400;
 
 let check_task;
+let check_task_conservative;
+let refresh_worker;
+let refresh_cache = [];
+
+let debug = true;
 
 
 function check_first_package(){
+
+    check_service_status((left_refresh_amount) => {
+        if(left_refresh_amount <= alert_threshold){
+            if(debug){
+                console.log('alert! the left refresh service is less than 400, start conservative strategy.');
+            }
+            //stop current refresh task
+            check_task.clearInterval();
+            //stop refresh worker
+            refresh_worker.clearInterval();
+
+            first_package = '';
+
+            //get the start date of conservative refresh
+            present_day = new Date().getDate();
+            //start conservative strategy
+            check_task_conservative = setInterval(conservative_refresh(), refresh_interval);
+        }
+    });
+
     let options= {
         url: flutter_source_url,
         headers: {
@@ -37,10 +66,6 @@ function check_first_package(){
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
                     first_package = data.packages[0];
                     console.log(show_package_info(first_package));
-                    //for testing
-                    console.log(show_package_info(data.packages[1]));
-                    console.log(show_package_info(data.packages[2]));
-                    console.log(show_package_info(data.packages[3]));
                     refresh_ali_cdn();
                 }
             }else{
@@ -57,7 +82,7 @@ function check_first_package(){
                         let result = diff_package(pkg, first_package);
                         switch(result){
                             case 1000:
-                                console.log('same package, break loop');
+                                console.log('found same package, checking cdn refreshing targets finished.');
                                 index = i;
                                 keepSearching = false;
                                 i = data.packages.length;
@@ -68,37 +93,45 @@ function check_first_package(){
                                 // refresh_ali_cdn_of_target(archive_url, 'File');
                                 console.log('different package');
                                 let package_url = replacePackage_url(pkg, cdn_base_address);
-                                console.log('refreshing cdn package resource folder:' + package_url);
-                                refresh_ali_cdn_of_target(package_url, 'File');
+                                //console.log('refreshing cdn package resource folder:' + package_url);
+                                //refresh_ali_cdn_of_target(package_url, 'File');
+                                refresh_cache.push(package_url);
 
                                 let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                                console.log('refreshing cdn package resource file:' + package_file);
-                                refresh_ali_cdn_of_target(package_file, 'File');
+                                //console.log('refreshing cdn package resource file:' + package_file);
+                                // refresh_ali_cdn_of_target(package_file, 'File');
+                                refresh_cache.push(package_file);
 
 
                                 let document_url = getDocument_url(pkg, cdn_base_address);
-                                console.log('different package, refreshing cdn documentation resource:' + document_url);
-                                refresh_ali_cdn_of_target(document_url, 'File');
+                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
+                                // refresh_ali_cdn_of_target(document_url, 'File');
+                                refresh_cache.push(document_url);
                             }
+
 
                                 break;
                             case 1002:
                                 // let archive_url = replaceArchive_url(pkg, cdn_base_address);
                                 // console.log('different package, refreshing cdn archive resource:' + archive_url);
                                 // refresh_ali_cdn_of_target(archive_url, 'File');
-                                console.log('same package, but the version is different');
+                                //console.log('same package, but the version is different');
                                 let package_url = replacePackage_url(pkg, cdn_base_address);
-                                console.log('refreshing cdn package resource folder:' + package_url);
-                                refresh_ali_cdn_of_target(package_url, 'File');
+                                //console.log('refreshing cdn package resource folder:' + package_url);
+                                // refresh_ali_cdn_of_target(package_url, 'File');
+                                refresh_cache.push(package_url);
 
                                 let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                                console.log('refreshing cdn package resource file:' + package_file);
-                                refresh_ali_cdn_of_target(package_file, 'File');
+                               // console.log('refreshing cdn package resource file:' + package_file);
+                               //  refresh_ali_cdn_of_target(package_file, 'File');
+                                refresh_cache.push(package_file);
 
 
                                 let document_url = getDocument_url(pkg, cdn_base_address);
-                                console.log('different package, refreshing cdn documentation resource:' + document_url);
-                                refresh_ali_cdn_of_target(document_url, 'File');
+                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
+                                // refresh_ali_cdn_of_target(document_url, 'File');
+                                refresh_cache.push(document_url);
+
 
                                 console.log('checking cdn refreshing targets finished.');
                                 index = i;
@@ -108,9 +141,11 @@ function check_first_package(){
                         }
 
                     }
-                    first_package = pkg;
+                    first_package = data.packages[0];
                     console.log('the index of previous first_package is '+index);
-
+                    if(debug){
+                        console.log('updated new first package is ' + show_package_info(first_package));
+                    }
 
                     // let pkg = data.packages[0];
                     // if(diff_package(pkg, first_package)){
@@ -193,11 +228,11 @@ function get_archive_name(pkg){
 
 function show_package_info(pkg){
     let info  = 'package name: ' + pkg.name + '\n';
-    // info += 'author: ' + pkg.latest.pubspec.author + '\n';
-    // info += 'latest version: ' + pkg.latest.version + '\n';
-    // info += 'archive_url: ' + pkg.latest.archive_url + '\n';
-    // info += 'package_url: ' + pkg.latest.package_url + '\n';
-    // info += 'url: ' + pkg.latest.url + '\n';
+    info += 'author: ' + pkg.latest.pubspec.author + '\n';
+    info += 'latest version: ' + pkg.latest.version + '\n';
+    info += 'archive_url: ' + pkg.latest.archive_url + '\n';
+    info += 'package_url: ' + pkg.latest.package_url + '\n';
+    info += 'url: ' + pkg.latest.url + '\n';
 
     return info;
 }
@@ -209,76 +244,217 @@ function show_package_info(pkg){
  */
 function refresh_ali_cdn_of_target(url, type){
 
-    // let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
-    //
-    // cmd.stdout.on('data', (data) => {
-    //     console.log(`stdout: ${data}`);
-    //     try{
-    //         cdn_refresh_info = JSON.parse(data);
-    //         if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-    //             console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-    //         }
-    //
-    //         if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-    //             console.log('RequestId=' + cdn_refresh_info.RequestId);
-    //         }
-    //
-    //         if(typeof(cdn_refresh_info.Code) != 'undefined'){
-    //             console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-    //         }
-    //
-    //     }catch(e){
-    //         console.log('encountered error while parsing response data, exception:' + e.message);
-    //     }
-    // });
-    //
-    // cmd.stderr.on('data', (data) => {
-    //     console.log(`stderr: ${data}`);
-    // });
-    //
-    // cmd.on('close', (code) => {
-    //     console.log(`child process exited with code ${code}`);
-    // });
+    if(debug){
+        console.log('refreshing cdn url -->' + url);
+    }
+    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
+
+    cmd.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        try{
+            cdn_refresh_info = JSON.parse(data);
+            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+            }
+
+            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                console.log('RequestId=' + cdn_refresh_info.RequestId);
+            }
+
+            if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+            }
+
+        }catch(e){
+            console.log('encountered error while parsing response data, exception:' + e.message);
+            if(debug){
+                console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
+            }
+            refresh_cache.push(url);
+        }
+    });
+
+    cmd.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    cmd.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
 }
 
 function refresh_ali_cdn(){
-    // let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', aliyun_cdn_url, '--ObjectType', 'Directory']);
-    //
-    // cmd.stdout.on('data', (data) => {
-    //     console.log(`stdout: ${data}`);
-    //     try{
-    //         cdn_refresh_info = JSON.parse(data);
-    //         if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-    //             console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-    //         }
-    //
-    //         if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-    //             console.log('RequestId=' + cdn_refresh_info.RequestId);
-    //         }
-    //
-    //         if(typeof(cdn_refresh_info.Code) != 'undefined'){
-    //             console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-    //         }
-    //
-    //     }catch(e){
-    //         console.log('encountered error while parsing response data, exception:' + e.message);
-    //     }
-    //
-    // });
-    //
-    // cmd.stderr.on('data', (data) => {
-    //     console.log(`stderr: ${data}`);
-    // });
-    //
-    // cmd.on('close', (code) => {
-    //     console.log(`child process exited with code ${code}`);
-    // });
+    let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', aliyun_cdn_url, '--ObjectType', 'File']);
+
+    cmd.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        try{
+            cdn_refresh_info = JSON.parse(data);
+            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+            }
+
+            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                console.log('RequestId=' + cdn_refresh_info.RequestId);
+            }
+
+            if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+            }
+
+        }catch(e){
+            console.log('encountered error while parsing response data, exception:' + e.message);
+        }
+
+    });
+
+    cmd.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    cmd.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
+}
+
+function refresh_target_from_cache(){
+    if(refresh_cache.length > 0){
+        let target = refresh_cache.pop();
+        refresh_ali_cdn_of_target(target, 'File');
+
+    }else{
+        if(debug){
+            console.log('cache is empty, nothing to refresh...');
+        }
+    }
+}
+
+function conservative_refresh(){
+    let date = new Date().getDate();
+    if(date == present_day){
+        if(debug){
+            console.log('present day -->' + date + ' still today');
+        }
+        let options= {
+            url: flutter_source_url,
+            headers: {
+                'User-Agent' : 'pub.flutter-io.cn'
+            }
+
+        };
+        request.get(options, (err, response, body) => {
+
+            if(err){
+                console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+
+            }else{
+                let data = JSON.parse(body);
+                if(first_package == ''){
+                    //initialize first package
+                    if(debug)
+                        console.log('initializing first_package in conservative strategy');
+                    if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                        first_package = data.packages[0];
+                        console.log(show_package_info(first_package));
+                        //refresh_ali_cdn();
+                    }
+                }else{
+                    if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                        //find new index of the previous first package
+                        let index = 0;
+                        let keepSearching = true;
+                        let updatedPackageURL = [];
+                        let pkg = data.packages[0];
+                        let result = diff_package(pkg, first_package);
+                        if(result != 1000){
+                            if(debug)
+                                console.log('different package, refresh aliyun cdn');
+
+                            refresh_ali_cdn();
+
+                            first_package = data.packages[0];
+
+                            if(debug){
+                                console.log('updated new first package is ' + show_package_info(first_package));
+                            }
+                        }else{
+                            if(debug)
+                                console.log('pacakge list not changed.');
+                        }
+
+
+                    }
+                }
+            }
+        });
+
+    }else if(date != present_day){
+        if(debug){
+            console.log('present day -->' + date + ' it is tomorrow now');
+        }
+        //new day is coming
+        check_service_status((left_refresh_amount) => {
+            if(debug){
+                console.log('new day is coming, the refresh service request limitation is ' + left_refresh_amount);
+            }
+            if(left_refresh_amount > alert_threshold){
+                //stop conservative strategy
+                check_task_conservative.clearInterval();
+
+                present_day = 0;
+
+                //restart normal strategy
+                refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+
+                check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+            }else{
+                if(debug){
+                    console.log('refresh service is not recovered, keep using conservative strategy');
+                }
+            }
+        })
+    }
+}
+
+function check_service_status(callback){
+
+    let cmd = spawn(aliyuncli_cmd, ['cdn', 'DescribeRefreshQuota']);
+
+    cmd.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+
+            try{
+                let j = JSON.parse(data);
+                if(typeof(j.UrlRemain) !== 'undefined'){
+                    cdn_refresh_service_remain = j.UrlRemain;
+                    if(typeof(callback) !== 'undefined'){
+                        callback(cdn_refresh_service_remain);
+                    }
+                }
+
+            }catch(e){
+                console.log('encountered error while parsing response data, exception:' + e.message);
+            }
+
+    });
+
+    cmd.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    cmd.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
 }
 
 
 
 check_first_package();
 
-check_task = setInterval(check_first_package, 10000);//check source site per 5 min aka 300 sec
+refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+
+check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+
+
 
 flutter_checker.startCheckTask();
