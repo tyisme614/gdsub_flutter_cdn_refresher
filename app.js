@@ -22,7 +22,7 @@ let check_task_conservative;
 let refresh_worker;
 let refresh_cache = [];
 
-let debug = true;
+let debug = false;
 
 
 function check_first_package(){
