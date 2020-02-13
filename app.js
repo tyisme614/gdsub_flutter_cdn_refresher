@@ -8,7 +8,12 @@ const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const aliyun_cdn_base_url = 'https://pub.flutter-io.cn/packages/';
 const cdn_base_address = 'pub.flutter-io.cn';
+const cdn_browser_resource_address = 'https://pub.flutter-io.cn/packages/';
+const cdn_browser_document_address = 'https://pub.flutter-io.cn/documentation/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
+
+const TYPE_FILE = 'File';
+const TYPE_DIRECTORY = 'Directory';
 
 let first_package = '';
 let cdn_refresh_info = '';
@@ -22,7 +27,7 @@ let check_task_conservative;
 let refresh_worker;
 let refresh_cache = [];
 
-let debug = false;
+let debug = true;
 
 
 function check_first_package(){
@@ -92,46 +97,126 @@ function check_first_package(){
                                 // console.log('different package, refreshing cdn archive resource:' + archive_url);
                                 // refresh_ali_cdn_of_target(archive_url, 'File');
                                 console.log('different package');
-                                let package_url = replacePackage_url(pkg, cdn_base_address);
+                                let package_url = {};
+                                package_url.url = replacePackage_url(pkg, cdn_base_address);
+                                package_url.type = TYPE_FILE;
                                 //console.log('refreshing cdn package resource folder:' + package_url);
                                 //refresh_ali_cdn_of_target(package_url, 'File');
                                 refresh_cache.push(package_url);
 
-                                let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                let versions_url = {};
+                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
+                                versions_url.type = TYPE_FILE;
+                                refresh_cache.push(versions_url);
+
+                                let package_file = {};
+                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                package_file.type = TYPE_FILE;
                                 //console.log('refreshing cdn package resource file:' + package_file);
                                 // refresh_ali_cdn_of_target(package_file, 'File');
                                 refresh_cache.push(package_file);
 
 
-                                let document_url = getDocument_url(pkg, cdn_base_address);
+                                let document_url = {};
+                                document_url.url = getDocument_url(pkg, cdn_base_address);
+                                document_url.type = TYPE_FILE;
                                 //console.log('different package, refreshing cdn documentation resource:' + document_url);
                                 // refresh_ali_cdn_of_target(document_url, 'File');
                                 refresh_cache.push(document_url);
+
+                                //add browser resources
+                                let browser_package = {};
+                                browser_package.url = cdn_browser_resource_address + pkg.name;
+                                browser_package.type = TYPE_FILE;
+                                refresh_cache.push(browser_package);
+                                let browser_package2 = {};
+                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
+                                browser_package2.type = TYPE_FILE;
+                                refresh_cache.push(browser_package2);
+                                let browser_package_versions = {};
+                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
+                                browser_package_versions.type = TYPE_FILE;
+                                refresh_cache.push(browser_package_versions);
+                                let browser_document = {};
+                                browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+                                browser_document.type = TYPE_DIRECTORY;
+                                refresh_cache.push(browser_document);
+
+                                if(debug){
+                                    console.log('refreshing cdn urls:\n'
+                                                + package_url.url + '\n'
+                                                + versions_url.url + '\n'
+                                                + package_file.url + '\n'
+                                                + document_url.url + '\n'
+                                                + browser_package.url + '\n'
+                                                + browser_package2.url + '\n'
+                                                + browser_package_versions.url + '\n'
+                                                + browser_document.url + '\n');
+                                }
+
+
                             }
 
 
                                 break;
                             case 1002:
-                                // let archive_url = replaceArchive_url(pkg, cdn_base_address);
-                                // console.log('different package, refreshing cdn archive resource:' + archive_url);
-                                // refresh_ali_cdn_of_target(archive_url, 'File');
-                                //console.log('same package, but the version is different');
-                                let package_url = replacePackage_url(pkg, cdn_base_address);
+
+                                let package_url = {};
+                                package_url.url = replacePackage_url(pkg, cdn_base_address);
+                                package_url.type = TYPE_FILE;
                                 //console.log('refreshing cdn package resource folder:' + package_url);
-                                // refresh_ali_cdn_of_target(package_url, 'File');
+                                //refresh_ali_cdn_of_target(package_url, 'File');
                                 refresh_cache.push(package_url);
 
-                                let package_file = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                               // console.log('refreshing cdn package resource file:' + package_file);
-                               //  refresh_ali_cdn_of_target(package_file, 'File');
+                                let versions_url = {};
+                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
+                                versions_url.type = TYPE_FILE;
+                                refresh_cache.push(versions_url);
+
+                                let package_file = {};
+                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                package_file.type = TYPE_FILE;
+                                //console.log('refreshing cdn package resource file:' + package_file);
+                                // refresh_ali_cdn_of_target(package_file, 'File');
                                 refresh_cache.push(package_file);
 
 
-                                let document_url = getDocument_url(pkg, cdn_base_address);
+                                let document_url = {};
+                                document_url.url = getDocument_url(pkg, cdn_base_address);
+                                document_url.type = TYPE_FILE;
                                 //console.log('different package, refreshing cdn documentation resource:' + document_url);
                                 // refresh_ali_cdn_of_target(document_url, 'File');
                                 refresh_cache.push(document_url);
 
+                                //add browser resources
+                                let browser_package = {};
+                                browser_package.url = cdn_browser_resource_address + pkg.name;
+                                browser_package.type = TYPE_FILE;
+                                refresh_cache.push(browser_package);
+                                let browser_package2 = {};
+                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
+                                browser_package2.type = TYPE_FILE;
+                                refresh_cache.push(browser_package2);
+                                let browser_package_versions = {};
+                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
+                                browser_package_versions.type = TYPE_FILE;
+                                refresh_cache.push(browser_package_versions);
+                                let browser_document = {};
+                                browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+                                browser_document.type = TYPE_DIRECTORY;
+                                refresh_cache.push(browser_document);
+
+                                if(debug){
+                                    console.log('refreshing cdn urls:\n'
+                                        + package_url.url + '\n'
+                                        + versions_url.url + '\n'
+                                        + package_file.url + '\n'
+                                        + document_url.url + '\n'
+                                        + browser_package.url + '\n'
+                                        + browser_package2.url + '\n'
+                                        + browser_package_versions.url + '\n'
+                                        + browser_document.url + '\n');
+                                }
 
                                 console.log('checking cdn refreshing targets finished.');
                                 index = i;
@@ -142,24 +227,10 @@ function check_first_package(){
 
                     }
                     first_package = data.packages[0];
-                    console.log('the index of previous first_package is '+index);
+                    console.log('the index of previous first_package is ' + index);
                     if(debug){
                         console.log('updated new first package is ' + show_package_info(first_package));
                     }
-
-                    // let pkg = data.packages[0];
-                    // if(diff_package(pkg, first_package)){
-                    //     //packages resources have been updated, refresh cdn
-                    //     console.log('refresh cdn');
-                    //     refresh_ali_cdn();
-                    //     //update first_package
-                    //     first_package = pkg;
-                    //     console.log('first_package has been updated\n');
-                    //     console.log(show_package_info(first_package));
-                    // }else{
-                    //     console.log('source site not updated');
-                    // }
-
 
                 }
             }
@@ -196,6 +267,18 @@ function replacePackage_url(pkg, replacer){
     if(index != (replaced_url.length - 1)){
         //append forward slash for meeting requirement of aliyuncli command
         replaced_url += '/';
+    }
+
+    console.log('replaced_url is ' + replaced_url);
+    return replaced_url;
+}
+
+function replaceVersions_url(pkg, replacer){
+    let replaced_url = pkg.latest.package_url.replace('pub.dartlang.org', replacer);
+    let index = replaced_url.lastIndexOf('/');
+    if(index != (replaced_url.length - 1)){
+        //append forward slash for meeting requirement of aliyuncli command
+        replaced_url += '/versions';
     }
 
     console.log('replaced_url is ' + replaced_url);
@@ -320,7 +403,8 @@ function refresh_ali_cdn(){
 function refresh_target_from_cache(){
     if(refresh_cache.length > 0){
         let target = refresh_cache.pop();
-        refresh_ali_cdn_of_target(target, 'File');
+
+        refresh_ali_cdn_of_target(target.url, target.type);
 
     }
 }
