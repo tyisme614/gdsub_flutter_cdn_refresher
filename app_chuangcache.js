@@ -403,7 +403,7 @@ function refresh_target_from_cache(){
 }
 
 async function request_token(){
-    if(!fs.exists('auth.json')){
+    if(!fs.exists(__dirname + 'auth.json')){
         console.error('unable to find auth.json');
         return null;
     }
