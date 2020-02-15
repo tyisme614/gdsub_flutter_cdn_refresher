@@ -38,8 +38,8 @@
       <file leaf-file-name="app_chuangcache.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app_chuangcache.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="113">
-              <caret line="405" column="21" selection-start-line="405" selection-start-column="21" selection-end-line="405" selection-end-column="21" />
+            <state relative-caret-position="165">
+              <caret line="442" lean-forward="true" selection-start-line="442" selection-end-line="442" />
             </state>
           </provider>
         </entry>
@@ -215,7 +215,7 @@
       <workItem from="1581177988704" duration="418000" />
       <workItem from="1581583460609" duration="2594000" />
       <workItem from="1581686933462" duration="22000" />
-      <workItem from="1581690607164" duration="8180000" />
+      <workItem from="1581690607164" duration="8538000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -413,11 +413,25 @@
       <option name="project" value="LOCAL" />
       <updated>1581753697673</updated>
     </task>
-    <option name="localTasksCounter" value="29" />
+    <task id="LOCAL-00029" summary="fixed syntax error">
+      <created>1581754479526</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1581754479526</updated>
+    </task>
+    <task id="LOCAL-00030" summary="fixed syntax error">
+      <created>1581754804363</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1581754804363</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53721000" />
+    <option name="totallyTimeSpent" value="54079000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -475,7 +489,6 @@
     <MESSAGE value="changed check interval to 5min" />
     <MESSAGE value="v0.0.3&#10;added custom header" />
     <MESSAGE value="v0.0.4&#10;added flutter version checker" />
-    <MESSAGE value="fixed syntax error" />
     <MESSAGE value="modified path for storing json files" />
     <MESSAGE value="v0.0.5&#10;added file checking for bucket flutter" />
     <MESSAGE value="v0.0.6&#10;removed temporary code" />
@@ -497,7 +510,8 @@
     <MESSAGE value="v0.1.0&#10;implemented chuangcache refresher" />
     <MESSAGE value="v0.1.0&#10;changed auth file path" />
     <MESSAGE value="changed auth file path" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed auth file path" />
+    <MESSAGE value="fixed syntax error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed syntax error" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test_qiniu.js">
@@ -762,8 +776,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app_chuangcache.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="113">
-          <caret line="405" column="21" selection-start-line="405" selection-start-column="21" selection-end-line="405" selection-end-column="21" />
+        <state relative-caret-position="165">
+          <caret line="442" lean-forward="true" selection-start-line="442" selection-end-line="442" />
         </state>
       </provider>
     </entry>

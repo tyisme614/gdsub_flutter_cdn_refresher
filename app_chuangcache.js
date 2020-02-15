@@ -304,7 +304,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
             return;
         }
     }
-    
+
     let url_arr = [];
     for(let u of urls){
         let url = {
@@ -340,7 +340,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
         // POST failed...
         console.error('failed to refresh resources, error:' + err.message);
 
-        if(typeof(callback) != 'undefined'){
+        if(typeof(callback) != 'undefined' && callback != null){
             callback(urls, type);
         }
     });
