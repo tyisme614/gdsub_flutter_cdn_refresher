@@ -38,8 +38,8 @@
       <file leaf-file-name="app_chuangcache.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app_chuangcache.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="405" column="30" selection-start-line="405" selection-start-column="30" selection-end-line="405" selection-end-column="30" />
+            <state relative-caret-position="113">
+              <caret line="405" column="21" selection-start-line="405" selection-start-column="21" selection-end-line="405" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -52,8 +52,8 @@
       <file leaf-file-name="test_qiniu.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_qiniu.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="58" column="11" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
+            <state relative-caret-position="433">
+              <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -215,7 +215,7 @@
       <workItem from="1581177988704" duration="418000" />
       <workItem from="1581583460609" duration="2594000" />
       <workItem from="1581686933462" duration="22000" />
-      <workItem from="1581690607164" duration="7339000" />
+      <workItem from="1581690607164" duration="8180000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -399,11 +399,25 @@
       <option name="project" value="LOCAL" />
       <updated>1581753151707</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="v0.1.0&#10;changed auth file path">
+      <created>1581753528254</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1581753528254</updated>
+    </task>
+    <task id="LOCAL-00028" summary="changed auth file path">
+      <created>1581753697673</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1581753697673</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52880000" />
+    <option name="totallyTimeSpent" value="53721000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
@@ -482,7 +496,8 @@
     <MESSAGE value="v0.0.14&#10;added new targets for refreshing webpage resources" />
     <MESSAGE value="v0.1.0&#10;implemented chuangcache refresher" />
     <MESSAGE value="v0.1.0&#10;changed auth file path" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.1.0&#10;changed auth file path" />
+    <MESSAGE value="changed auth file path" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed auth file path" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/test_qiniu.js">
@@ -737,8 +752,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/test_qiniu.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="58" column="11" selection-start-line="58" selection-start-column="11" selection-end-line="58" selection-end-column="11" />
+        <state relative-caret-position="433">
+          <caret line="58" column="23" selection-start-line="58" selection-start-column="23" selection-end-line="58" selection-end-column="23" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
@@ -747,8 +762,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app_chuangcache.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="405" column="30" selection-start-line="405" selection-start-column="30" selection-end-line="405" selection-end-column="30" />
+        <state relative-caret-position="113">
+          <caret line="405" column="21" selection-start-line="405" selection-start-column="21" selection-end-line="405" selection-end-column="21" />
         </state>
       </provider>
     </entry>
