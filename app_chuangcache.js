@@ -332,7 +332,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
     request(options)
         .then((res) => {
             if(res.status != 1){
-                if(typeof(callback) != 'undefined'){
+                if(typeof(callback) != 'undefined' && callback != null){
                     callback(urls, type);
                 }
             }
