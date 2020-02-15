@@ -408,7 +408,7 @@ async function request_token(){
         return null;
     }
 
-    let data = fs.readFileSync('auth.json');
+    let data = fs.readFileSync(__dirname + '/auth.json');
     try{
         let j = JSON.parse(data);
         let auth = {
