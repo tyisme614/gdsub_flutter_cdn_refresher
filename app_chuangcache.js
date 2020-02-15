@@ -14,16 +14,15 @@ const TYPE_DIRECTORY = 'dir';
 
 let first_package = '';
 let cdn_refresh_info = '';
-let cdn_refresh_service_remain = 0;
-let present_day = 0;
-let refresh_interval = 300000;
-let alert_threshold = 400;
+
+let refresh_interval = 30000;//300000;
+
 let token_refresh_time = 0;
 let token_expire_time = 0;
 let access_token = '';
 
 let check_task;
-let check_task_conservative;
+
 let refresh_worker;
 let refresh_cache = [];
 
@@ -32,11 +31,14 @@ let debug = true;
 
 async function check_first_package(){
 
-    access_token = await request_token();
-    if(access_token == null){
-        console.log('failed to retrieve access token ,try again later');
-        return;
+    if(access_token == ''){
+        access_token = await request_token();
+        if(access_token == null){
+            console.log('failed to retrieve access token ,try again later');
+            return;
+        }
     }
+
 
     let options= {
         url: flutter_source_url,
@@ -59,11 +61,11 @@ async function check_first_package(){
                     first_package = data.packages[0];
                     console.log(show_package_info(first_package));
 
-                    let target = {
-                        arr: [chuangcache_cdn_url],
-                        type: TYPE_DIRECTORY
-                    };
-                    refresh_chuangcache_cdn_of_target(target.arr, target.type, null);
+                    // let target = {
+                    //     arr: [chuangcache_cdn_url],
+                    //     type: TYPE_FILE
+                    // };
+                    //refresh_chuangcache_cdn_of_target(target.arr, target.type, null);
                 }
             }else{
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
@@ -121,7 +123,7 @@ async function check_first_package(){
                                     type: TYPE_DIRECTORY
                                 };
 
-                                refresh_cache.push(target_dir);
+                                // refresh_cache.push(target_dir);
 
 
                                 if(debug){
@@ -172,7 +174,7 @@ async function check_first_package(){
                                     type: TYPE_DIRECTORY
                                 };
 
-                                refresh_cache.push(target_dir);
+                                // refresh_cache.push(target_dir);
 
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
@@ -318,6 +320,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
         type: type,
         urls: url_arr
     };
+    console.log('data->' + JSON.stringify(data));
 
     let options = {
         method: 'POST',
@@ -333,7 +336,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
         .then((res) => {
             if(res.status != 1){
                 if(typeof(callback) != 'undefined' && callback != null){
-                    callback(urls, type);
+                    // callback(urls, type);
                 }
             }
         }).catch((err) => {
@@ -341,7 +344,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
         console.error('failed to refresh resources, error:' + err.message);
 
         if(typeof(callback) != 'undefined' && callback != null){
-            callback(urls, type);
+            // callback(urls, type);
         }
     });
 
@@ -449,6 +452,6 @@ function currentTimeInMilliseconds(){
 
 check_first_package();
 
-refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+refresh_worker = setInterval(refresh_target_from_cache, 90000);//send refresh request at interval of 1 second
 
 check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
