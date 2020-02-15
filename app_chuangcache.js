@@ -304,10 +304,7 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
             return;
         }
     }
-
-    if(debug){
-        console.log('refreshing cdn url -->' + url);
-    }
+    
     let url_arr = [];
     for(let u of urls){
         let url = {
