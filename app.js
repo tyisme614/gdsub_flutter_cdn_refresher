@@ -2,6 +2,7 @@ const request = require('request');
 const { spawn } = require('child_process');
 const flutter_checker = require('./flutter_checker');
 
+const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
 const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 // const aliyuncli_cmd = '/usr/local/bin/aliyuncli cdn RefreshObjectCaches ';
@@ -10,6 +11,7 @@ const aliyun_cdn_base_url = 'https://pub.flutter-io.cn/packages/';
 const cdn_base_address = 'pub.flutter-io.cn';
 const cdn_browser_resource_address = 'https://pub.flutter-io.cn/packages/';
 const cdn_browser_document_address = 'https://pub.flutter-io.cn/documentation/';
+const cdn_publisher_resource_address = 'https://pub.flutter-io.cn/publishers/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
 
 const TYPE_FILE = 'File';
@@ -124,6 +126,26 @@ function check_first_package(){
                                 // refresh_ali_cdn_of_target(document_url, 'File');
                                 refresh_cache.push(document_url);
 
+                                //check publisher resource
+                                request(flutter_base_url + pkg.name + '/publisher')
+                                    .then(function(res){
+                                        try{
+                                            let j = JSON.parse(res);
+                                            if(j.publisherId != null){
+                                                let publisher_url = {};
+                                                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                                publisher_url.type = TYPE_FILE;
+                                                refresh_cache.push(publisher_url);
+                                            }
+                                        }catch(e){
+                                            console.error('failed to parse JSON, response-->' + res);
+                                        }
+                                }).catch(function(err){
+                                  if(err){
+                                      console.error('encountered error while requesting publisher ID, error:' + err.toString());
+                                  }
+                                });
+
                                 //add browser resources
                                 let browser_package = {};
                                 browser_package.url = cdn_browser_resource_address + pkg.name;
@@ -187,6 +209,26 @@ function check_first_package(){
                                 //console.log('different package, refreshing cdn documentation resource:' + document_url);
                                 // refresh_ali_cdn_of_target(document_url, 'File');
                                 refresh_cache.push(document_url);
+
+                                //check publisher resource
+                                request(flutter_base_url + pkg.name + '/publisher')
+                                    .then(function(res){
+                                        try{
+                                            let j = JSON.parse(res);
+                                            if(j.publisherId != null){
+                                                let publisher_url = {};
+                                                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                                publisher_url.type = TYPE_FILE;
+                                                refresh_cache.push(publisher_url);
+                                            }
+                                        }catch(e){
+                                            console.error('failed to parse JSON, response-->' + res);
+                                        }
+                                    }).catch(function(err){
+                                    if(err){
+                                        console.error('encountered error while requesting publisher ID, error:' + err.toString());
+                                    }
+                                });
 
                                 //add browser resources
                                 let browser_package = {};
