@@ -128,14 +128,14 @@ async function check_first_package(){
 
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
-                                        + package_url.url + '\n'
-                                        + versions_url.url + '\n'
-                                        + package_file.url + '\n'
-                                        + document_url.url + '\n'
-                                        + browser_package.url + '\n'
-                                        + browser_package2.url + '\n'
-                                        + browser_package_versions.url + '\n'
-                                        + browser_document.url + '\n');
+                                        + package_url + '\n'
+                                        + versions_url + '\n'
+                                        + package_file + '\n'
+                                        + document_url + '\n'
+                                        + browser_package + '\n'
+                                        + browser_package2 + '\n'
+                                        + browser_package_versions + '\n'
+                                        + browser_document + '\n');
                                 }
                             }
 
