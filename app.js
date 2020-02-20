@@ -211,25 +211,19 @@ function check_first_package(){
                                 refresh_cache.push(document_url);
 
                                 //check publisher resource
-                                request(flutter_base_url + pkg.name + '/publisher')
-                                    .then(function(res){
-                                        try{
-                                            let j = JSON.parse(res);
-                                            if(j.publisherId != null){
-                                                let publisher_url = {};
-                                                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                                publisher_url.type = TYPE_FILE;
-                                                refresh_cache.push(publisher_url);
-                                            }
-                                        }catch(e){
-                                            console.error('failed to parse JSON, response-->' + res);
+                                request(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
+                                try{
+                                        let j = JSON.parse(res);
+                                        if(j.publisherId != null){
+                                            let publisher_url = {};
+                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                            publisher_url.type = TYPE_FILE;
+                                            refresh_cache.push(publisher_url);
                                         }
-                                    }).catch(function(err){
-                                    if(err){
-                                        console.error('encountered error while requesting publisher ID, error:' + err.toString());
+                                    }catch(e){
+                                        console.error('failed to parse JSON, response-->' + res);
                                     }
                                 });
-
                                 //add browser resources
                                 let browser_package = {};
                                 browser_package.url = cdn_browser_resource_address + pkg.name;
