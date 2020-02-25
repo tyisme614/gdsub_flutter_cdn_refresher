@@ -162,7 +162,7 @@ function check_first_package(){
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
                                                 + package_url.url + '\n'
-                                                + versions_url.url + '\n'
+                                                // + versions_url.url + '\n'
                                                 + package_file.url + '\n'
                                                 + document_url.url + '\n'
                                                 + browser_package.url + '\n'
