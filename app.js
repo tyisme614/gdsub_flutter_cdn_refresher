@@ -106,10 +106,10 @@ function check_first_package(){
                                 //refresh_ali_cdn_of_target(package_url, 'File');
                                 refresh_cache.push(package_url);
 
-                                let versions_url = {};
-                                versions_url.url = replaceArchive_url(pkg, cdn_base_address);
-                                versions_url.type = TYPE_FILE;
-                                refresh_cache.push(versions_url);
+//                                let versions_url = {};
+//                                versions_url.url = replaceArchive_url(pkg, cdn_base_address);
+//                                versions_url.type = TYPE_FILE;
+//                                refresh_cache.push(versions_url);
 
                                 let package_file = {};
                                 package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
@@ -185,10 +185,10 @@ function check_first_package(){
                                 //refresh_ali_cdn_of_target(package_url, 'File');
                                 refresh_cache.push(package_url);
 
-                                let versions_url = {};
-                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
-                                versions_url.type = TYPE_FILE;
-                                refresh_cache.push(versions_url);
+//                                let versions_url = {};
+//                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
+//                                versions_url.type = TYPE_FILE;
+//                                refresh_cache.push(versions_url);
 
                                 let package_file = {};
                                 package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
@@ -240,7 +240,7 @@ function check_first_package(){
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
                                         + package_url.url + '\n'
-                                        + versions_url.url + '\n'
+                                        //+ versions_url.url + '\n'
                                         + package_file.url + '\n'
                                         + document_url.url + '\n'
                                         + browser_package.url + '\n'
