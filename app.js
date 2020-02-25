@@ -106,10 +106,10 @@ function check_first_package(){
                                 //refresh_ali_cdn_of_target(package_url, 'File');
                                 refresh_cache.push(package_url);
 
-                                let versions_url = {};
-                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
-                                versions_url.type = TYPE_FILE;
-                                refresh_cache.push(versions_url);
+//                                let versions_url = {};
+//                                versions_url.url = replaceArchive_url(pkg, cdn_base_address);
+//                                versions_url.type = TYPE_FILE;
+//                                refresh_cache.push(versions_url);
 
                                 let package_file = {};
                                 package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
@@ -127,24 +127,19 @@ function check_first_package(){
                                 refresh_cache.push(document_url);
 
                                 //check publisher resource
-                                request(flutter_base_url + pkg.name + '/publisher')
-                                    .then(function(res){
+                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
                                         try{
-                                            let j = JSON.parse(res);
-                                            if(j.publisherId != null){
-                                                let publisher_url = {};
-                                                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                                publisher_url.type = TYPE_FILE;
-                                                refresh_cache.push(publisher_url);
+                                                let j = JSON.parse(body);
+                                                if(j.publisherId != null){
+                                                    let publisher_url = {};
+                                                    publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                                    publisher_url.type = TYPE_FILE;
+                                                    refresh_cache.push(publisher_url);
+                                                }
+                                            }catch(e){
+                                                console.error('failed to parse JSON, response-->' + res);
                                             }
-                                        }catch(e){
-                                            console.error('failed to parse JSON, response-->' + res);
-                                        }
-                                }).catch(function(err){
-                                  if(err){
-                                      console.error('encountered error while requesting publisher ID, error:' + err.toString());
-                                  }
-                                });
+                                        });
 
                                 //add browser resources
                                 let browser_package = {};
@@ -190,10 +185,10 @@ function check_first_package(){
                                 //refresh_ali_cdn_of_target(package_url, 'File');
                                 refresh_cache.push(package_url);
 
-                                let versions_url = {};
-                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
-                                versions_url.type = TYPE_FILE;
-                                refresh_cache.push(versions_url);
+//                                let versions_url = {};
+//                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
+//                                versions_url.type = TYPE_FILE;
+//                                refresh_cache.push(versions_url);
 
                                 let package_file = {};
                                 package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
@@ -211,25 +206,19 @@ function check_first_package(){
                                 refresh_cache.push(document_url);
 
                                 //check publisher resource
-                                request(flutter_base_url + pkg.name + '/publisher')
-                                    .then(function(res){
-                                        try{
-                                            let j = JSON.parse(res);
-                                            if(j.publisherId != null){
-                                                let publisher_url = {};
-                                                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                                publisher_url.type = TYPE_FILE;
-                                                refresh_cache.push(publisher_url);
-                                            }
-                                        }catch(e){
-                                            console.error('failed to parse JSON, response-->' + res);
+                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
+                                try{
+                                        let j = JSON.parse(body);
+                                        if(j.publisherId != null){
+                                            let publisher_url = {};
+                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                            publisher_url.type = TYPE_FILE;
+                                            refresh_cache.push(publisher_url);
                                         }
-                                    }).catch(function(err){
-                                    if(err){
-                                        console.error('encountered error while requesting publisher ID, error:' + err.toString());
+                                    }catch(e){
+                                        console.error('failed to parse JSON, response-->' + res);
                                     }
                                 });
-
                                 //add browser resources
                                 let browser_package = {};
                                 browser_package.url = cdn_browser_resource_address + pkg.name;
@@ -251,7 +240,7 @@ function check_first_package(){
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
                                         + package_url.url + '\n'
-                                        + versions_url.url + '\n'
+                                        //+ versions_url.url + '\n'
                                         + package_file.url + '\n'
                                         + document_url.url + '\n'
                                         + browser_package.url + '\n'
@@ -315,17 +304,17 @@ function replacePackage_url(pkg, replacer){
     return replaced_url;
 }
 
-function replaceVersions_url(pkg, replacer){
-    let replaced_url = pkg.latest.package_url.replace('pub.dartlang.org', replacer);
-    let index = replaced_url.lastIndexOf('/');
-    if(index != (replaced_url.length - 1)){
-        //append forward slash for meeting requirement of aliyuncli command
-        replaced_url += '/versions';
-    }
-
-    console.log('replaced_url is ' + replaced_url);
-    return replaced_url;
-}
+//function replaceVersions_url(pkg, replacer){
+//    let replaced_url = pkg.latest.archive_url.replace('pub.dartlang.org', replacer);
+//    let index = replaced_url.lastIndexOf('/');
+//    if(index != (replaced_url.length - 1)){
+//        //append forward slash for meeting requirement of aliyuncli command
+//        replaced_url += '/versions';
+//    }
+//
+//    console.log('replaced_url is ' + replaced_url);
+//    return replaced_url;
+//}
 
 function replaceArchive_url(pkg, replacer){
     let replaced_url = pkg.latest.archive_url.replace('pub.dartlang.org', replacer);
