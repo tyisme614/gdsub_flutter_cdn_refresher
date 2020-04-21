@@ -28,6 +28,9 @@ let check_task;
 let check_task_conservative;
 let refresh_worker;
 let refresh_cache = [];
+let refresh_directory = true;
+
+let refresh_browser_dir_task;
 
 let debug = true;
 
@@ -154,10 +157,13 @@ function check_first_package(){
                                 browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
                                 browser_package_versions.type = TYPE_FILE;
                                 refresh_cache.push(browser_package_versions);
-                                let browser_document = {};
-                                browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
-                                browser_document.type = TYPE_DIRECTORY;
-                                refresh_cache.push(browser_document);
+                                if(refresh_directory){
+                                    let browser_document = {};
+                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+                                    browser_document.type = TYPE_DIRECTORY;
+                                    refresh_cache.push(browser_document);    
+                                }
+                                
 
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
@@ -232,10 +238,13 @@ function check_first_package(){
                                 browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
                                 browser_package_versions.type = TYPE_FILE;
                                 refresh_cache.push(browser_package_versions);
-                                let browser_document = {};
-                                browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
-                                browser_document.type = TYPE_DIRECTORY;
-                                refresh_cache.push(browser_document);
+                                if(refresh_directory){
+                                    let browser_document = {};
+                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+                                    browser_document.type = TYPE_DIRECTORY;
+                                    refresh_cache.push(browser_document);    
+                                }
+                                
 
                                 if(debug){
                                     console.log('refreshing cdn urls:\n'
@@ -359,7 +368,7 @@ function show_package_info(pkg){
 function refresh_ali_cdn_of_target(url, type){
 
     if(debug){
-        console.log('refreshing cdn url -->' + url);
+        console.log('refreshing cdn url -->' + url + ' type -->' + type);
     }
     let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
 
@@ -380,11 +389,14 @@ function refresh_ali_cdn_of_target(url, type){
             }
 
         }catch(e){
-            console.log('encountered error while parsing response data, exception:' + e.message);
+            console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
             if(debug){
                 console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
             }
-            refresh_cache.push(url);
+            let refresh_obj = {};
+            refresh_obj.url = url;
+            refresh_obj.type = type;
+            refresh_cache.push(refresh_obj);
         }
     });
 
@@ -417,7 +429,7 @@ function refresh_ali_cdn(){
             }
 
         }catch(e){
-            console.log('encountered error while parsing response data, exception:' + e.message);
+            console.log('[refresh_ali_cdn] encountered error while parsing response data, exception:' + e.message);
         }
 
     });
@@ -535,16 +547,30 @@ function check_service_status(callback){
         console.log(`stdout: ${data}`);
 
             try{
-                let j = JSON.parse(data);
+                let j = JSON.parse(data);.
                 if(typeof(j.UrlRemain) !== 'undefined'){
                     cdn_refresh_service_remain = j.UrlRemain;
                     if(typeof(callback) !== 'undefined'){
                         callback(cdn_refresh_service_remain);
                     }
                 }
+                
+                if(typeof(j.DirRemain) !== 'undefined'){
+                    if(j.DirRemain <= 50){
+                        console.log('[check_server_status] Alert! Dir Refresh Service is less than 50 for today. Omit dir refresh requests');
+                        refresh_directory = false;
+                        refresh_browser_dir_task = setInterval(refresh_whole_browser_document_dir, 3600000);//refresh browser dir per hour
+                    }else{
+                        refresh_directory = true;
+                        if(refresh_browser_dir_task != null){
+                            refresh_browser_dir_task.clearInterval();
+                            refresh_browser_dir_task = null;
+                        }
+                    }
+                }
 
             }catch(e){
-                console.log('encountered error while parsing response data, exception:' + e.message);
+                console.log('[check_server_status] encountered error while parsing response data, exception:' + e.message);
             }
 
     });
@@ -556,6 +582,13 @@ function check_service_status(callback){
     cmd.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });
+}
+
+function refresh_whole_browser_document_dir(){
+    let browser_document = {};
+    browser_document.url = cdn_browser_document_address;
+    browser_document.type = TYPE_DIRECTORY;
+    refresh_cache.push(browser_document);
 }
 
 
