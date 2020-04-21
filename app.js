@@ -163,20 +163,6 @@ function check_first_package(){
                                     browser_document.type = TYPE_DIRECTORY;
                                     refresh_cache.push(browser_document);    
                                 }
-                                
-
-                                if(debug){
-                                    console.log('refreshing cdn urls:\n'
-                                                + package_url.url + '\n'
-                                                // + versions_url.url + '\n'
-                                                + package_file.url + '\n'
-                                                + document_url.url + '\n'
-                                                + browser_package.url + '\n'
-                                                + browser_package2.url + '\n'
-                                                + browser_package_versions.url + '\n'
-                                                + browser_document.url + '\n');
-                                }
-
 
                             }
 
@@ -244,20 +230,6 @@ function check_first_package(){
                                     browser_document.type = TYPE_DIRECTORY;
                                     refresh_cache.push(browser_document);    
                                 }
-                                
-
-                                if(debug){
-                                    console.log('refreshing cdn urls:\n'
-                                        + package_url.url + '\n'
-                                        //+ versions_url.url + '\n'
-                                        + package_file.url + '\n'
-                                        + document_url.url + '\n'
-                                        + browser_package.url + '\n'
-                                        + browser_package2.url + '\n'
-                                        + browser_package_versions.url + '\n'
-                                        + browser_document.url + '\n');
-                                }
-
                                 console.log('checking cdn refreshing targets finished.');
                                 index = i;
                                 keepSearching = false;
