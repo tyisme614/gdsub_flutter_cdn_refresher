@@ -547,7 +547,7 @@ function check_service_status(callback){
         console.log(`stdout: ${data}`);
 
             try{
-                let j = JSON.parse(data);.
+                let j = JSON.parse(data);
                 if(typeof(j.UrlRemain) !== 'undefined'){
                     cdn_refresh_service_remain = j.UrlRemain;
                     if(typeof(callback) !== 'undefined'){
