@@ -365,10 +365,13 @@ function refresh_ali_cdn_of_target(url, type){
             if(debug){
                 console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
             }
-            let refresh_obj = {};
-            refresh_obj.url = url;
-            refresh_obj.type = type;
-            refresh_cache.push(refresh_obj);
+            if(type != TYPE_DIRECTORY){
+                let refresh_obj = {};
+                refresh_obj.url = url;
+                refresh_obj.type = type;
+                refresh_cache.push(refresh_obj);
+            }
+            
         }
     });
 
