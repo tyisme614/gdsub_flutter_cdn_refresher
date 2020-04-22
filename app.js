@@ -533,11 +533,16 @@ function check_service_status(callback){
                 if(typeof(j.DirRemain) !== 'undefined'){
                     if(j.DirRemain <= 50){
                         console.log('[check_server_status] Alert! Dir Refresh Service is less than 50 for today. Omit dir refresh requests');
-                        refresh_directory = false;
-                        refresh_browser_dir_task = setInterval(refresh_whole_browser_document_dir, 3600000);//refresh browser dir per hour
+                        if(refresh_browser_dir_task == null){
+                            console.log('[check_server_status] start refresh_browser_dir_task ');
+                             refresh_directory = false;
+                             refresh_browser_dir_task = setInterval(refresh_whole_browser_document_dir, 3600000);//refresh browser dir per hour
+
+                        }
                     }else{
                         refresh_directory = true;
                         if(refresh_browser_dir_task != null){
+                            console.log('[check_server_status] stop refresh_browser_dir_task ');
                             refresh_browser_dir_task.clearInterval();
                             refresh_browser_dir_task = null;
                         }
