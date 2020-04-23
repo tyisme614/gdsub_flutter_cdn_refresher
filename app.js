@@ -43,9 +43,18 @@ function check_first_package(){
                 console.log('alert! the left refresh service is less than 400, start conservative strategy.');
             }
             //stop current refresh task
-            check_task.clearInterval();
+            if(debug){
+                console.log('stop current refresh task');
+                clearInterval(check_task);
+            }
+            
+            
             //stop refresh worker
-            refresh_worker.clearInterval();
+            if(debug){
+                console.log('stop refresh worker');
+                clearInterval(refresh_worker);
+            }
+            
 
             first_package = '';
 
@@ -497,7 +506,7 @@ function conservative_refresh(){
             }
             if(left_refresh_amount > alert_threshold){
                 //stop conservative strategy
-                check_task_conservative.clearInterval();
+                clearInterval(check_task_conservative);
 
                 present_day = 0;
 
@@ -543,7 +552,7 @@ function check_service_status(callback){
                         refresh_directory = true;
                         if(refresh_browser_dir_task != null){
                             console.log('[check_server_status] stop refresh_browser_dir_task ');
-                            refresh_browser_dir_task.clearInterval();
+                            clearInterval(refresh_browser_dir_task);
                             refresh_browser_dir_task = null;
                         }
                     }
