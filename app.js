@@ -584,15 +584,15 @@ function refresh_whole_browser_document_dir(){
 
 
 
-// check_first_package();
-//
-// refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
-//
-// check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
-//
-//
-//
-// flutter_checker.startCheckTask();
+check_first_package();
+
+refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+
+check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+
+
+
+flutter_checker.startCheckTask();
 
 
 //manually add new refresh requests
