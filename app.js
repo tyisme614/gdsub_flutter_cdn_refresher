@@ -1,6 +1,7 @@
 const request = require('request');
 const { spawn } = require('child_process');
 const flutter_checker = require('./flutter_checker');
+const http_server = require('./http_server');
 
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
@@ -583,19 +584,19 @@ function refresh_whole_browser_document_dir(){
 
 
 
-check_first_package();
-
-refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
-
-check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
-
-
-
-flutter_checker.startCheckTask();
+// check_first_package();
+//
+// refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+//
+// check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+//
+//
+//
+// flutter_checker.startCheckTask();
 
 
 //manually add new refresh requests
-module.exports.add_refresh_package =  function(pkgName){
+http_server.startHTTPServer(function(pkgName){
     console.log('[app.js] added new package refreshing request -->' + pkgName);
     let package_url = {};
     package_url.url = 'https://'+ cdn_base_address +'/api/packages/' + pkgName;
@@ -649,4 +650,4 @@ module.exports.add_refresh_package =  function(pkgName){
         browser_document.type = TYPE_DIRECTORY;
         refresh_cache.push(browser_document);
     }
-}
+});

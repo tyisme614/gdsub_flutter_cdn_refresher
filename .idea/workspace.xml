@@ -33,12 +33,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/http_server.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/http_server.js" beforeDir="false" afterPath="$PROJECT_DIR$/http_server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -83,7 +80,7 @@
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Console Font" />
   </component>
-  <component name="RunManager" selected="Node.js.http-server">
+  <component name="RunManager" selected="Node.js.app">
     <configuration name="app" type="NodeJSConfigurationType" path-to-js-file="app.js" working-dir="$PROJECT_DIR$">
       <envs>
         <env name="TZ" value="'Asia/Shanghai'" />
@@ -136,7 +133,7 @@
       <workItem from="1587620597626" duration="15000" />
       <workItem from="1588991644169" duration="410000" />
       <workItem from="1588992072456" duration="4937000" />
-      <workItem from="1588997763093" duration="4608000" />
+      <workItem from="1588997763093" duration="5614000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -459,22 +456,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="687" y="215" key="FileChooserDialogImpl/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588999060345" />
-    <state width="1893" height="265" key="GridCell.Tab.0.bottom" timestamp="1589001809715">
+    <state width="1893" height="265" key="GridCell.Tab.0.bottom" timestamp="1589003298995">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589001809715" />
-    <state width="1893" height="265" key="GridCell.Tab.0.center" timestamp="1589001809715">
+    <state width="1893" height="265" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003298995" />
+    <state width="1893" height="265" key="GridCell.Tab.0.center" timestamp="1589003298995">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589001809715" />
-    <state width="1893" height="265" key="GridCell.Tab.0.left" timestamp="1589001809715">
+    <state width="1893" height="265" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003298995" />
+    <state width="1893" height="265" key="GridCell.Tab.0.left" timestamp="1589003298995">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589001809715" />
-    <state width="1893" height="265" key="GridCell.Tab.0.right" timestamp="1589001809715">
+    <state width="1893" height="265" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003298995" />
+    <state width="1893" height="265" key="GridCell.Tab.0.right" timestamp="1589003298995">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589001809715" />
+    <state width="1893" height="265" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003298995" />
     <state x="349" y="143" key="SettingsEditor" timestamp="1588997808580">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

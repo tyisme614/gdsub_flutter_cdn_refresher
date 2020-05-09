@@ -2,6 +2,7 @@ const http = require('http');
 const mainApp = require('./app.js');
 const request = require('request');
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
+let onRefreshEventListener = null;
 
 const requestListener = function (req, res) {
     console.log('received request from remote client -->' + req.method);
@@ -26,7 +27,10 @@ const requestListener = function (req, res) {
                         res.end('encountered error while checking package information from official dart site.  error message-->' + j.error.message);
                     }else{
                         console.log('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version);
-                        mainApp.add_refresh_package(target);
+                        if(onRefreshEventListener != null){
+                            onRefreshEventListener(target);
+                        }
+
                         res.writeHead(200);
                         res.end('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version
                             +'\n\nadded new requests of refreshing cdn resources...'
@@ -78,4 +82,9 @@ const server = http.createServer(requestListener);
 //     // let url = new URL(req.url, `http://${req.headers.host}`);
 //     // console.log('new url-->' + JSON.stringify(url));
 // });
-server.listen(7788);
+
+module.exports.startHTTPServer = function(callback){
+    onRefreshEventListener = callback;
+    server.listen(7788);
+}
+
