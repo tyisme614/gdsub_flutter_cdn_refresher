@@ -582,6 +582,7 @@ function refresh_whole_browser_document_dir(){
 
 
 
+
 check_first_package();
 
 refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
@@ -591,3 +592,61 @@ check_task = setInterval(check_first_package, refresh_interval);//check source s
 
 
 flutter_checker.startCheckTask();
+
+
+//manually add new refresh requests
+module.exports.add_refresh_package =  function(pkgName){
+    console.log('[app.js] added new package refreshing request -->' + pkgName);
+    let package_url = {};
+    package_url.url = 'https://'+ cdn_base_address +'/api/packages/' + pkgName;
+    package_url.type = TYPE_FILE;
+    refresh_cache.push(package_url);
+
+    let package_file = {};
+    package_file.url = 'https://'+ cdn_base_address +'/api/packages/' + pkgName + '/';
+    package_file.type = TYPE_FILE;
+    //console.log('refreshing cdn package resource file:' + package_file);
+    // refresh_ali_cdn_of_target(package_file, 'File');
+    refresh_cache.push(package_file);
+
+
+    let document_url = {};
+    document_url.url = 'https://'+ cdn_base_address +'/api/documentation/' + pkgName;
+    document_url.type = TYPE_FILE;
+    refresh_cache.push(document_url);
+
+    //check publisher resource
+    request.get(flutter_base_url + pkgName + '/publisher', (err, response, body) => {
+        try{
+            let j = JSON.parse(body);
+            if(j.publisherId != null){
+                let publisher_url = {};
+                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                publisher_url.type = TYPE_FILE;
+                refresh_cache.push(publisher_url);
+            }
+        }catch(e){
+            console.error('failed to parse JSON, response-->' + res);
+        }
+    });
+
+    //add browser resources
+    let browser_package = {};
+    browser_package.url = cdn_browser_resource_address + pkgName;
+    browser_package.type = TYPE_FILE;
+    refresh_cache.push(browser_package);
+    let browser_package2 = {};
+    browser_package2.url = cdn_browser_resource_address + pkgName + '/';
+    browser_package2.type = TYPE_FILE;
+    refresh_cache.push(browser_package2);
+    let browser_package_versions = {};
+    browser_package_versions.url = cdn_browser_resource_address + pkgName + '/versions';
+    browser_package_versions.type = TYPE_FILE;
+    refresh_cache.push(browser_package_versions);
+    if(refresh_directory){
+        let browser_document = {};
+        browser_document.url = cdn_browser_document_address + pkgName + '/latest/';
+        browser_document.type = TYPE_DIRECTORY;
+        refresh_cache.push(browser_document);
+    }
+}
