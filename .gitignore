@@ -4,3 +4,4 @@ service_flutter.log
 test_qiniu.js
 auth.json
 /node_modules/
+.idea/workspace.xml
