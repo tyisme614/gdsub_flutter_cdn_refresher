@@ -5,6 +5,7 @@ const http_server = require('./http_server');
 
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
+const flutter_source_url_arg_page = 'https://pub.dartlang.org/api/packages?page=';//[deprecated]'https://pub.dev/api/packages?page=1';
 const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 // const aliyuncli_cmd = '/usr/local/bin/aliyuncli cdn RefreshObjectCaches ';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
@@ -14,6 +15,18 @@ const cdn_browser_resource_address = 'https://pub.flutter-io.cn/packages/';
 const cdn_browser_document_address = 'https://pub.flutter-io.cn/documentation/';
 const cdn_publisher_resource_address = 'https://pub.flutter-io.cn/publishers/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
+
+const EventEmitter = require('events');
+
+class CheckerEventHandler extends EventEmitter {}
+
+const eventHandler = new CheckerEventHandler();
+eventHandler.on('nextPage', (page) => {
+
+
+
+});
+
 
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
@@ -35,7 +48,7 @@ let refresh_browser_dir_task;
 
 let debug = true;
 
-
+//this method only check the first package
 function check_first_package(){
 
     check_service_status((left_refresh_amount) => {
@@ -257,13 +270,171 @@ function check_first_package(){
                 }
             }
         }
+    });
+}
+
+/**
+ *
+ * cdn refresh checker
+ *
+ */
+function cdnRefreshChecker(){
+    check_service_status((left_refresh_amount) => {
+        if(left_refresh_amount <= alert_threshold){
+            if(debug){
+                console.log('alert! the left refresh service is less than 400, start conservative strategy.');
+            }
+            //stop current refresh task
+            if(debug){
+                console.log('stop current refresh task');
+                clearInterval(check_task);
+            }
 
 
+            //stop refresh worker
+            if(debug){
+                console.log('stop refresh worker');
+                clearInterval(refresh_worker);
+            }
 
 
+            first_package = '';
+
+            //get the start date of conservative refresh
+            present_day = new Date().getDate();
+            //start conservative strategy
+            check_task_conservative = setInterval(conservative_refresh(), refresh_interval);
+        }
     });
 
 }
+
+/**
+ *
+ * retrieve package information from dartlang.org
+ *
+ */
+function retrievePackageData(url){
+    let options= {
+        url: url,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+    };
+    request.get(options, (err, response, body) => {
+        //response from remote http server
+        if(err){
+            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+        }else {
+            let data = JSON.parse(body);
+            if(first_package == ''){
+                //initialize first package
+                console.log('initializing first_package, refreshing cdn after service being restarted');
+                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                    first_package = data.packages[0];
+                    console.log(show_package_info(first_package));
+                    refresh_ali_cdn();
+                }
+            }else{
+                if(traversePackages(first_package, data)){
+                    //found previous package
+                    //refresh first_package
+                    first_package = data.packages[0];
+                }
+            }
+        }
+
+    });
+}
+
+
+/**
+ *
+ * traverse all packages to find the last refreshed package
+ *
+ */
+function traversePackages(target, pkg_json){
+    let data = pkg_json;
+    if(typeof(data.packages) !== 'undefined' && data.packages.length > 0) {
+        //find new index of the previous first package
+        let keepSearching = true;
+        let pkg = target;
+        let count = 0;
+        while(keepSearching) {
+            pkg = data.packages[count];
+            console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
+            console.log('previous first package is ' + first_package.name + ' latest version is ' + first_package.latest.version);
+            if(needRefresh(pkg, first_package)){
+                refreshTargetPackage(pkg);
+            }else{
+                //found same package
+                keepSearching = false;
+                return true;
+            }
+            count++;
+            if(count == data.packages.length){
+                //target package not found in current list
+                return false;
+            }
+        }//end of loop
+    }
+}
+
+/**
+ * refresh target package in aliyun CDN
+ */
+function refreshTargetPackage(pkg){
+    let package_url = {};
+    package_url.url = replacePackage_url(pkg, cdn_base_address);
+    package_url.type = TYPE_FILE;
+    refresh_cache.push(package_url);
+
+    let package_file = {};
+    package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+    package_file.type = TYPE_FILE;
+    refresh_cache.push(package_file);
+
+    let document_url = {};
+    document_url.url = getDocument_url(pkg, cdn_base_address);
+    document_url.type = TYPE_FILE;
+    refresh_cache.push(document_url);
+
+    //check publisher resource
+    request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
+        try {
+            let j = JSON.parse(body);
+            if (j.publisherId != null) {
+                let publisher_url = {};
+                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                publisher_url.type = TYPE_FILE;
+                refresh_cache.push(publisher_url);
+            }
+        } catch (e) {
+            console.error('failed to parse JSON, response-->' + res);
+        }
+    });
+
+    //add browser resources
+    let browser_package = {};
+    browser_package.url = cdn_browser_resource_address + pkg.name;
+    browser_package.type = TYPE_FILE;
+    refresh_cache.push(browser_package);
+    let browser_package2 = {};
+    browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
+    browser_package2.type = TYPE_FILE;
+    refresh_cache.push(browser_package2);
+    let browser_package_versions = {};
+    browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
+    browser_package_versions.type = TYPE_FILE;
+    refresh_cache.push(browser_package_versions);
+    if (refresh_directory) {
+        let browser_document = {};
+        browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+        browser_document.type = TYPE_DIRECTORY;
+        refresh_cache.push(browser_document);
+    }
+}
+
 
 /**
  * check the difference between the information of pkg1 and pkg2
@@ -273,14 +444,26 @@ function check_first_package(){
  */
 function diff_package(pkg1, pkg2){
     if(pkg1.name != pkg2.name){
-        //packages have been updated
+        //different package
         return 1001;
     }else if(pkg1.latest.version != pkg2.latest.version){
         //same package, but a newer version has been published
         return 1002;
     }
-
+    //same package
     return 1000;
+}
+
+function needRefresh(pkg1, pkg2){
+    if(pkg1.name != pkg2.name){
+        //packages have been updated
+        return true;
+    }else if(pkg1.latest.version != pkg2.latest.version){
+        //same package, but a newer version has been published
+        return true;
+    }
+
+    return false;
 }
 
 function replacePackage_url(pkg, replacer){
@@ -581,22 +764,7 @@ function refresh_whole_browser_document_dir(){
     refresh_cache.push(browser_document);
 }
 
-
-
-
-check_first_package();
-
-refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
-
-check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
-
-
-
-flutter_checker.startCheckTask();
-
-
-//manually add new refresh requests
-http_server.startHTTPServer(function(pkgName){
+let onHTTPEventListener = function(pkgName){
     console.log('[app.js] added new package refreshing request -->' + pkgName);
     let package_url = {};
     package_url.url = 'https://'+ cdn_base_address +'/api/packages/' + pkgName;
@@ -650,4 +818,20 @@ http_server.startHTTPServer(function(pkgName){
         browser_document.type = TYPE_DIRECTORY;
         refresh_cache.push(browser_document);
     }
-});
+};
+
+
+
+//start processing
+//intialize first package information
+check_first_package();
+//start refresh worker
+refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+//start interval task
+check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+//start aliyun service checker
+flutter_checker.startCheckTask();
+
+
+//manually add new refresh requests
+http_server.startHTTPServer(onHTTPEventListener);
