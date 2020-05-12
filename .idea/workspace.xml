@@ -35,7 +35,6 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,12 +56,19 @@
       <scroll-view-position x="0" y="0" />
     </layout>
   </component>
+  <component name="ProjectFrameBounds">
+    <option name="y" value="23" />
+    <option name="width" value="1680" />
+    <option name="height" value="985" />
+  </component>
   <component name="ProjectId" id="1Y3lJYQMzD45NpG3u2cupqQzX94" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
@@ -136,6 +142,8 @@
       <workItem from="1588997763093" duration="6058000" />
       <workItem from="1589004348744" duration="100000" />
       <workItem from="1589174584912" duration="8195000" />
+      <workItem from="1589292348519" duration="23000" />
+      <workItem from="1589292727863" duration="2497000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>

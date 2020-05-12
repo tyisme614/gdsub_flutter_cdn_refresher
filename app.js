@@ -21,9 +21,9 @@ const EventEmitter = require('events');
 class CheckerEventHandler extends EventEmitter {}
 
 const eventHandler = new CheckerEventHandler();
-eventHandler.on('nextPage', (page) => {
-
-
+eventHandler.on('checkPage', (page) => {
+    console.log('checking page -->' + page);
+    retrievePackageData(page);
 
 });
 
@@ -31,7 +31,7 @@ eventHandler.on('nextPage', (page) => {
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
 
-let first_package = '';
+let first_package = 'quill_zefyr_bijection';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
@@ -48,230 +48,8 @@ let refresh_browser_dir_task;
 
 let debug = true;
 
-//this method only check the first package
-function check_first_package(){
+let isProcessing = false;
 
-    check_service_status((left_refresh_amount) => {
-        if(left_refresh_amount <= alert_threshold){
-            if(debug){
-                console.log('alert! the left refresh service is less than 400, start conservative strategy.');
-            }
-            //stop current refresh task
-            if(debug){
-                console.log('stop current refresh task');
-                clearInterval(check_task);
-            }
-            
-            
-            //stop refresh worker
-            if(debug){
-                console.log('stop refresh worker');
-                clearInterval(refresh_worker);
-            }
-            
-
-            first_package = '';
-
-            //get the start date of conservative refresh
-            present_day = new Date().getDate();
-            //start conservative strategy
-            check_task_conservative = setInterval(conservative_refresh(), refresh_interval);
-        }
-    });
-
-    let options= {
-        url: flutter_source_url,
-        headers: {
-            'User-Agent' : 'pub.flutter-io.cn'
-        }
-
-    };
-    request.get(options, (err, response, body) => {
-
-        if(err){
-            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
-
-        }else{
-            let data = JSON.parse(body);
-            if(first_package == ''){
-                //initialize first package
-                console.log('initializing first_package, refreshing cdn after service being restarted');
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    first_package = data.packages[0];
-                    console.log(show_package_info(first_package));
-                    refresh_ali_cdn();
-                }
-            }else{
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    //find new index of the previous first package
-                    let index = 0;
-                    let keepSearching = true;
-                    let updatedPackageURL = [];
-                    let pkg = first_package;
-                    for(let i=0; (keepSearching && i<data.packages.length); i++){
-                        pkg = data.packages[i];
-                        console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
-                        console.log('previous first package is ' + first_package.name + ' latest version is ' + first_package.latest.version);
-                        let result = diff_package(pkg, first_package);
-                        switch(result){
-                            case 1000:
-                                console.log('found same package, checking cdn refreshing targets finished.');
-                                index = i;
-                                keepSearching = false;
-                                i = data.packages.length;
-                                break;
-                            case 1001:{
-                                // let archive_url = replaceArchive_url(pkg, cdn_base_address);
-                                // console.log('different package, refreshing cdn archive resource:' + archive_url);
-                                // refresh_ali_cdn_of_target(archive_url, 'File');
-                                console.log('different package');
-                                let package_url = {};
-                                package_url.url = replacePackage_url(pkg, cdn_base_address);
-                                package_url.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource folder:' + package_url);
-                                //refresh_ali_cdn_of_target(package_url, 'File');
-                                refresh_cache.push(package_url);
-
-//                                let versions_url = {};
-//                                versions_url.url = replaceArchive_url(pkg, cdn_base_address);
-//                                versions_url.type = TYPE_FILE;
-//                                refresh_cache.push(versions_url);
-
-                                let package_file = {};
-                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                                package_file.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource file:' + package_file);
-                                // refresh_ali_cdn_of_target(package_file, 'File');
-                                refresh_cache.push(package_file);
-
-
-                                let document_url = {};
-                                document_url.url = getDocument_url(pkg, cdn_base_address);
-                                document_url.type = TYPE_FILE;
-                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
-                                // refresh_ali_cdn_of_target(document_url, 'File');
-                                refresh_cache.push(document_url);
-
-                                //check publisher resource
-                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
-                                        try{
-                                                let j = JSON.parse(body);
-                                                if(j.publisherId != null){
-                                                    let publisher_url = {};
-                                                    publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                                    publisher_url.type = TYPE_FILE;
-                                                    refresh_cache.push(publisher_url);
-                                                }
-                                            }catch(e){
-                                                console.error('failed to parse JSON, response-->' + res);
-                                            }
-                                        });
-
-                                //add browser resources
-                                let browser_package = {};
-                                browser_package.url = cdn_browser_resource_address + pkg.name;
-                                browser_package.type = TYPE_FILE;
-                                refresh_cache.push(browser_package);
-                                let browser_package2 = {};
-                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
-                                browser_package2.type = TYPE_FILE;
-                                refresh_cache.push(browser_package2);
-                                let browser_package_versions = {};
-                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
-                                browser_package_versions.type = TYPE_FILE;
-                                refresh_cache.push(browser_package_versions);
-                                if(refresh_directory){
-                                    let browser_document = {};
-                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
-                                    browser_document.type = TYPE_DIRECTORY;
-                                    refresh_cache.push(browser_document);    
-                                }
-
-                            }
-
-
-                                break;
-                            case 1002:
-
-                                let package_url = {};
-                                package_url.url = replacePackage_url(pkg, cdn_base_address);
-                                package_url.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource folder:' + package_url);
-                                //refresh_ali_cdn_of_target(package_url, 'File');
-                                refresh_cache.push(package_url);
-
-//                                let versions_url = {};
-//                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
-//                                versions_url.type = TYPE_FILE;
-//                                refresh_cache.push(versions_url);
-
-                                let package_file = {};
-                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                                package_file.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource file:' + package_file);
-                                // refresh_ali_cdn_of_target(package_file, 'File');
-                                refresh_cache.push(package_file);
-
-
-                                let document_url = {};
-                                document_url.url = getDocument_url(pkg, cdn_base_address);
-                                document_url.type = TYPE_FILE;
-                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
-                                // refresh_ali_cdn_of_target(document_url, 'File');
-                                refresh_cache.push(document_url);
-
-                                //check publisher resource
-                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
-                                try{
-                                        let j = JSON.parse(body);
-                                        if(j.publisherId != null){
-                                            let publisher_url = {};
-                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                            publisher_url.type = TYPE_FILE;
-                                            refresh_cache.push(publisher_url);
-                                        }
-                                    }catch(e){
-                                        console.error('failed to parse JSON, response-->' + res);
-                                    }
-                                });
-                                //add browser resources
-                                let browser_package = {};
-                                browser_package.url = cdn_browser_resource_address + pkg.name;
-                                browser_package.type = TYPE_FILE;
-                                refresh_cache.push(browser_package);
-                                let browser_package2 = {};
-                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
-                                browser_package2.type = TYPE_FILE;
-                                refresh_cache.push(browser_package2);
-                                let browser_package_versions = {};
-                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
-                                browser_package_versions.type = TYPE_FILE;
-                                refresh_cache.push(browser_package_versions);
-                                if(refresh_directory){
-                                    let browser_document = {};
-                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
-                                    browser_document.type = TYPE_DIRECTORY;
-                                    refresh_cache.push(browser_document);    
-                                }
-                                console.log('checking cdn refreshing targets finished.');
-                                index = i;
-                                keepSearching = false;
-                                i = data.packages.length;
-                                break;
-                        }
-
-                    }
-                    first_package = data.packages[0];
-                    console.log('the index of previous first_package is ' + index);
-                    if(debug){
-                        console.log('updated new first package is ' + show_package_info(first_package));
-                    }
-
-                }
-            }
-        }
-    });
-}
 
 /**
  *
@@ -279,33 +57,39 @@ function check_first_package(){
  *
  */
 function cdnRefreshChecker(){
-    check_service_status((left_refresh_amount) => {
-        if(left_refresh_amount <= alert_threshold){
-            if(debug){
-                console.log('alert! the left refresh service is less than 400, start conservative strategy.');
+    if(!isProcessing){
+        isProcessing = true;
+        check_service_status((left_refresh_amount) => {
+            if(left_refresh_amount <= alert_threshold){
+                if(debug){
+                    console.log('alert! the left refresh service is less than 400, start conservative strategy.');
+                }
+                //stop current refresh task
+                if(debug){
+                    console.log('stop current refresh task');
+                    clearInterval(check_task);
+                }
+
+                //stop refresh worker
+                if(debug){
+                    console.log('stop refresh worker');
+                    clearInterval(refresh_worker);
+                }
+
+                first_package = '';
+
+                //get the start date of conservative refresh
+                present_day = new Date().getDate();
+                //start conservative strategy
+                check_task_conservative = setInterval(conservative_refresh, refresh_interval);
+            }else{
+
+                eventHandler.emit('checkPage', 1);
             }
-            //stop current refresh task
-            if(debug){
-                console.log('stop current refresh task');
-                clearInterval(check_task);
-            }
+        });
 
+    }
 
-            //stop refresh worker
-            if(debug){
-                console.log('stop refresh worker');
-                clearInterval(refresh_worker);
-            }
-
-
-            first_package = '';
-
-            //get the start date of conservative refresh
-            present_day = new Date().getDate();
-            //start conservative strategy
-            check_task_conservative = setInterval(conservative_refresh(), refresh_interval);
-        }
-    });
 
 }
 
@@ -314,7 +98,8 @@ function cdnRefreshChecker(){
  * retrieve package information from dartlang.org
  *
  */
-function retrievePackageData(url){
+function retrievePackageData(page){
+    let url = flutter_source_url_arg_page + page;
     let options= {
         url: url,
         headers: {
@@ -333,13 +118,18 @@ function retrievePackageData(url){
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
                     first_package = data.packages[0];
                     console.log(show_package_info(first_package));
-                    refresh_ali_cdn();
+                    // refresh_ali_cdn();
                 }
             }else{
                 if(traversePackages(first_package, data)){
                     //found previous package
                     //refresh first_package
                     first_package = data.packages[0];
+                    isProcessing = false;
+                }else{
+                    //target package not found, check next page
+                    page +=1;
+                    eventHandler.emit('checkPage', page);
                 }
             }
         }
@@ -536,45 +326,45 @@ function refresh_ali_cdn_of_target(url, type){
         console.log('refreshing cdn url -->' + url + ' type -->' + type);
     }
     let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type]);
-
-    cmd.stdout.on('data', (data) => {
-        console.log(`stdout: ${data}`);
-        try{
-            cdn_refresh_info = JSON.parse(data);
-            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-            }
-
-            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-                console.log('RequestId=' + cdn_refresh_info.RequestId);
-            }
-
-            if(typeof(cdn_refresh_info.Code) != 'undefined'){
-                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-            }
-
-        }catch(e){
-            console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
-            if(debug){
-                console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
-            }
-            if(type != TYPE_DIRECTORY){
-                let refresh_obj = {};
-                refresh_obj.url = url;
-                refresh_obj.type = type;
-                refresh_cache.push(refresh_obj);
-            }
-            
-        }
-    });
-
-    cmd.stderr.on('data', (data) => {
-        console.log(`stderr: ${data}`);
-    });
-
-    cmd.on('close', (code) => {
-        console.log(`child process exited with code ${code}`);
-    });
+    //
+    // cmd.stdout.on('data', (data) => {
+    //     console.log(`stdout: ${data}`);
+    //     try{
+    //         cdn_refresh_info = JSON.parse(data);
+    //         if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+    //             console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+    //         }
+    //
+    //         if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+    //             console.log('RequestId=' + cdn_refresh_info.RequestId);
+    //         }
+    //
+    //         if(typeof(cdn_refresh_info.Code) != 'undefined'){
+    //             console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+    //         }
+    //
+    //     }catch(e){
+    //         console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
+    //         if(debug){
+    //             console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
+    //         }
+    //         if(type != TYPE_DIRECTORY){
+    //             let refresh_obj = {};
+    //             refresh_obj.url = url;
+    //             refresh_obj.type = type;
+    //             refresh_cache.push(refresh_obj);
+    //         }
+    //
+    //     }
+    // });
+    //
+    // cmd.stderr.on('data', (data) => {
+    //     console.log(`stderr: ${data}`);
+    // });
+    //
+    // cmd.on('close', (code) => {
+    //     console.log(`child process exited with code ${code}`);
+    // });
 }
 
 function refresh_ali_cdn(){
@@ -828,10 +618,251 @@ check_first_package();
 //start refresh worker
 refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
 //start interval task
-check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per 5 min aka 300 sec
+// check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 flutter_checker.startCheckTask();
 
 
 //manually add new refresh requests
 http_server.startHTTPServer(onHTTPEventListener);
+
+
+/***
+ *
+ *
+ *
+ * legacy code
+ *
+ *
+ *
+ *
+ */
+
+//this method only check the first package
+function check_first_package(){
+
+    check_service_status((left_refresh_amount) => {
+        if(left_refresh_amount <= alert_threshold){
+            if(debug){
+                console.log('alert! the left refresh service is less than 400, start conservative strategy.');
+            }
+            //stop current refresh task
+            if(debug){
+                console.log('stop current refresh task');
+                clearInterval(check_task);
+            }
+
+
+            //stop refresh worker
+            if(debug){
+                console.log('stop refresh worker');
+                clearInterval(refresh_worker);
+            }
+
+
+            first_package = '';
+
+            //get the start date of conservative refresh
+            present_day = new Date().getDate();
+            //start conservative strategy
+            check_task_conservative = setInterval(conservative_refresh, refresh_interval);
+        }
+    });
+
+    let options= {
+        url: flutter_source_url,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+
+    };
+    request.get(options, (err, response, body) => {
+
+        if(err){
+            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+
+        }else{
+            let data = JSON.parse(body);
+            if(first_package == ''){
+                //initialize first package
+                console.log('initializing first_package, refreshing cdn after service being restarted');
+                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                    first_package = data.packages[0];
+                    console.log(show_package_info(first_package));
+                    refresh_ali_cdn();
+                }
+            }else{
+                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                    //find new index of the previous first package
+                    let index = 0;
+                    let keepSearching = true;
+                    let updatedPackageURL = [];
+                    let pkg = first_package;
+                    for(let i=0; (keepSearching && i<data.packages.length); i++){
+                        pkg = data.packages[i];
+                        console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
+                        console.log('previous first package is ' + first_package.name + ' latest version is ' + first_package.latest.version);
+                        let result = diff_package(pkg, first_package);
+                        switch(result){
+                            case 1000:
+                                console.log('found same package, checking cdn refreshing targets finished.');
+                                index = i;
+                                keepSearching = false;
+                                i = data.packages.length;
+                                break;
+                            case 1001:{
+                                // let archive_url = replaceArchive_url(pkg, cdn_base_address);
+                                // console.log('different package, refreshing cdn archive resource:' + archive_url);
+                                // refresh_ali_cdn_of_target(archive_url, 'File');
+                                console.log('different package');
+                                let package_url = {};
+                                package_url.url = replacePackage_url(pkg, cdn_base_address);
+                                package_url.type = TYPE_FILE;
+                                //console.log('refreshing cdn package resource folder:' + package_url);
+                                //refresh_ali_cdn_of_target(package_url, 'File');
+                                refresh_cache.push(package_url);
+
+//                                let versions_url = {};
+//                                versions_url.url = replaceArchive_url(pkg, cdn_base_address);
+//                                versions_url.type = TYPE_FILE;
+//                                refresh_cache.push(versions_url);
+
+                                let package_file = {};
+                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                package_file.type = TYPE_FILE;
+                                //console.log('refreshing cdn package resource file:' + package_file);
+                                // refresh_ali_cdn_of_target(package_file, 'File');
+                                refresh_cache.push(package_file);
+
+
+                                let document_url = {};
+                                document_url.url = getDocument_url(pkg, cdn_base_address);
+                                document_url.type = TYPE_FILE;
+                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
+                                // refresh_ali_cdn_of_target(document_url, 'File');
+                                refresh_cache.push(document_url);
+
+                                //check publisher resource
+                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
+                                    try{
+                                        let j = JSON.parse(body);
+                                        if(j.publisherId != null){
+                                            let publisher_url = {};
+                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                            publisher_url.type = TYPE_FILE;
+                                            refresh_cache.push(publisher_url);
+                                        }
+                                    }catch(e){
+                                        console.error('failed to parse JSON, response-->' + res);
+                                    }
+                                });
+
+                                //add browser resources
+                                let browser_package = {};
+                                browser_package.url = cdn_browser_resource_address + pkg.name;
+                                browser_package.type = TYPE_FILE;
+                                refresh_cache.push(browser_package);
+                                let browser_package2 = {};
+                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
+                                browser_package2.type = TYPE_FILE;
+                                refresh_cache.push(browser_package2);
+                                let browser_package_versions = {};
+                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
+                                browser_package_versions.type = TYPE_FILE;
+                                refresh_cache.push(browser_package_versions);
+                                if(refresh_directory){
+                                    let browser_document = {};
+                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+                                    browser_document.type = TYPE_DIRECTORY;
+                                    refresh_cache.push(browser_document);
+                                }
+
+                            }
+
+
+                                break;
+                            case 1002:
+
+                                let package_url = {};
+                                package_url.url = replacePackage_url(pkg, cdn_base_address);
+                                package_url.type = TYPE_FILE;
+                                //console.log('refreshing cdn package resource folder:' + package_url);
+                                //refresh_ali_cdn_of_target(package_url, 'File');
+                                refresh_cache.push(package_url);
+
+//                                let versions_url = {};
+//                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
+//                                versions_url.type = TYPE_FILE;
+//                                refresh_cache.push(versions_url);
+
+                                let package_file = {};
+                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+                                package_file.type = TYPE_FILE;
+                                //console.log('refreshing cdn package resource file:' + package_file);
+                                // refresh_ali_cdn_of_target(package_file, 'File');
+                                refresh_cache.push(package_file);
+
+
+                                let document_url = {};
+                                document_url.url = getDocument_url(pkg, cdn_base_address);
+                                document_url.type = TYPE_FILE;
+                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
+                                // refresh_ali_cdn_of_target(document_url, 'File');
+                                refresh_cache.push(document_url);
+
+                                //check publisher resource
+                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
+                                    try{
+                                        let j = JSON.parse(body);
+                                        if(j.publisherId != null){
+                                            let publisher_url = {};
+                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+                                            publisher_url.type = TYPE_FILE;
+                                            refresh_cache.push(publisher_url);
+                                        }
+                                    }catch(e){
+                                        console.error('failed to parse JSON, response-->' + res);
+                                    }
+                                });
+                                //add browser resources
+                                let browser_package = {};
+                                browser_package.url = cdn_browser_resource_address + pkg.name;
+                                browser_package.type = TYPE_FILE;
+                                refresh_cache.push(browser_package);
+                                let browser_package2 = {};
+                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
+                                browser_package2.type = TYPE_FILE;
+                                refresh_cache.push(browser_package2);
+                                let browser_package_versions = {};
+                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
+                                browser_package_versions.type = TYPE_FILE;
+                                refresh_cache.push(browser_package_versions);
+                                if(refresh_directory){
+                                    let browser_document = {};
+                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
+                                    browser_document.type = TYPE_DIRECTORY;
+                                    refresh_cache.push(browser_document);
+                                }
+                                console.log('checking cdn refreshing targets finished.');
+                                index = i;
+                                keepSearching = false;
+                                i = data.packages.length;
+                                break;
+                        }
+
+                    }
+                    first_package = data.packages[0];
+                    console.log('the index of previous first_package is ' + index);
+                    if(debug){
+                        console.log('updated new first package is ' + show_package_info(first_package));
+                    }
+
+                }
+            }
+        }
+    });
+}
+
+
+
