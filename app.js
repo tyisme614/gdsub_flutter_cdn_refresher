@@ -31,11 +31,11 @@ eventHandler.on('checkPage', (page) => {
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
 let json_test = '{"name":"quill_zefyr_bijection","latest":{"version":"0.3.0","pubspec":{"name":"quill_zefyr_bijection","description":"Converts Quill.Js JSON to Zefyr Compatible JSON Delta fo user with Zefyr editor flutter package.","version":"0.3.0","homepage":"https://github.com/essuraj/Quill-Zefyr-Bijection","environment":{"sdk":">=2.1.0 <3.0.0"},"dependencies":{"flutter":{"sdk":"flutter"},"quill_delta":"^1.0.2"},"dev_dependencies":{"flutter_test":{"sdk":"flutter"}},"flutter":null},"archive_url":"https://pub.dartlang.org/packages/quill_zefyr_bijection/versions/0.3.0.tar.gz","package_url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection","url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection/versions/0.3.0"}}';
-let first_package = JSON.parse(json_test);
+let first_package = '';//JSON.parse(json_test);
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 300000;
+let refresh_interval = 3000;
 let alert_threshold = 400;
 
 let check_task;
@@ -88,6 +88,8 @@ function cdnRefreshChecker(){
             }
         });
 
+    }else{
+        console.log('checker is now processing...');
     }
 
 
