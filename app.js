@@ -30,8 +30,8 @@ eventHandler.on('checkPage', (page) => {
 
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
-
-let first_package = 'quill_zefyr_bijection';
+let json_test = '{"name":"quill_zefyr_bijection","latest":{"version":"0.3.0","pubspec":{"name":"quill_zefyr_bijection","description":"Converts Quill.Js JSON to Zefyr Compatible JSON Delta fo user with Zefyr editor flutter package.","version":"0.3.0","homepage":"https://github.com/essuraj/Quill-Zefyr-Bijection","environment":{"sdk":">=2.1.0 <3.0.0"},"dependencies":{"flutter":{"sdk":"flutter"},"quill_delta":"^1.0.2"},"dev_dependencies":{"flutter_test":{"sdk":"flutter"}},"flutter":null},"archive_url":"https://pub.dartlang.org/packages/quill_zefyr_bijection/versions/0.3.0.tar.gz","package_url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection","url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection/versions/0.3.0"}}';
+let first_package = JSON.parse(json_test);
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
@@ -614,14 +614,14 @@ let onHTTPEventListener = function(pkgName){
 
 //start processing
 //intialize first package information
-check_first_package();
+// check_first_package();
 //start refresh worker
 refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
 //start interval task
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per 5 min aka 300 sec
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
-flutter_checker.startCheckTask();
+// flutter_checker.startCheckTask();
 
 
 //manually add new refresh requests
