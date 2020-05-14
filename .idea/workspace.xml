@@ -33,6 +33,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -142,7 +144,7 @@
       <workItem from="1589004348744" duration="100000" />
       <workItem from="1589174584912" duration="8195000" />
       <workItem from="1589292348519" duration="23000" />
-      <workItem from="1589292727863" duration="3325000" />
+      <workItem from="1589292727863" duration="4703000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
