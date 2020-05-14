@@ -126,11 +126,14 @@ function retrievePackageData(page){
                 if(traversePackages(first_package, data)){
                     //found previous package
                     //refresh first_package
+                    console.log('found previous package, refresh first_package -->' + show_package_info(data.packages[0]))
                     first_package = data.packages[0];
                     isProcessing = false;
                 }else{
                     //target package not found, check next page
+
                     page +=1;
+                    console.log('target package not found, check next page-->' + page);
                     eventHandler.emit('checkPage', page);
                 }
             }
