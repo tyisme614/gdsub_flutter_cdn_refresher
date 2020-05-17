@@ -35,7 +35,7 @@ let first_package = '';//JSON.parse(json_test);
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 60000;
+let refresh_interval = 15000;
 let alert_threshold = 400;
 
 let check_task;
