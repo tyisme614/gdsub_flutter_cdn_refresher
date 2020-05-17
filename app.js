@@ -35,7 +35,7 @@ let first_package = '';//JSON.parse(json_test);
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 15000;
+let refresh_interval = 300000;
 let alert_threshold = 400;
 
 let check_task;
@@ -332,45 +332,45 @@ function refresh_ali_cdn_of_target(url, type){
         console.log('refreshing cdn url -->' + url + ' type -->' + type);
     }
     let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url, '--ObjectType', type, '--secure']);
-    //
-    // cmd.stdout.on('data', (data) => {
-    //     console.log(`stdout: ${data}`);
-    //     try{
-    //         cdn_refresh_info = JSON.parse(data);
-    //         if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-    //             console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-    //         }
-    //
-    //         if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-    //             console.log('RequestId=' + cdn_refresh_info.RequestId);
-    //         }
-    //
-    //         if(typeof(cdn_refresh_info.Code) != 'undefined'){
-    //             console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-    //         }
-    //
-    //     }catch(e){
-    //         console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
-    //         if(debug){
-    //             console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
-    //         }
-    //         if(type != TYPE_DIRECTORY){
-    //             let refresh_obj = {};
-    //             refresh_obj.url = url;
-    //             refresh_obj.type = type;
-    //             refresh_cache.push(refresh_obj);
-    //         }
-    //
-    //     }
-    // });
-    //
-    // cmd.stderr.on('data', (data) => {
-    //     console.log(`stderr: ${data}`);
-    // });
-    //
-    // cmd.on('close', (code) => {
-    //     console.log(`child process exited with code ${code}`);
-    // });
+
+    cmd.stdout.on('data', (data) => {
+        console.log(`stdout: ${data}`);
+        try{
+            cdn_refresh_info = JSON.parse(data);
+            if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+            }
+
+            if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                console.log('RequestId=' + cdn_refresh_info.RequestId);
+            }
+
+            if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+            }
+
+        }catch(e){
+            console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
+            if(debug){
+                console.log('unable to refresh cdn, push url back to refresh cache, url -->' + url);
+            }
+            if(type != TYPE_DIRECTORY){
+                let refresh_obj = {};
+                refresh_obj.url = url;
+                refresh_obj.type = type;
+                refresh_cache.push(refresh_obj);
+            }
+
+        }
+    });
+
+    cmd.stderr.on('data', (data) => {
+        console.log(`stderr: ${data}`);
+    });
+
+    cmd.on('close', (code) => {
+        console.log(`child process exited with code ${code}`);
+    });
 }
 
 function refresh_ali_cdn(){
@@ -627,7 +627,7 @@ refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh req
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per 5 min aka 300 sec
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
-// flutter_checker.startCheckTask();
+flutter_checker.startCheckTask();
 
 
 //manually add new refresh requests
