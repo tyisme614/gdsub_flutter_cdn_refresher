@@ -120,6 +120,7 @@ function retrievePackageData(page){
                 if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
                     first_package = data.packages[0];
                     console.log(show_package_info(first_package));
+                    isProcessing = false;
                     // refresh_ali_cdn();
                 }
             }else{
