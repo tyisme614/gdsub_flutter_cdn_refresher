@@ -167,7 +167,7 @@ function traversePackages(target, pkg_json){
                 return true;
             }
             count++;
-            if(count == data.packages.length){
+            if(count == pkg_json.packages.length){
                 //target package not found in current list
                 console.log('target package not found in current list');
                 return false;

@@ -35,7 +35,6 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="test package checking code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -146,7 +145,8 @@
       <workItem from="1589292348519" duration="23000" />
       <workItem from="1589292727863" duration="6260000" />
       <workItem from="1589706364232" duration="1239000" />
-      <workItem from="1589871643305" duration="3648000" />
+      <workItem from="1589871643305" duration="4117000" />
+      <workItem from="1589876827326" duration="50000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
