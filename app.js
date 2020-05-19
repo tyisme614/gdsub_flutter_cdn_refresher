@@ -150,26 +150,26 @@ function retrievePackageData(page){
  *
  */
 function traversePackages(target, pkg_json){
-    let data = pkg_json;
-    if(typeof(data.packages) !== 'undefined' && data.packages.length > 0) {
+    if(typeof(pkg_json.packages) !== 'undefined' && pkg_json.packages.length > 0) {
         //find new index of the previous first package
         let keepSearching = true;
-        let pkg = target;
         let count = 0;
         while(keepSearching) {
-            pkg = data.packages[count];
+            let pkg = pkg_json.packages[count];
             console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
-            console.log('previous first package is ' + first_package.name + ' latest version is ' + first_package.latest.version);
-            if(needRefresh(pkg, first_package)){
+            console.log('previous first package is ' + target.name + ' latest version is ' + target.latest.version);
+            if(needRefresh(pkg, target)){
                 refreshTargetPackage(pkg);
             }else{
                 //found same package
+                console.log('found same package, stop traversing & wait for next round...keepSearching  = false');
                 keepSearching = false;
                 return true;
             }
             count++;
             if(count == data.packages.length){
                 //target package not found in current list
+                console.log('target package not found in current list');
                 return false;
             }
         }//end of loop
@@ -252,10 +252,12 @@ function diff_package(pkg1, pkg2){
 
 function needRefresh(pkg1, pkg2){
     if(pkg1.name != pkg2.name){
-        //packages have been updated
+        //different packages
+        console.log('different packages, current-->' + pkg1.name + '   target-->' + pkg2.name );
         return true;
     }else if(pkg1.latest.version != pkg2.latest.version){
         //same package, but a newer version has been published
+        console.log('same package, but a newer version has been published, old version -->' + pkg1.latest.version + '  newer version-->' + pkg2.latest.version + '  pkg-->' + pkg2.name );
         return true;
     }
 
