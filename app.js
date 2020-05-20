@@ -436,6 +436,7 @@ function refresh_ali_cdn(){
 }
 
 function refresh_target_from_cache(){
+    console.log('refresh_cache length is ' + refresh_cache.length);
     if(refresh_cache.length > 0){
         let target = refresh_cache.pop();
 
