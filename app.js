@@ -436,10 +436,10 @@ function refresh_ali_cdn(){
 }
 
 function refresh_target_from_cache(){
-    console.log('refresh_cache length is ' + refresh_cache.length);
-    if(refresh_cache.length > 0){
-        let target = refresh_cache.pop();
 
+    if(refresh_cache.length > 0){
+        console.log('refresh_cache length is ' + refresh_cache.length);
+        let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target.url, target.type);
 
     }
