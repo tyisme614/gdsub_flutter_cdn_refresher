@@ -666,16 +666,21 @@ function checkPackageInfo(){
     request.get(options, (err, response, body) => {
         //response from remote http server
         if (err) {
-            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+            console.error('[debug] encountered error while requesting package information from remote server, message:' + err.toString());
         } else {
-            let data = JSON.parse(body);
-            if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                for(let i=0; i<data.packages.length; i++){
-                    let index = i+1;
-                    let pkg = data.packages[i];
-                    console.log(index + '. name-->' + pkg.name + '  version-->' + pkg.latest.version);
+            try{
+                let data = JSON.parse(body);
+                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                    for(let i=0; i<data.packages.length; i++){
+                        let index = i+1;
+                        let pkg = data.packages[i];
+                        console.log('[debug] ' + index + '. name-->' + pkg.name + '  version-->' + pkg.latest.version);
+                    }
                 }
+            }catch(e){
+                console.error('[debug] encountered error while parsing json data -->' + e.message);
             }
+
         }
     });
 }
