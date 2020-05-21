@@ -92,7 +92,6 @@ function cdnRefreshChecker(){
         console.log('checker is now processing...');
     }
 
-
 }
 
 /**
@@ -132,7 +131,6 @@ function retrievePackageData(page){
                     isProcessing = false;
                 }else{
                     //target package not found, check next page
-
                     page +=1;
                     console.log('target package not found, check next page-->' + page);
                     eventHandler.emit('checkPage', page);
@@ -634,6 +632,36 @@ flutter_checker.startCheckTask();
 
 //manually add new refresh requests
 http_server.startHTTPServer(onHTTPEventListener);
+
+
+//for testing purpose
+//check package info and order from dartlang.org
+function checkPackageInfo(){
+    let url = flutter_source_url_arg_page + '1';
+    let options= {
+        url: url,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+    };
+    request.get(options, (err, response, body) => {
+        //response from remote http server
+        if (err) {
+            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+        } else {
+            let data = JSON.parse(body);
+            if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                for(let i=0; i<data.packages.length; i++){
+                    let index = i+1;
+                    let pkg = data.packages[i];
+                    console.log(index + '. name-->' + pkg.name + '  version-->' + pkg.latest.version);
+                }
+            }
+        }
+    });
+}
+
+let debug_worker = setInterval(checkPackageInfo, 15000);
 
 
 /***

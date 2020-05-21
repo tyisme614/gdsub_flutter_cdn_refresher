@@ -32,7 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="test package checking code">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="fixed syntax error">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
@@ -55,11 +55,6 @@
     <layout place="tools.popupnpm">
       <scroll-view-position x="0" y="0" />
     </layout>
-  </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="985" />
   </component>
   <component name="ProjectId" id="1Y3lJYQMzD45NpG3u2cupqQzX94" />
   <component name="ProjectViewState">
@@ -146,7 +141,8 @@
       <workItem from="1589292727863" duration="6260000" />
       <workItem from="1589706364232" duration="1239000" />
       <workItem from="1589871643305" duration="4117000" />
-      <workItem from="1589876827326" duration="50000" />
+      <workItem from="1589876827326" duration="752000" />
+      <workItem from="1590024338452" duration="3207000" />
     </task>
     <task id="LOCAL-00001" summary="changed check interval to 5min">
       <created>1565429388016</created>
@@ -435,7 +431,14 @@
       <option name="project" value="LOCAL" />
       <updated>1589707054334</updated>
     </task>
-    <option name="localTasksCounter" value="42" />
+    <task id="LOCAL-00042" summary="fixed syntax error">
+      <created>1589876891893</created>
+      <option name="number" value="00042" />
+      <option name="presentableId" value="LOCAL-00042" />
+      <option name="project" value="LOCAL" />
+      <updated>1589876891893</updated>
+    </task>
+    <option name="localTasksCounter" value="43" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -476,10 +479,10 @@
     <MESSAGE value="test chuangcache service" />
     <MESSAGE value="v0.1.1&#10;check publisher ID &amp; refresh publisher resources" />
     <MESSAGE value="v0.1.2 &#10;added debugging code" />
-    <MESSAGE value="fixed syntax error" />
     <MESSAGE value="added MIT license for this project." />
     <MESSAGE value="test package checking code" />
-    <option name="LAST_COMMIT_MESSAGE" value="test package checking code" />
+    <MESSAGE value="fixed syntax error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed syntax error" />
   </component>
   <component name="WindowStateProjectService">
     <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588999061969">
@@ -519,9 +522,10 @@
     </state>
     <state x="349" y="143" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588997808580" />
     <state x="1920" y="-190" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@1920.-449.1080.1880" timestamp="1588997740393" />
-    <state x="440" y="255" key="Vcs.Push.Dialog.v2" timestamp="1589707056387">
-      <screen x="0" y="23" width="1680" height="985" />
+    <state x="503" y="245" key="Vcs.Push.Dialog.v2" timestamp="1589876907306">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
+    <state x="503" y="245" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589876907306" />
     <state x="440" y="255" key="Vcs.Push.Dialog.v2/0.23.1680.985@0.23.1680.985" timestamp="1589707056387" />
     <state x="1779" y="-458" width="1096" height="1013" maximized="true" key="dock-window-1" timestamp="1589175629251">
       <screen x="1920" y="-449" width="1080" height="1880" />
