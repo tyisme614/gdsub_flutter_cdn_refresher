@@ -105,7 +105,7 @@ function cdnRefreshChecker(){
                 //get the start date of conservative refresh
                 present_day = new Date().getDate();
                 //start conservative strategy
-                check_task_conservative = setInterval(conservative_refresh, refresh_interval);
+                // check_task_conservative = setInterval(conservative_refresh, refresh_interval);
             }else{
 
                 eventHandler.emit('checkPage', 1);
@@ -257,7 +257,7 @@ function refreshTargetPackage(pkg){
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
-        refresh_cache.push(browser_document);
+        // refresh_cache.push(browser_document);
     }
 }
 
@@ -645,7 +645,7 @@ let onHTTPEventListener = function(pkgName){
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkgName + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
-        refresh_cache.push(browser_document);
+        // refresh_cache.push(browser_document);
     }
 };
 
@@ -740,7 +740,7 @@ function check_first_package(){
             //get the start date of conservative refresh
             present_day = new Date().getDate();
             //start conservative strategy
-            check_task_conservative = setInterval(conservative_refresh, refresh_interval);
+            // check_task_conservative = setInterval(conservative_refresh, refresh_interval);
         }
     });
 
@@ -849,7 +849,7 @@ function check_first_package(){
                                     let browser_document = {};
                                     browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
                                     browser_document.type = TYPE_DIRECTORY;
-                                    refresh_cache.push(browser_document);
+                                    // refresh_cache.push(browser_document);
                                 }
 
                             }
@@ -916,7 +916,7 @@ function check_first_package(){
                                     let browser_document = {};
                                     browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
                                     browser_document.type = TYPE_DIRECTORY;
-                                    refresh_cache.push(browser_document);
+                                    // refresh_cache.push(browser_document);
                                 }
                                 console.log('checking cdn refreshing targets finished.');
                                 index = i;
