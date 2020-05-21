@@ -641,7 +641,7 @@ let onHTTPEventListener = function(pkgName){
 //intialize first package information
 // check_first_package();
 //start refresh worker
-refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request per second
 //start interval task
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per 5 min aka 300 sec
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
@@ -685,7 +685,7 @@ function checkPackageInfo(){
     });
 }
 
-let debug_worker = setInterval(checkPackageInfo, 15000);
+let debug_worker = setInterval(checkPackageInfo, 300000);
 
 
 /***
