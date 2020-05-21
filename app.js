@@ -22,7 +22,12 @@ class CheckerEventHandler extends EventEmitter {}
 
 const eventHandler = new CheckerEventHandler();
 eventHandler.on('checkPage', (page) => {
-    if(page < 10){
+    if(page == -1){
+        console.log('stop processing, set first_package as ' + show_package_info(legacy_pkg));
+        first_package = legacy_pkg;
+        isProcessing = false;
+
+    }else if(page < 10){
         console.log('checking page -->' + page);
         retrievePackageData(page);
     }else{
@@ -145,14 +150,23 @@ function retrievePackageData(page){
                     console.log('initialize first_package-->' + show_package_info(first_package));
                     isProcessing = false;
                 }else{
-                    //target package not found, check next page
-                    page +=1;
-                    console.log('target package not found, check next page-->' + page);
-                    eventHandler.emit('checkPage', page);
+                    if(traversePackages(first_package, data)){
+                        //found previous package
+                        //refresh first_package
+                        console.log('found target package, reset first_package & stop processing');
+                        page = -1;
+                        eventHandler.emit('checkPage', page);
+                    }else{
+                        //target package not found, check next page
+                        page +=1;
+                        console.log('target package not found, check next page-->' + page);
+                        eventHandler.emit('checkPage', page);
+                    }
+
 
                 }
 
-            }
+            }//end of processing block
 
         }
 
