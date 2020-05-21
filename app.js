@@ -23,16 +23,18 @@ class CheckerEventHandler extends EventEmitter {}
 const eventHandler = new CheckerEventHandler();
 eventHandler.on('checkPage', (page) => {
     if(page == -1){
-        console.log('stop processing, set first_package as ' + show_package_info(legacy_pkg));
-        first_package = legacy_pkg;
         isProcessing = false;
+        console.log('[eventHandler] stop processing, set first_package as ' + show_package_info(legacy_pkg));
+        first_package = legacy_pkg;
+
 
     }else if(page < 10){
-        console.log('checking page -->' + page);
+        console.log('[eventHandler] checking page -->' + page);
         retrievePackageData(page);
     }else{
-        console.log('unable to find target package in recent 10 page of package list, abort... target_package-->' + show_package_info(first_package));
-        console.log('restore first_package to ' + JSON.stringify(legacy_pkg));
+        console.log('[eventHandler] unable to find target package in recent 10 page of package list, abort... target_package-->' + show_package_info(first_package));
+        console.log('[eventHandler] restore first_package to ' + JSON.stringify(legacy_pkg));
+        lastCheckMSG = 'unable to find target package in recent 10 page of package list, abort... target_package-->' + show_package_info(first_package);
         first_package = legacy_pkg;
         isProcessing = false;
     }
@@ -73,6 +75,8 @@ let refresh_browser_dir_task;
 let debug = true;
 
 let isProcessing = false;
+
+let lastCheckMSG = '';
 
 
 /**
@@ -194,15 +198,19 @@ function traversePackages(target, pkg_json){
                 //found same package
                 console.log('found same package, stop traversing & wait for next round...keepSearching  = false');
                 keepSearching = false;
+                lastCheckMSG = currentTimestamp() + 'found same package, count -->' + count + ' target package is ' + target;
                 return true;
             }
             count++;
             if(count == pkg_json.packages.length){
                 //target package not found in current list
                 console.log('target package not found in current list');
+                lastCheckMSG = currentTimestamp() + 'target package not found in current list, count -->' + count + ' target package is ' + target;
                 return false;
             }
         }//end of loop
+    }else{
+        return false;
     }
 }
 
@@ -443,6 +451,7 @@ function refresh_target_from_cache(){
 
     if(refresh_cache.length > 0){
         console.log('refresh_cache length is ' + refresh_cache.length);
+        console.log('[info] last check message -->' + lastCheckMSG);
         let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target.url, target.type);
 
@@ -699,7 +708,18 @@ function checkPackageInfo(){
     });
 }
 
-let debug_worker = setInterval(checkPackageInfo, 300000);
+// let debug_worker = setInterval(checkPackageInfo, 300000);
+
+function currentTimestamp(){
+    let ts = Date.now();
+
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+
+    return '[' + year + "-" + month + "-" + date + ']';
+}
 
 
 /***
