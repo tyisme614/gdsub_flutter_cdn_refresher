@@ -22,16 +22,35 @@ class CheckerEventHandler extends EventEmitter {}
 
 const eventHandler = new CheckerEventHandler();
 eventHandler.on('checkPage', (page) => {
-    console.log('checking page -->' + page);
-    retrievePackageData(page);
+    if(page < 10){
+        console.log('checking page -->' + page);
+        retrievePackageData(page);
+    }else{
+        console.log('unable to find target package in recent 10 page of package list, abort... target_package-->' + show_package_info(first_package));
+        console.log('restore first_package to ' + JSON.stringify(legacy_pkg));
+        first_package = legacy_pkg;
+        isProcessing = false;
+    }
+
 
 });
+
+// eventHandler.on('restore', () =>{
+//     try{
+//         console.log('restore first_package to the previous data -->' + show_package_info(legacy_pkg));
+//         first_package = legacy_pkg;
+//     }catch(e){
+//         console.error(e.message);
+//     }
+//
+// });
 
 
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
 // let json_test = '{"name":"quill_zefyr_bijection","latest":{"version":"0.3.0","pubspec":{"name":"quill_zefyr_bijection","description":"Converts Quill.Js JSON to Zefyr Compatible JSON Delta fo user with Zefyr editor flutter package.","version":"0.3.0","homepage":"https://github.com/essuraj/Quill-Zefyr-Bijection","environment":{"sdk":">=2.1.0 <3.0.0"},"dependencies":{"flutter":{"sdk":"flutter"},"quill_delta":"^1.0.2"},"dev_dependencies":{"flutter_test":{"sdk":"flutter"}},"flutter":null},"archive_url":"https://pub.dartlang.org/packages/quill_zefyr_bijection/versions/0.3.0.tar.gz","package_url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection","url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection/versions/0.3.0"}}';
 let first_package = '';//JSON.parse(json_test);
+let legacy_pkg = '';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
@@ -113,29 +132,28 @@ function retrievePackageData(page){
             console.error('encountered error while requesting package information from remote server, message:' + err.toString());
         }else {
             let data = JSON.parse(body);
-            if(first_package == ''){
-                //initialize first package
-                console.log('initializing first_package, refreshing cdn after service being restarted');
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    first_package = data.packages[0];
-                    console.log(show_package_info(first_package));
-                    isProcessing = false;
-                    // refresh_ali_cdn();
+            if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
+                if(page == 1){
+                    console.log('cache new first_package -->' + show_package_info(data.packages[0]));
+                    legacy_pkg = data.packages[0];
                 }
-            }else{
-                if(traversePackages(first_package, data)){
-                    //found previous package
-                    //refresh first_package
-                    console.log('found previous package, refresh first_package -->' + show_package_info(data.packages[0]))
+                if(first_package == ''){
+                    //initialize first package
+                    console.log('initializing first_package, refreshing cdn after service being restarted');
                     first_package = data.packages[0];
+                    legacy_pkg = data.packages[0];
+                    console.log('initialize first_package-->' + show_package_info(first_package));
                     isProcessing = false;
                 }else{
                     //target package not found, check next page
                     page +=1;
                     console.log('target package not found, check next page-->' + page);
                     eventHandler.emit('checkPage', page);
+
                 }
+
             }
+
         }
 
     });
@@ -408,9 +426,10 @@ function refresh_ali_cdn(){
 }
 
 function refresh_target_from_cache(){
-    if(refresh_cache.length > 0){
-        let target = refresh_cache.pop();
 
+    if(refresh_cache.length > 0){
+        console.log('refresh_cache length is ' + refresh_cache.length);
+        let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target.url, target.type);
 
     }
