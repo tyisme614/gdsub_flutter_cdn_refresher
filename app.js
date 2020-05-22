@@ -61,7 +61,7 @@ let legacy_pkg = '';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 300000;
+let refresh_interval = 600000;//10 minutes
 let alert_threshold = 400;
 
 let check_task;
@@ -664,7 +664,7 @@ let onHTTPEventListener = function(pkgName){
 //intialize first package information
 // check_first_package();
 //start refresh worker
-refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request per second
+refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
 //start interval task
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per 5 min aka 300 sec
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
@@ -718,7 +718,11 @@ function currentTimestamp(){
     let month = date_ob.getMonth() + 1;
     let year = date_ob.getFullYear();
 
-    return '[' + year + "-" + month + "-" + date + ']';
+    let hour = date_ob.getHours();
+    let minute = date_ob.getMinutes();
+    let second = date_ob.getSeconds();
+
+    return '[' + year + "-" + month + "-" + date + ' ' + hour + ':' + minute +':' + second + ']';
 }
 
 
