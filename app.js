@@ -24,40 +24,28 @@ const eventHandler = new CheckerEventHandler();
 eventHandler.on('checkPage', (page) => {
     if(page == -1){
         isProcessing = false;
-        console.log('[eventHandler] stop processing, set first_package as ' + show_package_info(legacy_pkg));
-        first_package = legacy_pkg;
-
+        console.log('[eventHandler] stop processing, reset pkg_map');
+        pkg_map = tmp_pkg_map;
 
     }else if(page < 10){
         console.log('[eventHandler] checking page -->' + page);
         retrievePackageData(page);
     }else{
-        console.log('[eventHandler] unable to find target package in recent 10 page of package list, abort... target_package-->' + show_package_info(first_package));
-        console.log('[eventHandler] restore first_package to ' + JSON.stringify(legacy_pkg));
-        lastCheckMSG = 'unable to find target package in recent 10 page of package list, abort... target_package-->' + show_package_info(first_package);
-        first_package = legacy_pkg;
+        console.log('[eventHandler] unable to find last updated packages in recent 10 page of package list, abort... ');
+        pkg_map = tmp_pkg_map;
         isProcessing = false;
     }
 
 
 });
 
-// eventHandler.on('restore', () =>{
-//     try{
-//         console.log('restore first_package to the previous data -->' + show_package_info(legacy_pkg));
-//         first_package = legacy_pkg;
-//     }catch(e){
-//         console.error(e.message);
-//     }
-//
-// });
 
 
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
 // let json_test = '{"name":"quill_zefyr_bijection","latest":{"version":"0.3.0","pubspec":{"name":"quill_zefyr_bijection","description":"Converts Quill.Js JSON to Zefyr Compatible JSON Delta fo user with Zefyr editor flutter package.","version":"0.3.0","homepage":"https://github.com/essuraj/Quill-Zefyr-Bijection","environment":{"sdk":">=2.1.0 <3.0.0"},"dependencies":{"flutter":{"sdk":"flutter"},"quill_delta":"^1.0.2"},"dev_dependencies":{"flutter_test":{"sdk":"flutter"}},"flutter":null},"archive_url":"https://pub.dartlang.org/packages/quill_zefyr_bijection/versions/0.3.0.tar.gz","package_url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection","url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection/versions/0.3.0"}}';
-let first_package = '';//JSON.parse(json_test);
-let legacy_pkg = '';
+// let first_package = '';//JSON.parse(json_test);
+// let legacy_pkg = '';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
@@ -70,13 +58,16 @@ let refresh_worker;
 let refresh_cache = [];
 let refresh_directory = true;
 
+let pkg_map = null;
+let tmp_pkg_map = new Map();
+
 let refresh_browser_dir_task;
 
 let debug = true;
 
 let isProcessing = false;
 
-let lastCheckMSG = '';
+// let lastCheckMSG = '';
 
 
 /**
@@ -104,7 +95,7 @@ function cdnRefreshChecker(){
                     clearInterval(refresh_worker);
                 }
 
-                first_package = '';
+
 
                 //get the start date of conservative refresh
                 present_day = new Date().getDate();
@@ -143,21 +134,34 @@ function retrievePackageData(page){
             let data = JSON.parse(body);
             if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
                 if(page == 1){
-                    console.log('cache new first_package -->' + show_package_info(data.packages[0]));
-                    legacy_pkg = data.packages[0];
+                    console.log('cache legacy_package -->' + show_package_info(data.packages[0]));
+                    console.log('cache tmp_pkg_map');
+
+                    let pkg_list = data.packages;
+                    tmp_pkg_map = new Map();//reset temporary package map to clean up the cached data
+                    for(let i=0; i<pkg_list.length; i++){
+                        let pkg = pkg_list[i];
+                        tmp_pkg_map.set(pkg.name, pkg);
+
+                    }
                 }
-                if(first_package == ''){
+                if(pkg_map == null){
                     //initialize first package
-                    console.log('initializing first_package, refreshing cdn after service being restarted');
-                    first_package = data.packages[0];
-                    legacy_pkg = data.packages[0];
-                    console.log('initialize first_package-->' + show_package_info(first_package));
+                    console.log('initializing pkg_map, refreshing cdn after service being restarted');
+
+                    let pkg_list = data.packages;
+                    pkg_map = new Map();
+                    tmp_pkg_map = new Map();
+                    for(let i; i<pkg_list.length; i++){
+                        let pkg = pkg_list[i];
+                        pkg_map.set(pkg.name, pkg);
+
+                    }
                     isProcessing = false;
                 }else{
-                    if(traversePackages(first_package, data)){
+                    if(traversePackages(data)){
                         //found previous package
-                        //refresh first_package
-                        console.log('found target package, reset first_package & stop processing');
+                        console.log('found start point of last checking round , reset pkg_map & stop processing');
                         page = -1;
                         eventHandler.emit('checkPage', page);
                     }else{
@@ -183,34 +187,45 @@ function retrievePackageData(page){
  * traverse all packages to find the last refreshed package
  *
  */
-function traversePackages(target, pkg_json){
+function traversePackages(pkg_json){
     if(typeof(pkg_json.packages) !== 'undefined' && pkg_json.packages.length > 0) {
         //find new index of the previous first package
         let keepSearching = true;
         let count = 0;
+
         while(keepSearching) {
             let pkg = pkg_json.packages[count];
             console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
-            console.log('previous first package is ' + target.name + ' latest version is ' + target.latest.version);
-            if(needRefresh(pkg, target)){
-                refreshTargetPackage(pkg);
+            if(checkPKGMap(pkg)){
+                //no need to refresh package
+                    keepSearching = false;
+                    return true;
             }else{
-                //found same package
-                console.log('found same package, stop traversing & wait for next round...keepSearching  = false');
-                keepSearching = false;
-                lastCheckMSG = currentTimestamp() + 'found same package, count -->' + count + ' target package is ' + target;
-                return true;
+                refreshTargetPackage(pkg);
             }
+            // if(res != 1003){//new package updated or same package with a newer version
+            //     refreshTargetPackage(pkg);
+            //     if(res == 1002){
+            //         //unable to find last updated package via first_package which has been updated in this round. using pkg_map instead
+            //         first_package_invalid = true;
+            //     }
+            // }else{
+            //     //found same package
+            //     console.log('found same package, stop traversing & wait for next round...keepSearching  = false');
+            //     keepSearching = false;
+            //     lastCheckMSG = currentTimestamp() + 'found same package, count -->' + count + ' target package is ' + target;
+            //     return true;
+            // }
             count++;
             if(count == pkg_json.packages.length){
                 //target package not found in current list
                 console.log('target package not found in current list');
-                lastCheckMSG = currentTimestamp() + 'target package not found in current list, count -->' + count + ' target package is ' + target;
+                // lastCheckMSG = currentTimestamp() + 'target package not found in current list, count -->' + count + ' target package is ' + target;
                 return false;
             }
         }//end of loop
     }else{
-        return false;
+        return true;
     }
 }
 
@@ -285,21 +300,36 @@ function diff_package(pkg1, pkg2){
         return 1002;
     }
     //same package
-    return 1000;
+    return 1003;
 }
 
-function needRefresh(pkg1, pkg2){
-    if(pkg1.name != pkg2.name){
-        //different packages
-        console.log('different packages, current-->' + pkg1.name + '   target-->' + pkg2.name );
-        return true;
-    }else if(pkg1.latest.version != pkg2.latest.version){
-        //same package, but a newer version has been published
-        console.log('same package, but a newer version has been published, old version -->' + pkg1.latest.version + '  newer version-->' + pkg2.latest.version + '  pkg-->' + pkg2.name );
+function checkPKGMap(pkg){
+    let res = pkg_map.has(pkg.name);
+    if(res){
+        console.log(currentTimestamp() + ' found package ' + pkg.name + ' in pkg_map, info-->' + show_package_info(pkg));
+    }else{
+        console.log(currentTimestamp() + ' unable to find target pakcage -->' + show_package_info(pkg) + ' refresh it');
+    }
+    return res;
+}
+
+function needRefresh(pkg1, pkg2, useFirstPackage){
+    if(useFirstPackage){
+        if(pkg1.name != pkg2.name || pkg1.latest.version != pkg2.latest.version){
+            //different packages
+            console.log('different packages or same package with different version, current-->' + pkg1.name + '   target-->' + pkg2.name );
+            return true;
+        }else{
+            return false;
+        }
+
+    }else{
+        console.log('unable to use first package to check last updated record, use pkg_map instead');
         return true;
     }
 
-    return false;
+
+
 }
 
 function replacePackage_url(pkg, replacer){
@@ -451,7 +481,7 @@ function refresh_target_from_cache(){
 
     if(refresh_cache.length > 0){
         console.log('refresh_cache length is ' + refresh_cache.length);
-        console.log('[info] last check message -->' + lastCheckMSG);
+        // console.log('[info] last check message -->' + lastCheckMSG);
         let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target.url, target.type);
 
