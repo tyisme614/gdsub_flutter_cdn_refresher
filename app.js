@@ -2,6 +2,7 @@ const request = require('request');
 const { spawn } = require('child_process');
 const flutter_checker = require('./flutter_checker');
 const http_server = require('./http_server');
+const fs = require('fs');
 
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
@@ -131,6 +132,13 @@ function retrievePackageData(page){
         if(err){
             console.error('encountered error while requesting package information from remote server, message:' + err.toString());
         }else {
+            console.log('cache package data');
+
+            fs.appendFile(currentTimestamp() + '.dartlang.log', body, (err) => {
+                if (err) console.error('encountered error while caching package list, e-->' + err.message);
+                console.log('file cached');
+            });
+
             let data = JSON.parse(body);
             if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
                 if(page == 1){
