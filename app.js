@@ -306,11 +306,21 @@ function diff_package(pkg1, pkg2){
 function checkPKGMap(pkg){
     let res = pkg_map.has(pkg.name);
     if(res){
-        console.log(currentTimestamp() + ' found package ' + pkg.name + ' in pkg_map, info-->' + show_package_info(pkg));
+        let p = pkg_map.get(pkg.name);
+        if(p.latest.version != pkg.latest.version){
+            console.log('found same package in pkg_map, but version is different');
+            return false;
+        }else{
+            console.log(currentTimestamp() + ' found package ' + pkg.name + ' in pkg_map, info-->' + show_package_info(pkg));
+
+            return true;
+        }
+
     }else{
         console.log(currentTimestamp() + ' unable to find target pakcage -->' + show_package_info(pkg) + ' refresh it');
+        return false;
     }
-    return res;
+
 }
 
 function needRefresh(pkg1, pkg2, useFirstPackage){
