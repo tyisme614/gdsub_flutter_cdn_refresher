@@ -50,7 +50,7 @@ const TYPE_DIRECTORY = 'Directory';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 600000;//10 minutes
+let refresh_interval = 10000;//600000;//10 minutes
 let alert_threshold = 400;
 
 let check_task;
@@ -160,7 +160,7 @@ function retrievePackageData(page){
                     let pkg_list = data.packages;
                     pkg_map = new Map();
                     tmp_pkg_map = new Map();
-                    for(let i; i<pkg_list.length; i++){
+                    for(let i=0; i<pkg_list.length; i++){
                         let pkg = pkg_list[i];
                         pkg_map.set(pkg.name, pkg);
 
