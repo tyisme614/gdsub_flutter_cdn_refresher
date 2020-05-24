@@ -50,7 +50,7 @@ const TYPE_DIRECTORY = 'Directory';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 10000;//600000;//10 minutes
+let refresh_interval = 600000;//10 minutes
 let alert_threshold = 400;
 
 let check_task;
@@ -498,7 +498,7 @@ function refresh_ali_cdn(){
 function refresh_target_from_cache(){
 
     if(refresh_cache.length > 0){
-        console.log('refresh_cache length is ' + refresh_cache.length);
+        console.log(currentTimestamp() + ' refresh_cache length is ' + refresh_cache.length);
         // console.log('[info] last check message -->' + lastCheckMSG);
         let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target.url, target.type);
