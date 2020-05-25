@@ -134,7 +134,7 @@ function retrievePackageData(page){
         }else {
             console.log('cache package data');
 
-            fs.appendFile(currentTimestamp() + '.dartlang.log', body, (err) => {
+            fs.appendFile(__dirname + '/logs/' + currentTimestamp() + '.dartlang.log', body, (err) => {
                 if (err) console.error('encountered error while caching package list, e-->' + err.message);
                 console.log('file cached');
             });
@@ -770,7 +770,7 @@ function currentTimestamp(){
     let minute = date_ob.getMinutes();
     let second = date_ob.getSeconds();
 
-    return '[' + year + "-" + month + "-" + date + ' ' + hour + ':' + minute +':' + second + ']';
+    return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
 }
 
 
