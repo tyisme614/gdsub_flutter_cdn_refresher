@@ -288,7 +288,7 @@ function refreshTargetPackage(pkg){
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
-        // refresh_cache.push(browser_document);
+        refresh_cache.push(browser_document);
     }
 }
 
