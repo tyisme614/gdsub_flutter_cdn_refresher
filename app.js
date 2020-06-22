@@ -59,8 +59,15 @@ let refresh_worker;
 let refresh_cache = [];
 let refresh_directory = true;
 
+
+
 let pkg_map = null;
 let tmp_pkg_map = new Map();
+
+let extra_refresh_worker;
+let extra_pkg_map = new Map();//this map maintains the update time of the latest version for each package
+let extra_cache = [];//this list caches the packages that are needed to compare the update time
+                        // to decide whether updating the related CDN resource
 
 let refresh_browser_dir_task;
 
@@ -160,10 +167,12 @@ function retrievePackageData(page){
                     let pkg_list = data.packages;
                     pkg_map = new Map();
                     tmp_pkg_map = new Map();
+                    extra_pkg_map = new Map();
+
                     for(let i=0; i<pkg_list.length; i++){
                         let pkg = pkg_list[i];
                         pkg_map.set(pkg.name, pkg);
-
+                        extra_cache.push(pkg);
                     }
                     isProcessing = false;
                 }else{
@@ -200,30 +209,30 @@ function traversePackages(pkg_json){
         //find new index of the previous first package
         let keepSearching = true;
         let count = 0;
-
+        let timeCompareCount = 0;//this variable to used for counting the packages that are added into
         while(keepSearching) {
             let pkg = pkg_json.packages[count];
             console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
-            if(checkPKGMap(pkg)){
-                //no need to refresh package
+            let res = checkPackageUpdateState(pkg, timeCompareCount);
+            timeCompareCount = res.timeCompareCount;
+            if(res.needUpdate){
+                refreshTargetPackage(pkg);
+            }else{
+                if(res.timeCompareCount < 5 && res.code == 3){
+                    extra_cache.push(pkg);
+                }else{
                     keepSearching = false;
                     return true;
-            }else{
-                refreshTargetPackage(pkg);
+                }
             }
-            // if(res != 1003){//new package updated or same package with a newer version
-            //     refreshTargetPackage(pkg);
-            //     if(res == 1002){
-            //         //unable to find last updated package via first_package which has been updated in this round. using pkg_map instead
-            //         first_package_invalid = true;
-            //     }
+            // if(checkPKGMap(pkg)){
+            //     //no need to refresh package
+            //         keepSearching = false;
+            //         return true;
             // }else{
-            //     //found same package
-            //     console.log('found same package, stop traversing & wait for next round...keepSearching  = false');
-            //     keepSearching = false;
-            //     lastCheckMSG = currentTimestamp() + 'found same package, count -->' + count + ' target package is ' + target;
-            //     return true;
+            //     refreshTargetPackage(pkg);
             // }
+
             count++;
             if(count == pkg_json.packages.length){
                 //target package not found in current list
@@ -330,6 +339,33 @@ function checkPKGMap(pkg){
     }
 
 }
+
+function checkPackageUpdateState(pkg, tcCount){
+    let res = {};
+    res.needUpdate = false;
+    res.code = -1;//1:newly updated package;2:same package, but a newer version is released;3:need to check update time
+    res.timeCompareCount = 0;
+    let hasPkg = pkg_map.has(pkg.name);
+    if(hasPkg){
+        let p = pkg_map.get(pkg.name);
+        if(p.latest.version != pkg.latest.version){
+            res.needUpdate = true;
+            res.code = 2;
+            return res;
+        }else{
+            console.log(currentTimestamp() + ' found package ' + pkg.name + ' in pkg_map, info-->' + show_package_info(pkg));
+            res.needUpdate = false;
+            res.code = 3;
+            res.timeCompareCount = tcCount + 1;
+            return res;
+        }
+    }else{
+        res.needUpdate = true;
+        res.code = 1;
+        return res;
+    }
+}
+
 
 function needRefresh(pkg1, pkg2, useFirstPackage){
     if(useFirstPackage){
@@ -503,6 +539,54 @@ function refresh_target_from_cache(){
         let target = refresh_cache.pop();
         refresh_ali_cdn_of_target(target.url, target.type);
 
+    }
+}
+
+function refresh_package_by_update_time(){
+    if(extra_cache.length > 0){
+        let target = extra_cache.pop();
+        let options= {
+            url: flutter_base_url + target.name,
+            headers: {
+                'User-Agent' : 'pub.flutter-io.cn'
+            }
+
+        };
+        request.get(options, (err, response, body) => {
+            if(err){
+                console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+
+            }else{
+                let json = JSON.parse(body);
+                let name = json.name;
+                if(extra_pkg_map.has(name)){
+                    console.log('[extra check] found package in extra_pkg_map, compare update time');
+                    let versions = json.versions;
+                    let len = versions.length;
+                    //find last update version, the last version should be the latest update record
+                    let v = versions[len - 1];
+                    let update_time = Date.parse(v.published);
+                    let pkg = extra_pkg_map.get(name);
+                    let base_time = pkg.last_updated_time;
+                    console.log('[extra check] update_time-->' + update_time + '\nbase_time-->' + base_time);
+                    if(base_time != update_time){
+                        refreshTargetPackage(pkg.package);
+                    }
+                }else{
+                    console.log('[extra check] package not found in extra_pkg_map, cache it and refresh this package');
+                   let obj = {};
+                   obj.package = json;
+                    let versions = json.versions;
+                    let len = versions.length;
+                    let v = versions[len - 1];
+                    let update_time = Date.parse(v.published);
+                   obj.last_updated_time = update_time;
+                   extra_pkg_map.set(name, obj);
+                   refreshTargetPackage(json);
+                }
+
+            }
+        });
     }
 }
 
@@ -719,6 +803,8 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 //start aliyun service checker
 flutter_checker.startCheckTask();
 
+//start extra refresh worker
+extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
 //manually add new refresh requests
 http_server.startHTTPServer(onHTTPEventListener);
@@ -772,243 +858,5 @@ function currentTimestamp(){
 
     return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
 }
-
-
-/***
- *
- *
- *
- * legacy code
- *
- *
- *
- *
- */
-
-//this method only check the first package
-function check_first_package(){
-
-    check_service_status((left_refresh_amount) => {
-        if(left_refresh_amount <= alert_threshold){
-            if(debug){
-                console.log('alert! the left refresh service is less than 400, start conservative strategy.');
-            }
-            //stop current refresh task
-            if(debug){
-                console.log('stop current refresh task');
-                clearInterval(check_task);
-            }
-
-
-            //stop refresh worker
-            if(debug){
-                console.log('stop refresh worker');
-                clearInterval(refresh_worker);
-            }
-
-
-            first_package = '';
-
-            //get the start date of conservative refresh
-            present_day = new Date().getDate();
-            //start conservative strategy
-            // check_task_conservative = setInterval(conservative_refresh, refresh_interval);
-        }
-    });
-
-    let options= {
-        url: flutter_source_url,
-        headers: {
-            'User-Agent' : 'pub.flutter-io.cn'
-        }
-
-    };
-    request.get(options, (err, response, body) => {
-
-        if(err){
-            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
-
-        }else{
-            let data = JSON.parse(body);
-            if(first_package == ''){
-                //initialize first package
-                console.log('initializing first_package, refreshing cdn after service being restarted');
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    first_package = data.packages[0];
-                    console.log(show_package_info(first_package));
-                    refresh_ali_cdn();
-                }
-            }else{
-                if(typeof(data.packages) !== 'undefined' && data.packages.length > 0){
-                    //find new index of the previous first package
-                    let index = 0;
-                    let keepSearching = true;
-                    let updatedPackageURL = [];
-                    let pkg = first_package;
-                    for(let i=0; (keepSearching && i<data.packages.length); i++){
-                        pkg = data.packages[i];
-                        console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
-                        console.log('previous first package is ' + first_package.name + ' latest version is ' + first_package.latest.version);
-                        let result = diff_package(pkg, first_package);
-                        switch(result){
-                            case 1000:
-                                console.log('found same package, checking cdn refreshing targets finished.');
-                                index = i;
-                                keepSearching = false;
-                                i = data.packages.length;
-                                break;
-                            case 1001:{
-                                // let archive_url = replaceArchive_url(pkg, cdn_base_address);
-                                // console.log('different package, refreshing cdn archive resource:' + archive_url);
-                                // refresh_ali_cdn_of_target(archive_url, 'File');
-                                console.log('different package');
-                                let package_url = {};
-                                package_url.url = replacePackage_url(pkg, cdn_base_address);
-                                package_url.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource folder:' + package_url);
-                                //refresh_ali_cdn_of_target(package_url, 'File');
-                                refresh_cache.push(package_url);
-
-//                                let versions_url = {};
-//                                versions_url.url = replaceArchive_url(pkg, cdn_base_address);
-//                                versions_url.type = TYPE_FILE;
-//                                refresh_cache.push(versions_url);
-
-                                let package_file = {};
-                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                                package_file.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource file:' + package_file);
-                                // refresh_ali_cdn_of_target(package_file, 'File');
-                                refresh_cache.push(package_file);
-
-
-                                let document_url = {};
-                                document_url.url = getDocument_url(pkg, cdn_base_address);
-                                document_url.type = TYPE_FILE;
-                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
-                                // refresh_ali_cdn_of_target(document_url, 'File');
-                                refresh_cache.push(document_url);
-
-                                //check publisher resource
-                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
-                                    try{
-                                        let j = JSON.parse(body);
-                                        if(j.publisherId != null){
-                                            let publisher_url = {};
-                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                            publisher_url.type = TYPE_FILE;
-                                            refresh_cache.push(publisher_url);
-                                        }
-                                    }catch(e){
-                                        console.error('failed to parse JSON, response-->' + res);
-                                    }
-                                });
-
-                                //add browser resources
-                                let browser_package = {};
-                                browser_package.url = cdn_browser_resource_address + pkg.name;
-                                browser_package.type = TYPE_FILE;
-                                refresh_cache.push(browser_package);
-                                let browser_package2 = {};
-                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
-                                browser_package2.type = TYPE_FILE;
-                                refresh_cache.push(browser_package2);
-                                let browser_package_versions = {};
-                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
-                                browser_package_versions.type = TYPE_FILE;
-                                refresh_cache.push(browser_package_versions);
-                                if(refresh_directory){
-                                    let browser_document = {};
-                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
-                                    browser_document.type = TYPE_DIRECTORY;
-                                    // refresh_cache.push(browser_document);
-                                }
-
-                            }
-
-
-                                break;
-                            case 1002:
-
-                                let package_url = {};
-                                package_url.url = replacePackage_url(pkg, cdn_base_address);
-                                package_url.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource folder:' + package_url);
-                                //refresh_ali_cdn_of_target(package_url, 'File');
-                                refresh_cache.push(package_url);
-
-//                                let versions_url = {};
-//                                versions_url.url = replaceVersions_url(pkg, cdn_base_address);
-//                                versions_url.type = TYPE_FILE;
-//                                refresh_cache.push(versions_url);
-
-                                let package_file = {};
-                                package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
-                                package_file.type = TYPE_FILE;
-                                //console.log('refreshing cdn package resource file:' + package_file);
-                                // refresh_ali_cdn_of_target(package_file, 'File');
-                                refresh_cache.push(package_file);
-
-
-                                let document_url = {};
-                                document_url.url = getDocument_url(pkg, cdn_base_address);
-                                document_url.type = TYPE_FILE;
-                                //console.log('different package, refreshing cdn documentation resource:' + document_url);
-                                // refresh_ali_cdn_of_target(document_url, 'File');
-                                refresh_cache.push(document_url);
-
-                                //check publisher resource
-                                request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
-                                    try{
-                                        let j = JSON.parse(body);
-                                        if(j.publisherId != null){
-                                            let publisher_url = {};
-                                            publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                                            publisher_url.type = TYPE_FILE;
-                                            refresh_cache.push(publisher_url);
-                                        }
-                                    }catch(e){
-                                        console.error('failed to parse JSON, response-->' + res);
-                                    }
-                                });
-                                //add browser resources
-                                let browser_package = {};
-                                browser_package.url = cdn_browser_resource_address + pkg.name;
-                                browser_package.type = TYPE_FILE;
-                                refresh_cache.push(browser_package);
-                                let browser_package2 = {};
-                                browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
-                                browser_package2.type = TYPE_FILE;
-                                refresh_cache.push(browser_package2);
-                                let browser_package_versions = {};
-                                browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
-                                browser_package_versions.type = TYPE_FILE;
-                                refresh_cache.push(browser_package_versions);
-                                if(refresh_directory){
-                                    let browser_document = {};
-                                    browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
-                                    browser_document.type = TYPE_DIRECTORY;
-                                    // refresh_cache.push(browser_document);
-                                }
-                                console.log('checking cdn refreshing targets finished.');
-                                index = i;
-                                keepSearching = false;
-                                i = data.packages.length;
-                                break;
-                        }
-
-                    }
-                    first_package = data.packages[0];
-                    console.log('the index of previous first_package is ' + index);
-                    if(debug){
-                        console.log('updated new first package is ' + show_package_info(first_package));
-                    }
-
-                }
-            }
-        }
-    });
-}
-
 
 
