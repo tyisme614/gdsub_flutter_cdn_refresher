@@ -34,8 +34,6 @@
   <component name="ChangeListManager">
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="added test code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -148,41 +146,11 @@
       <workItem from="1590041416293" duration="349000" />
       <workItem from="1590042355561" duration="884000" />
       <workItem from="1590044159607" duration="597000" />
-    </task>
-    <task id="LOCAL-00001" summary="changed check interval to 5min">
-      <created>1565429388016</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1565429388016</updated>
-    </task>
-    <task id="LOCAL-00002" summary="fixed syntax error">
-      <created>1565432241167</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1565432241167</updated>
-    </task>
-    <task id="LOCAL-00003" summary="v0.0.3&#10;added custom header">
-      <created>1565773457644</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1565773457644</updated>
-    </task>
-    <task id="LOCAL-00004" summary="v0.0.4&#10;added flutter version checker">
-      <created>1567335472759</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1567335472759</updated>
-    </task>
-    <task id="LOCAL-00005" summary="fixed syntax error">
-      <created>1567336003379</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1567336003379</updated>
+      <workItem from="1590074411656" duration="2028000" />
+      <workItem from="1590207855665" duration="5026000" />
+      <workItem from="1590287930140" duration="2840000" />
+      <workItem from="1590419469191" duration="468000" />
+      <workItem from="1592793222773" duration="2757000" />
     </task>
     <task id="LOCAL-00006" summary="modified path for storing json files">
       <created>1567336122328</created>
@@ -457,7 +425,77 @@
       <option name="project" value="LOCAL" />
       <updated>1590042983232</updated>
     </task>
-    <option name="localTasksCounter" value="45" />
+    <task id="LOCAL-00045" summary="disabled dir refreshing &amp; conservative strategy for testing purpose">
+      <created>1590074606399</created>
+      <option name="number" value="00045" />
+      <option name="presentableId" value="LOCAL-00045" />
+      <option name="project" value="LOCAL" />
+      <updated>1590074606399</updated>
+    </task>
+    <task id="LOCAL-00046" summary="added test code">
+      <created>1590075669238</created>
+      <option name="number" value="00046" />
+      <option name="presentableId" value="LOCAL-00046" />
+      <option name="project" value="LOCAL" />
+      <updated>1590075669238</updated>
+    </task>
+    <task id="LOCAL-00047" summary="changed package check interval to 10min&#10;changed interval of cdn refresh request worker to 0.1 second">
+      <created>1590164179669</created>
+      <option name="number" value="00047" />
+      <option name="presentableId" value="LOCAL-00047" />
+      <option name="project" value="LOCAL" />
+      <updated>1590164179669</updated>
+    </task>
+    <task id="LOCAL-00048" summary="v0.2.5&#10;fixed logical error for package checking&#10;issue:&#10;when the first_package is updated in current checking round, the 'needRefresh' method would return true to let the worker go checking the following packages in current list which means the target 'first_package' that denoting the last start point of checking is totally not functioning for stopping checking round. It could not indicate that the current checking processing should be done.">
+      <created>1590252522020</created>
+      <option name="number" value="00048" />
+      <option name="presentableId" value="LOCAL-00048" />
+      <option name="project" value="LOCAL" />
+      <updated>1590252522020</updated>
+    </task>
+    <task id="LOCAL-00049" summary="compare version in pkg_map for the same package">
+      <created>1590286379781</created>
+      <option name="number" value="00049" />
+      <option name="presentableId" value="LOCAL-00049" />
+      <option name="project" value="LOCAL" />
+      <updated>1590286379781</updated>
+    </task>
+    <task id="LOCAL-00050" summary="save received package list data in file for testing purpose">
+      <created>1590292879223</created>
+      <option name="number" value="00050" />
+      <option name="presentableId" value="LOCAL-00050" />
+      <option name="project" value="LOCAL" />
+      <updated>1590292879224</updated>
+    </task>
+    <task id="LOCAL-00051" summary="test&#10;check cdn per 10 seconds">
+      <created>1590295300614</created>
+      <option name="number" value="00051" />
+      <option name="presentableId" value="LOCAL-00051" />
+      <option name="project" value="LOCAL" />
+      <updated>1590295300614</updated>
+    </task>
+    <task id="LOCAL-00052" summary="set refresh interval back to 10min">
+      <created>1590300539711</created>
+      <option name="number" value="00052" />
+      <option name="presentableId" value="LOCAL-00052" />
+      <option name="project" value="LOCAL" />
+      <updated>1590300539711</updated>
+    </task>
+    <task id="LOCAL-00053" summary="enabled dir refresh">
+      <created>1590419545541</created>
+      <option name="number" value="00053" />
+      <option name="presentableId" value="LOCAL-00053" />
+      <option name="project" value="LOCAL" />
+      <updated>1590419545541</updated>
+    </task>
+    <task id="LOCAL-00054" summary="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files">
+      <created>1590419738670</created>
+      <option name="number" value="00054" />
+      <option name="presentableId" value="LOCAL-00054" />
+      <option name="project" value="LOCAL" />
+      <updated>1590419738670</updated>
+    </task>
+    <option name="localTasksCounter" value="55" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -476,14 +514,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.0.7&#10;changed base url of qiniu" />
-    <MESSAGE value="v0.0.8&#10;only refresh the cdn resources that are updated in source site" />
-    <MESSAGE value="v0.0.8&#10;fix code error" />
-    <MESSAGE value="v0.0.8&#10;fix parameter error of aliyuncli" />
-    <MESSAGE value="v0.0.10&#10;changed cdn refreshing target urls" />
-    <MESSAGE value="v0.0.11&#10;correct package file url" />
-    <MESSAGE value="debug package checking &amp; update function" />
-    <MESSAGE value="v0.0.12&#10;*refresh package_url as file in CDN refreshing&#10;*wrapped json parsing code by try-catch block for processing exception messages responded by Aliyun Server." />
     <MESSAGE value="v0.0.13&#10;test service" />
     <MESSAGE value="v0.0.13&#10;added conservative strategy:&#10;if the remaining request limitation is less than 400, this service would refresh the whole cdn per 5 minutes until the service limitation is updated in the next day." />
     <MESSAGE value="v0.0.13&#10;added conservative strategy:&#10;if the remaining request limitation is less than 400, this service would refresh the whole cdn per 5 minutes until the service limitation is updated on the next day." />
@@ -499,18 +529,27 @@
     <MESSAGE value="v0.1.2 &#10;added debugging code" />
     <MESSAGE value="added MIT license for this project." />
     <MESSAGE value="test package checking code" />
+    <MESSAGE value="disabled dir refreshing &amp; conservative strategy for testing purpose" />
     <MESSAGE value="added test code" />
-    <option name="LAST_COMMIT_MESSAGE" value="added test code" />
+    <MESSAGE value="changed package check interval to 10min&#10;changed interval of cdn refresh request worker to 0.1 second" />
+    <MESSAGE value="v0.2.5&#10;fixed logical error for package checking&#10;issue:&#10;when the first_package is updated in current checking round, the 'needRefresh' method would return true to let the worker go checking the following packages in current list which means the target 'first_package' that denoting the last start point of checking is totally not functioning for stopping checking round. It could not indicate that the current checking processing should be done." />
+    <MESSAGE value="compare version in pkg_map for the same package" />
+    <MESSAGE value="save received package list data in file for testing purpose" />
+    <MESSAGE value="test&#10;check cdn per 10 seconds" />
+    <MESSAGE value="set refresh interval back to 10min" />
+    <MESSAGE value="enabled dir refresh" />
+    <MESSAGE value="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files" />
   </component>
   <component name="WindowStateProjectService">
     <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588999061969">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588999061969" />
-    <state x="403" y="87" key="CommitChangelistDialog2" timestamp="1589992289594">
+    <state x="403" y="87" key="CommitChangelistDialog2" timestamp="1590419738557">
       <screen x="0" y="23" width="1680" height="985" />
     </state>
-    <state x="403" y="87" key="CommitChangelistDialog2/0.23.1680.985@0.23.1680.985" timestamp="1589992289594" />
+    <state x="403" y="87" key="CommitChangelistDialog2/0.23.1680.985@0.23.1680.985" timestamp="1590419738557" />
     <state x="687" y="215" key="FileChooserDialogImpl" timestamp="1588999060345">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -540,11 +579,15 @@
     </state>
     <state x="349" y="143" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588997808580" />
     <state x="1920" y="-190" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@1920.-449.1080.1880" timestamp="1588997740393" />
-    <state x="503" y="245" key="Vcs.Push.Dialog.v2" timestamp="1590042984954">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="440" y="255" key="Vcs.Push.Dialog.v2" timestamp="1590419740159">
+      <screen x="0" y="23" width="1680" height="985" />
     </state>
     <state x="503" y="245" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1590042984954" />
-    <state x="440" y="255" key="Vcs.Push.Dialog.v2/0.23.1680.985@0.23.1680.985" timestamp="1589992292213" />
+    <state x="440" y="255" key="Vcs.Push.Dialog.v2/0.23.1680.985@0.23.1680.985" timestamp="1590419740159" />
+    <state x="628" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590300519653">
+      <screen x="0" y="23" width="1680" height="985" />
+    </state>
+    <state x="628" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.985@0.23.1680.985" timestamp="1590300519653" />
     <state x="1779" y="-458" width="1096" height="1013" maximized="true" key="dock-window-1" timestamp="1589175629251">
       <screen x="1920" y="-449" width="1080" height="1880" />
     </state>
