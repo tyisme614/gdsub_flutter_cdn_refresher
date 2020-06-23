@@ -250,18 +250,20 @@ function traversePackages(pkg_json){
  * refresh target package in aliyun CDN
  */
 function refreshTargetPackage(pkg){
+    let pkg_url = 'https://'+ cdn_base_address + '/api/packages/';
     let package_url = {};
-    package_url.url = replacePackage_url(pkg, cdn_base_address);
+    package_url.url = pkg_url + pkg.name + '/';//replacePackage_url(pkg, cdn_base_address);
     package_url.type = TYPE_FILE;
     refresh_cache.push(package_url);
 
     let package_file = {};
-    package_file.url = pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
+    package_file.url = pkg_url + pkg.name;//pkg.latest.package_url.replace('pub.dartlang.org', cdn_base_address);
     package_file.type = TYPE_FILE;
     refresh_cache.push(package_file);
 
+    let doc_url = 'https://'+ cdn_base_address + '/api/documentation/'
     let document_url = {};
-    document_url.url = getDocument_url(pkg, cdn_base_address);
+    document_url.url = doc_url + pkg.name;//getDocument_url(pkg, cdn_base_address);
     document_url.type = TYPE_FILE;
     refresh_cache.push(document_url);
 
