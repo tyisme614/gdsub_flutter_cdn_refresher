@@ -211,6 +211,7 @@ function traversePackages(pkg_json){
         let count = 0;
         let timeCompareCount = 0;//this variable to used for counting the packages that are added into
         while(keepSearching) {
+            console.log('timeCompareCount-->' + timeCompareCount);
             let pkg = pkg_json.packages[count];
             console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
             let res = checkPackageUpdateState(pkg, timeCompareCount);
