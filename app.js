@@ -217,7 +217,7 @@ function traversePackages(pkg_json){
             let res = checkPackageUpdateState(pkg, timeCompareCount);
             timeCompareCount = res.timeCompareCount;
             if(res.needUpdate){
-                refreshTargetPackage(pkg);
+                refreshTargetPackage(pkg, true);
             }else{
                 if(res.timeCompareCount < 5 && res.code == 3){
                     extra_cache.push(pkg);
@@ -250,7 +250,7 @@ function traversePackages(pkg_json){
 /**
  * refresh target package in aliyun CDN
  */
-function refreshTargetPackage(pkg){
+function refreshTargetPackage(pkg, refreshDir){
     let pkg_url = 'https://'+ cdn_base_address + '/api/packages/';
     let package_url = {};
     package_url.url = pkg_url + pkg.name + '/';//replacePackage_url(pkg, cdn_base_address);
@@ -296,7 +296,7 @@ function refreshTargetPackage(pkg){
     browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
     browser_package_versions.type = TYPE_FILE;
     refresh_cache.push(browser_package_versions);
-    if (refresh_directory) {
+    if (refresh_directory && refreshDir) {
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
@@ -573,7 +573,7 @@ function refresh_package_by_update_time(){
                     let base_time = pkg.last_updated_time;
                     console.log('[extra check] update_time-->' + update_time + '\nbase_time-->' + base_time);
                     if(base_time != update_time){
-                        refreshTargetPackage(pkg.package);
+                        refreshTargetPackage(pkg.package, true);
                     }
                 }else{
                     console.log('[extra check] package not found in extra_pkg_map, cache it and refresh this package');
@@ -585,7 +585,7 @@ function refresh_package_by_update_time(){
                     let update_time = Date.parse(v.published);
                    obj.last_updated_time = update_time;
                    extra_pkg_map.set(name, obj);
-                   refreshTargetPackage(json);
+                   refreshTargetPackage(json, false);
                 }
 
             }
