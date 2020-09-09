@@ -142,6 +142,8 @@ function retrievePackageData(page){
         //response from remote http server
         if(err){
             console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+            console.log('retry checking current page-->' + page);
+            eventHandler.emit('checkPage', page);
         }else {
             console.log('cache package data');
 
