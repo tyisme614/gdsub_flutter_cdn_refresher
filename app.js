@@ -75,6 +75,8 @@ let debug = true;
 
 let isProcessing = false;
 
+let retry_time = 0;
+
 // let lastCheckMSG = '';
 
 
@@ -84,8 +86,9 @@ let isProcessing = false;
  *
  */
 function cdnRefreshChecker(){
-    if(!isProcessing){
+    if(!isProcessing || retry_time >= 2){//force to start cdn refresh procedure if isProcessing is not set to false after 20 minutes
         isProcessing = true;
+        retry_time = 0;
         check_service_status((left_refresh_amount) => {
             if(left_refresh_amount <= alert_threshold){
                 if(debug){
@@ -116,7 +119,8 @@ function cdnRefreshChecker(){
         });
 
     }else{
-        console.log('checker is now processing...');
+        console.log('checker is now processing... retied-->' + retry_time + ' times.');
+        retry_time++;
     }
 
 }
