@@ -12,6 +12,7 @@ const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const aliyun_cdn_base_url = 'https://pub.flutter-io.cn/packages/';
 const cdn_base_address = 'pub.flutter-io.cn';
+const cdn_whole_resource_address = 'https://pub.flutter-io.cn/';
 const cdn_browser_resource_address = 'https://pub.flutter-io.cn/packages/';
 const cdn_browser_document_address = 'https://pub.flutter-io.cn/documentation/';
 const cdn_publisher_resource_address = 'https://pub.flutter-io.cn/publishers/';
@@ -51,7 +52,8 @@ let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
 let refresh_interval = 600000;//10 minutes
-let alert_threshold = 400;
+let alert_threshold = 999;//conservative strategy is not used
+let allowed_maximum_dir_refresh_times = 200;
 
 let check_task;
 let check_task_conservative;
@@ -113,7 +115,12 @@ function cdnRefreshChecker(){
                 //start conservative strategy
                 // check_task_conservative = setInterval(conservative_refresh, refresh_interval);
             }else{
-
+                if(left_refresh_amount == allowed_maximum_dir_refresh_times){
+                    if(debug){
+                        console.log('Aliyun service refreshed usage count, refresh whole CDN resource site');
+                    }
+                    refresh_ali_cdn_of_target(cdn_whole_resource_address, TYPE_DIRECTORY);
+                }
                 eventHandler.emit('checkPage', 1);
             }
         });

@@ -34,6 +34,8 @@
   <component name="ChangeListManager">
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="added test code">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,56 +152,12 @@
       <workItem from="1590207855665" duration="5026000" />
       <workItem from="1590287930140" duration="2840000" />
       <workItem from="1590419469191" duration="468000" />
-      <workItem from="1592793222773" duration="2757000" />
-    </task>
-    <task id="LOCAL-00006" summary="modified path for storing json files">
-      <created>1567336122328</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1567336122328</updated>
-    </task>
-    <task id="LOCAL-00007" summary="v0.0.5&#10;added file checking for bucket flutter">
-      <created>1567342678496</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1567342678496</updated>
-    </task>
-    <task id="LOCAL-00008" summary="v0.0.6&#10;removed temporary code">
-      <created>1567352096864</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1567352096864</updated>
-    </task>
-    <task id="LOCAL-00009" summary="v0.0.7&#10;added console outputs for debugging">
-      <created>1567868854404</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1567868854404</updated>
-    </task>
-    <task id="LOCAL-00010" summary="v0.0.7&#10;changed base url of qiniu">
-      <created>1567870762425</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1567870762425</updated>
-    </task>
-    <task id="LOCAL-00011" summary="v0.0.8&#10;only refresh the cdn resources that are updated in source site">
-      <created>1578754628734</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1578754628734</updated>
-    </task>
-    <task id="LOCAL-00012" summary="v0.0.8&#10;fix code error">
-      <created>1578755257939</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1578755257939</updated>
+      <workItem from="1592793222773" duration="11665000" />
+      <workItem from="1593939019243" duration="213000" />
+      <workItem from="1595075013690" duration="304000" />
+      <workItem from="1595077184113" duration="1194000" />
+      <workItem from="1599969751293" duration="193000" />
+      <workItem from="1612620107166" duration="3351000" />
     </task>
     <task id="LOCAL-00013" summary="v0.0.8&#10;fix code error">
       <created>1578756634492</created>
@@ -495,7 +453,56 @@
       <option name="project" value="LOCAL" />
       <updated>1590419738670</updated>
     </task>
-    <option name="localTasksCounter" value="55" />
+    <task id="LOCAL-00055" summary="v0.2.7&#10;added new worker for checking package update time, if a package is updated without changing the latest version, service would also update the CDN resource.">
+      <created>1592826237545</created>
+      <option name="number" value="00055" />
+      <option name="presentableId" value="LOCAL-00055" />
+      <option name="project" value="LOCAL" />
+      <updated>1592826237546</updated>
+    </task>
+    <task id="LOCAL-00056" summary="fixed bug:&#10;package_url is not included in package info json, deprecate the url replace functions.">
+      <created>1592878698511</created>
+      <option name="number" value="00056" />
+      <option name="presentableId" value="LOCAL-00056" />
+      <option name="project" value="LOCAL" />
+      <updated>1592878698511</updated>
+    </task>
+    <task id="LOCAL-00057" summary="show value of timecomparecount">
+      <created>1592878816534</created>
+      <option name="number" value="00057" />
+      <option name="presentableId" value="LOCAL-00057" />
+      <option name="project" value="LOCAL" />
+      <updated>1592878816534</updated>
+    </task>
+    <task id="LOCAL-00058" summary="do not refresh directory for newly added package in extra_cache">
+      <created>1592880087577</created>
+      <option name="number" value="00058" />
+      <option name="presentableId" value="LOCAL-00058" />
+      <option name="project" value="LOCAL" />
+      <updated>1592880087577</updated>
+    </task>
+    <task id="LOCAL-00059" summary="refresh cdn resource without refresh directory in extra_refresh_worker">
+      <created>1593060485279</created>
+      <option name="number" value="00059" />
+      <option name="presentableId" value="LOCAL-00059" />
+      <option name="project" value="LOCAL" />
+      <updated>1593060485279</updated>
+    </task>
+    <task id="LOCAL-00060" summary="fixed bug&#10;reset update time after checking refresh state">
+      <created>1593144988521</created>
+      <option name="number" value="00060" />
+      <option name="presentableId" value="LOCAL-00060" />
+      <option name="project" value="LOCAL" />
+      <updated>1593144988522</updated>
+    </task>
+    <task id="LOCAL-00061" summary="fixed logical error">
+      <created>1593182773943</created>
+      <option name="number" value="00061" />
+      <option name="presentableId" value="LOCAL-00061" />
+      <option name="project" value="LOCAL" />
+      <updated>1593182773944</updated>
+    </task>
+    <option name="localTasksCounter" value="62" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,13 +521,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.0.13&#10;test service" />
-    <MESSAGE value="v0.0.13&#10;added conservative strategy:&#10;if the remaining request limitation is less than 400, this service would refresh the whole cdn per 5 minutes until the service limitation is updated in the next day." />
-    <MESSAGE value="v0.0.13&#10;added conservative strategy:&#10;if the remaining request limitation is less than 400, this service would refresh the whole cdn per 5 minutes until the service limitation is updated on the next day." />
-    <MESSAGE value="removed useless log" />
-    <MESSAGE value="disabled debug log" />
-    <MESSAGE value="v0.0.14&#10;added new targets for refreshing webpage resources" />
-    <MESSAGE value="v0.1.0&#10;implemented chuangcache refresher" />
     <MESSAGE value="v0.1.0&#10;changed auth file path" />
     <MESSAGE value="changed auth file path" />
     <MESSAGE value="check if callback is null" />
@@ -530,7 +530,6 @@
     <MESSAGE value="added MIT license for this project." />
     <MESSAGE value="test package checking code" />
     <MESSAGE value="disabled dir refreshing &amp; conservative strategy for testing purpose" />
-    <MESSAGE value="added test code" />
     <MESSAGE value="changed package check interval to 10min&#10;changed interval of cdn refresh request worker to 0.1 second" />
     <MESSAGE value="v0.2.5&#10;fixed logical error for package checking&#10;issue:&#10;when the first_package is updated in current checking round, the 'needRefresh' method would return true to let the worker go checking the following packages in current list which means the target 'first_package' that denoting the last start point of checking is totally not functioning for stopping checking round. It could not indicate that the current checking processing should be done." />
     <MESSAGE value="compare version in pkg_map for the same package" />
@@ -539,16 +538,25 @@
     <MESSAGE value="set refresh interval back to 10min" />
     <MESSAGE value="enabled dir refresh" />
     <MESSAGE value="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files" />
+    <MESSAGE value="added test code" />
+    <MESSAGE value="v0.2.7&#10;added new worker for checking package update time, if a package is updated without changing the latest version, service would also update the CDN resource." />
+    <MESSAGE value="fixed bug:&#10;package_url is not included in package info json, deprecate the url replace functions." />
+    <MESSAGE value="show value of timecomparecount" />
+    <MESSAGE value="do not refresh directory for newly added package in extra_cache" />
+    <MESSAGE value="refresh cdn resource without refresh directory in extra_refresh_worker" />
+    <MESSAGE value="fixed bug&#10;reset update time after checking refresh state" />
+    <MESSAGE value="fixed logical error" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed logical error" />
   </component>
   <component name="WindowStateProjectService">
     <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588999061969">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588999061969" />
-    <state x="403" y="87" key="CommitChangelistDialog2" timestamp="1590419738557">
-      <screen x="0" y="23" width="1680" height="985" />
+    <state x="403" y="68" key="CommitChangelistDialog2" timestamp="1593182773837">
+      <screen x="0" y="0" width="1680" height="1050" />
     </state>
+    <state x="403" y="68" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1593182773837" />
     <state x="403" y="87" key="CommitChangelistDialog2/0.23.1680.985@0.23.1680.985" timestamp="1590419738557" />
     <state x="687" y="215" key="FileChooserDialogImpl" timestamp="1588999060345">
       <screen x="0" y="0" width="1920" height="1040" />
@@ -579,10 +587,11 @@
     </state>
     <state x="349" y="143" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588997808580" />
     <state x="1920" y="-190" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@1920.-449.1080.1880" timestamp="1588997740393" />
-    <state x="440" y="255" key="Vcs.Push.Dialog.v2" timestamp="1590419740159">
-      <screen x="0" y="23" width="1680" height="985" />
+    <state x="440" y="247" key="Vcs.Push.Dialog.v2" timestamp="1593182775728">
+      <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state x="503" y="245" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1590042984954" />
+    <state x="440" y="247" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1593182775728" />
     <state x="440" y="255" key="Vcs.Push.Dialog.v2/0.23.1680.985@0.23.1680.985" timestamp="1590419740159" />
     <state x="628" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590300519653">
       <screen x="0" y="23" width="1680" height="985" />
@@ -596,5 +605,16 @@
       <screen x="1920" y="-449" width="1080" height="1880" />
     </state>
     <state x="2039" y="-21" width="840" height="1034" key="search.everywhere.popup/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@1920.-449.1080.1880" timestamp="1589197175345" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/http_server.js</url>
+          <line>35</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
