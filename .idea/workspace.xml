@@ -32,10 +32,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="added test code">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v.0.2.9&#10;refresh the whole CDN site if Aliyun service refreshed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/check_package_version.js" beforeDir="false" afterPath="$PROJECT_DIR$/check_package_version.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,35 +157,9 @@
       <workItem from="1595075013690" duration="304000" />
       <workItem from="1595077184113" duration="1194000" />
       <workItem from="1599969751293" duration="193000" />
-      <workItem from="1612620107166" duration="3351000" />
-    </task>
-    <task id="LOCAL-00013" summary="v0.0.8&#10;fix code error">
-      <created>1578756634492</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1578756634492</updated>
-    </task>
-    <task id="LOCAL-00014" summary="v0.0.8&#10;fix parameter error of aliyuncli">
-      <created>1578802488626</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1578802488626</updated>
-    </task>
-    <task id="LOCAL-00015" summary="v0.0.10&#10;changed cdn refreshing target urls">
-      <created>1578894860801</created>
-      <option name="number" value="00015" />
-      <option name="presentableId" value="LOCAL-00015" />
-      <option name="project" value="LOCAL" />
-      <updated>1578894860801</updated>
-    </task>
-    <task id="LOCAL-00016" summary="v0.0.11&#10;correct package file url">
-      <created>1578994167523</created>
-      <option name="number" value="00016" />
-      <option name="presentableId" value="LOCAL-00016" />
-      <option name="project" value="LOCAL" />
-      <updated>1578994167523</updated>
+      <workItem from="1612620107166" duration="3863000" />
+      <workItem from="1614080858133" duration="1963000" />
+      <workItem from="1614085690013" duration="4969000" />
     </task>
     <task id="LOCAL-00017" summary="debug package checking &amp; update function">
       <created>1579582840938</created>
@@ -502,7 +476,35 @@
       <option name="project" value="LOCAL" />
       <updated>1593182773944</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="v.0.2.9&#10;refresh the whole CDN site if Aliyun service refreshed">
+      <created>1612625287847</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1612625287847</updated>
+    </task>
+    <task id="LOCAL-00063" summary="v.0.2.9&#10;added try-catch block to wrap json parsing code">
+      <created>1614085772695</created>
+      <option name="number" value="00063" />
+      <option name="presentableId" value="LOCAL-00063" />
+      <option name="project" value="LOCAL" />
+      <updated>1614085772696</updated>
+    </task>
+    <task id="LOCAL-00064" summary="v.0.2.10&#10;added test code for checking package versions on official site and aliyun cdn">
+      <created>1614088532271</created>
+      <option name="number" value="00064" />
+      <option name="presentableId" value="LOCAL-00064" />
+      <option name="project" value="LOCAL" />
+      <updated>1614088532272</updated>
+    </task>
+    <task id="LOCAL-00065" summary="v.0.2.9&#10;added debug infomation">
+      <created>1614088891181</created>
+      <option name="number" value="00065" />
+      <option name="presentableId" value="LOCAL-00065" />
+      <option name="project" value="LOCAL" />
+      <updated>1614088891181</updated>
+    </task>
+    <option name="localTasksCounter" value="66" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -521,10 +523,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.1.0&#10;changed auth file path" />
-    <MESSAGE value="changed auth file path" />
-    <MESSAGE value="check if callback is null" />
-    <MESSAGE value="test chuangcache service" />
     <MESSAGE value="v0.1.1&#10;check publisher ID &amp; refresh publisher resources" />
     <MESSAGE value="v0.1.2 &#10;added debugging code" />
     <MESSAGE value="added MIT license for this project." />
@@ -546,65 +544,93 @@
     <MESSAGE value="refresh cdn resource without refresh directory in extra_refresh_worker" />
     <MESSAGE value="fixed bug&#10;reset update time after checking refresh state" />
     <MESSAGE value="fixed logical error" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed logical error" />
+    <MESSAGE value="v.0.2.9&#10;refresh the whole CDN site if Aliyun service refreshed" />
+    <MESSAGE value="v.0.2.9&#10;added try-catch block to wrap json parsing code" />
+    <MESSAGE value="v.0.2.10&#10;added test code for checking package versions on official site and aliyun cdn" />
+    <MESSAGE value="v.0.2.9&#10;added debug infomation" />
+    <option name="LAST_COMMIT_MESSAGE" value="v.0.2.9&#10;added debug infomation" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1588999061969">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="410" y="165" key="#com.intellij.execution.impl.EditConfigurationsDialog/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588999061969" />
-    <state x="403" y="68" key="CommitChangelistDialog2" timestamp="1593182773837">
+    <state x="402" y="2" key="CommitChangelistDialog2" timestamp="1614088891081">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="403" y="68" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1593182773837" />
-    <state x="403" y="87" key="CommitChangelistDialog2/0.23.1680.985@0.23.1680.985" timestamp="1590419738557" />
-    <state x="687" y="215" key="FileChooserDialogImpl" timestamp="1588999060345">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="687" y="215" key="FileChooserDialogImpl/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588999060345" />
-    <state width="1659" height="259" key="GridCell.Tab.0.bottom" timestamp="1589503019657">
-      <screen x="0" y="23" width="1680" height="985" />
-    </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.bottom/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003829386" />
-    <state width="1659" height="259" key="GridCell.Tab.0.bottom/0.23.1680.985@0.23.1680.985" timestamp="1589503019657" />
-    <state width="1659" height="259" key="GridCell.Tab.0.center" timestamp="1589503019656">
-      <screen x="0" y="23" width="1680" height="985" />
-    </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.center/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003829386" />
-    <state width="1659" height="259" key="GridCell.Tab.0.center/0.23.1680.985@0.23.1680.985" timestamp="1589503019656" />
-    <state width="1659" height="259" key="GridCell.Tab.0.left" timestamp="1589503019655">
-      <screen x="0" y="23" width="1680" height="985" />
-    </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.left/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003829386" />
-    <state width="1659" height="259" key="GridCell.Tab.0.left/0.23.1680.985@0.23.1680.985" timestamp="1589503019655" />
-    <state width="1659" height="259" key="GridCell.Tab.0.right" timestamp="1589503019656">
-      <screen x="0" y="23" width="1680" height="985" />
-    </state>
-    <state width="1893" height="265" key="GridCell.Tab.0.right/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589003829386" />
-    <state width="1659" height="259" key="GridCell.Tab.0.right/0.23.1680.985@0.23.1680.985" timestamp="1589503019656" />
-    <state x="349" y="143" key="SettingsEditor" timestamp="1588997808580">
-      <screen x="0" y="0" width="1920" height="1040" />
-    </state>
-    <state x="349" y="143" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1588997808580" />
-    <state x="1920" y="-190" key="SettingsEditor/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@1920.-449.1080.1880" timestamp="1588997740393" />
-    <state x="440" y="247" key="Vcs.Push.Dialog.v2" timestamp="1593182775728">
+    <state x="402" y="2" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1614088891081" />
+    <state x="168" y="90" key="DiffContextDialog" timestamp="1614085736684">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="503" y="245" key="Vcs.Push.Dialog.v2/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1590042984954" />
-    <state x="440" y="247" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1593182775728" />
-    <state x="440" y="255" key="Vcs.Push.Dialog.v2/0.23.1680.985@0.23.1680.985" timestamp="1590419740159" />
-    <state x="628" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590300519653">
-      <screen x="0" y="23" width="1680" height="985" />
+    <state x="168" y="90" key="DiffContextDialog/0.0.1680.1050@0.0.1680.1050" timestamp="1614085736684" />
+    <state width="1659" height="337" key="GridCell.Tab.0.bottom" timestamp="1614121481461">
+      <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="628" y="436" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.23.1680.985@0.23.1680.985" timestamp="1590300519653" />
-    <state x="1779" y="-458" width="1096" height="1013" maximized="true" key="dock-window-1" timestamp="1589175629251">
-      <screen x="1920" y="-449" width="1080" height="1880" />
+    <state width="1659" height="337" key="GridCell.Tab.0.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481461" />
+    <state width="1659" height="337" key="GridCell.Tab.0.center" timestamp="1614121481459">
+      <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="1779" y="-458" width="1096" height="1013" maximized="true" key="dock-window-1/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@0.0.1920.1040" timestamp="1589175629251" />
-    <state x="2039" y="-21" width="840" height="1034" key="search.everywhere.popup" timestamp="1589197175345">
-      <screen x="1920" y="-449" width="1080" height="1880" />
+    <state width="1659" height="337" key="GridCell.Tab.0.center/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481459" />
+    <state width="1659" height="337" key="GridCell.Tab.0.left" timestamp="1614121481458">
+      <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="2039" y="-21" width="840" height="1034" key="search.everywhere.popup/-1920.0.1536.832/0.0.1920.1040/1920.-449.1080.1880@1920.-449.1080.1880" timestamp="1589197175345" />
+    <state width="1659" height="337" key="GridCell.Tab.0.left/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481458" />
+    <state width="1659" height="337" key="GridCell.Tab.0.right" timestamp="1614121481460">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.0.right/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481460" />
+    <state width="1659" height="337" key="GridCell.Tab.1.bottom" timestamp="1614121481463">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.1.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481463" />
+    <state width="1659" height="337" key="GridCell.Tab.1.center" timestamp="1614121481462">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.1.center/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481462" />
+    <state width="1659" height="337" key="GridCell.Tab.1.left" timestamp="1614121481461">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.1.left/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481461" />
+    <state width="1659" height="337" key="GridCell.Tab.1.right" timestamp="1614121481462">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.1.right/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481462" />
+    <state width="1659" height="337" key="GridCell.Tab.2.bottom" timestamp="1614121481464">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.2.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481464" />
+    <state width="1659" height="337" key="GridCell.Tab.2.center" timestamp="1614121481463">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.2.center/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481463" />
+    <state width="1659" height="337" key="GridCell.Tab.2.left" timestamp="1614121481463">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.2.left/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481463" />
+    <state width="1659" height="337" key="GridCell.Tab.2.right" timestamp="1614121481464">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.2.right/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481464" />
+    <state width="1659" height="337" key="GridCell.Tab.3.bottom" timestamp="1614121481466">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.3.bottom/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481466" />
+    <state width="1659" height="337" key="GridCell.Tab.3.center" timestamp="1614121481465">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.3.center/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481465" />
+    <state width="1659" height="337" key="GridCell.Tab.3.left" timestamp="1614121481465">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.3.left/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481465" />
+    <state width="1659" height="337" key="GridCell.Tab.3.right" timestamp="1614121481466">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state width="1659" height="337" key="GridCell.Tab.3.right/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481466" />
+    <state x="440" y="258" key="Vcs.Push.Dialog.v2" timestamp="1614088892802">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="440" y="258" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1614088892802" />
+    <state x="630" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614082490585">
+      <screen x="0" y="0" width="1680" height="1050" />
+    </state>
+    <state x="630" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1680.1050@0.0.1680.1050" timestamp="1614082490585" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

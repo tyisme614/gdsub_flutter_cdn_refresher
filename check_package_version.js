@@ -5,20 +5,36 @@ class CheckerEventHandler extends EventEmitter {}
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
+const package_info_url = 'https://pub.dartlang.org/api/packages?page=';
 
 let index = 0;
 let pkgList;
 let aliyun_version = '';
 let official_version = '';
 let results = [];
+let package_info_map = new Map();
 
 const eventHandler = new CheckerEventHandler();
 
 eventHandler.on('retrieved_packages', (list)=>{
     pkgList = list;
     index = 0;
-    console.log('checking official version of ' + list[0]);
-    checkPackageVersion(list[0], true);
+    console.log(' length=' + list.length);
+    // checkPackageVersion(list[0], true);
+});
+
+eventHandler.on('load_next_page', (page)=>{
+    if(package_info_map.has(page)){
+        console.log('page ' + page + ' has been loaded, omit request...');
+    }else{
+        console.log('loading package page ' + page);
+        loadPackageInfo(page);
+    }
+
+})
+
+eventHandler.on('pkg_info_loaded', ()=>{
+   console.log('loading package information completed');
 });
 
 eventHandler.on('check_aliyun', (pkg)=>{
@@ -110,8 +126,40 @@ function checkPackageVersion(pkg, official){
     });
 }
 
+function loadPackageInfo(page){
+    let options= {
+        url: package_info_url + page,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+    };
+
+    request.get(options, (err, response, body) => {
+            try{
+                console.log('loaded page ' + page);
+
+                let json = JSON.parse(body);
+                package_info_map.set(page, json);
+                let next_url = json.next_url;
+                if(next_url == null){
+                    console.log('loading package information completed');
+                    eventHandler.emit('pkg_info_loaded');
+                }else{
+                    eventHandler.emit('load_next_page', page + 1);
+                }
+            }catch(e){
+                console.error(e.message);
+            }
+    });
+
+}
+
 console.log('requesting package list from official site...');
-requestPackageList();
+for(let i=0; i<200; i+=10){
+    loadPackageInfo(i);
+}
+
+// requestPackageList();
 
 
 
