@@ -61,8 +61,6 @@ let refresh_worker;
 let refresh_cache = [];
 let refresh_directory = true;
 
-
-
 let pkg_map = null;
 let tmp_pkg_map = new Map();
 
@@ -107,7 +105,6 @@ function cdnRefreshChecker(){
                     console.log('stop refresh worker');
                     clearInterval(refresh_worker);
                 }
-
 
 
                 //get the start date of conservative refresh

@@ -132,44 +132,49 @@ function retriveFlutterVersion(platform){
 
         // The whole response has been received. Print out the result.
         resp.on('end', () => {
-            parseRawData(data, platform);
-            let timezone = new Date().getTimezoneOffset();//in minutes
-            let timestamp = Date.now() - timezone * 60000;
-            let time_str = new Date(timestamp).toISOString();
-            console.log(new Date(timestamp));
-            console.log('checked flutter version');
-            console.log('cache version file');
-            time_str = time_str.replace(/T|Z/g, '_');
-            fs.writeFile(flutter_cache + time_str + 'releases_' + platform + '.json', data, (err)=>{
-                if(err){
-                    fs.appendFileSync(flutter_cache + service_log, currentTimestamp() + 'encountered error while writing version information into local file' + '\n');
-                    console.error('encountered error while writing version information into local file');
+
+            try{
+                parseRawData(data, platform);
+                let timezone = new Date().getTimezoneOffset();//in minutes
+                let timestamp = Date.now() - timezone * 60000;
+                let time_str = new Date(timestamp).toISOString();
+                console.log(new Date(timestamp));
+                console.log('checked flutter version');
+                console.log('cache version file');
+                time_str = time_str.replace(/T|Z/g, '_');
+                fs.writeFile(flutter_cache + time_str + 'releases_' + platform + '.json', data, (err)=>{
+                    if(err){
+                        fs.appendFileSync(flutter_cache + service_log, currentTimestamp() + 'encountered error while writing version information into local file' + '\n');
+                        console.error('encountered error while writing version information into local file');
+                    }else{
+                        fs.appendFileSync(flutter_cache + service_log, currentTimestamp() + 'refreshed local file:' + time_str + 'releases_' + platform + '.json' + '\n');
+                        console.log('refreshed local file:' + time_str + 'releases_' + platform + '.json');
+                    }
+                });
+
+                initializeCount++;
+                if(initializeCheck && initializeCheck >= 3){
+                    initializeCheck = false;
+
                 }else{
-                    fs.appendFileSync(flutter_cache + service_log, currentTimestamp() + 'refreshed local file:' + time_str + 'releases_' + platform + '.json' + '\n');
-                    console.log('refreshed local file:' + time_str + 'releases_' + platform + '.json');
-                }
-            });
+                    if(platform == 'windows'){
+                        if(windows_beta || windows_dev || windows_stable){
+                            windows_beta = false;
+                            windows_dev = false;
+                            windows_stable = false;
 
-            initializeCount++;
-            if(initializeCheck && initializeCheck >= 3){
-                initializeCheck = false;
+                            console.log('files are updated, remove related files from Qiniu buckets');
+                            mEmitter.emit('remove_windows', bucket, qiniu_jsonfile_windows);
 
-            }else{
-                if(platform == 'windows'){
-                    if(windows_beta || windows_dev || windows_stable){
-                        windows_beta = false;
-                        windows_dev = false;
-                        windows_stable = false;
 
-                        console.log('files are updated, remove related files from Qiniu buckets');
-                        mEmitter.emit('remove_windows', bucket, qiniu_jsonfile_windows);
-
+                        }
 
                     }
 
+
                 }
-
-
+            }catch(e){
+                console.error('encountered error while parsing json data, error-->' + e.message);
             }
 
         });
