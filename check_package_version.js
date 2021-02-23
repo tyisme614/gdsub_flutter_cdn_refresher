@@ -17,15 +17,17 @@ const eventHandler = new CheckerEventHandler();
 eventHandler.on('retrieved_packages', (list)=>{
     pkgList = list;
     index = 0;
+    console.log('checking official version of ' + list[0]);
     checkPackageVersion(list[0], true);
 });
 
 eventHandler.on('check_aliyun', (pkg)=>{
+    console.log('checking aliyun cdn version of ' + pkg);
    checkPackageVersion(pkg, false);
 });
 
 eventHandler.on('compare', (pkg)=>{
-
+    console.log('comparing version of ' + pkg + ' offcial:' + official_version + ' aliyun:' + aliyun_version);
     if(aliyun_version != official_version){
         let res = 'inconsistent version, package: ' + pkg + ' offcial:' + official_version + ' aliyun:' + aliyun_version;
         results.push(res);
@@ -33,6 +35,7 @@ eventHandler.on('compare', (pkg)=>{
     //start next round
     index++;
     if(index < pkgList.length){
+        console.log('checking official version of ' + pkgList[index]);
         checkPackageVersion(pkgList[index], true);
     }else{
         console.log('process completed.');
@@ -73,6 +76,7 @@ function requestPackageList(){
 }
 
 function checkPackageVersion(pkg, official){
+
     let base_url = aliyun_cdn_url;
     if(official){
         base_url = flutter_base_url;
@@ -106,6 +110,7 @@ function checkPackageVersion(pkg, official){
     });
 }
 
+console.log('requesting package list from official site...');
 requestPackageList();
 
 
