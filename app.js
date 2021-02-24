@@ -701,6 +701,7 @@ function check_service_status(callback){
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
         cdn_refresh_privilege_info = data;
+        http_server.setServiceInfo(data);
             try{
                 let j = JSON.parse(data);
                 if(typeof(j.UrlRemain) !== 'undefined'){
@@ -876,7 +877,5 @@ function currentTimestamp(){
     return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
 }
 
-module.exports.getServiceInfo = function(){
-    return cdn_refresh_privilege_info;
-}
+
 
