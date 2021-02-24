@@ -24,6 +24,7 @@ let res_pkg_not_found = [];
 
 let page_count = 0;
 let package_count = 0;
+let package_count2 = 0;
 let page_total_aliyun = 200;
 let page_total_flutter = 200;
 let loaded_flutter = false;
@@ -35,9 +36,11 @@ const eventHandler = new CheckerEventHandler();
 eventHandler.on('retrieved_packages', (list)=>{
     pkgList = list;
     index = 0;
+    let task_count = 0;
     console.log(' length=' + list.length);
-    for(let i=0; i<list.length; i+=100){
-        console.log('task id:'+ i);
+    for(let i=0; i<list.length; i+=500){
+
+        console.log('task id:'+ task_count++);
         let pkg = list[i];
         checkPackageVersion(pkg, true);
     }
@@ -196,6 +199,8 @@ function checkPackageVersion(pkg, official){
             try{
                 let data = JSON.parse(body);
                 if(official){
+                    package_count2++;
+                    console.log('request count:' + package_count2);
                     // console.log('official latest version of ' + pkg + ' is ' + data.latest.version);
                     // official_version = data.latest.version;
                     package_version_map_flutter.set(pkg, data.latest.version);
