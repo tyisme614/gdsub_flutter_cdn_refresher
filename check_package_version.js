@@ -54,10 +54,13 @@ eventHandler.on('pkg_info_loaded', ()=>{
 });
 
 eventHandler.on('aliyun_loaded', ()=>{
-    console.log('loading aliyun package information completed');
-    loaded_aliyun = true;
-    console.log('starting comparing...');
-    constructDataStructure();
+    if(!loaded_aliyun){
+        console.log('loading aliyun package information completed');
+        loaded_aliyun = true;
+        console.log('starting comparing...');
+        constructDataStructure();
+    }
+
 });
 
 eventHandler.on('flutter_loaded', ()=>{
@@ -224,10 +227,11 @@ function constructDataStructure(){
     console.log('start constructing data structure for official data');
     let entry = it.next();
     while(!entry.done){
-        let rawJSON = JSON.parse(entry.value);
-        let packages = rawJSON.packages;
-        console.log(packages);
-        console.log(JSON.stringify(packages));
+        console.log('entry-->' + entry.value);
+        // let rawJSON = JSON.parse(entry.value);
+        // let packages = rawJSON.packages;
+        // console.log(packages);
+        // console.log(JSON.stringify(packages));
         // for(let i=0; i<packages.length; i++){
         //     let pkg = packages[i];
         //     package_version_map_flutter.set(pkg.name, pkg.latest.version);
