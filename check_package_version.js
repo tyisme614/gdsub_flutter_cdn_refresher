@@ -15,6 +15,12 @@ let official_version = '';
 let results = [];
 let package_info_map_flutter = new Map();
 let package_info_map_aliyun = new Map();
+let package_version_map_flutter = new Map();
+let package_version_map_aliyun = new Map();
+
+let res_version_inconsistent = [];
+let res_pkg_not_found = [];
+
 let page_count = 0;
 let loaded_flutter = false;
 let loaded_aliyun = false;
@@ -51,6 +57,7 @@ eventHandler.on('aliyun_loaded', ()=>{
     console.log('loading aliyun package information completed');
     loaded_aliyun = true;
     console.log('starting comparing...');
+    constructDataStructure();
 });
 
 eventHandler.on('flutter_loaded', ()=>{
@@ -91,7 +98,13 @@ eventHandler.on('compare', (pkg)=>{
 
 });
 
+eventHandler.on('constructed data structure', ()=>{
+    comparePkgVersion();
+});
 
+eventHandler.on('comparing finished', ()=>{
+    showResult();
+});
 
 function requestPackageList(){
     let options= {
@@ -198,6 +211,80 @@ function loadPackageInfo(page, official){
             }
     });
 
+}
+
+function constructDataStructure(){
+    let it = package_info_map_flutter.entries();
+    console.log('start constructing data structure for official data');
+    let entry = it.next();
+    while(!entry.done){
+        let rawJSON = entry.value;
+        let packages = rawJSON.packages;
+        for(let i=0; i<packages.length; i++){
+            let pkg = packages[i];
+            package_version_map_flutter.set(pkg.name, pkg.latest.version);
+        }
+        entry = it.next();
+
+    }
+    console.log('finished official data structure');
+    console.log('start constructing data structure for aliyun data');
+    let it2 = package_info_map_aliyun.entries();
+    let entry2 = it2.next();
+    while(!entry2.done){
+        let rawJSON = entry2.value;
+        let packages = rawJSON.packages;
+        for(let i=0; i<packages.length; i++){
+            let pkg = packages[i];
+            package_version_map_aliyun.set(pkg.name, pkg.latest.version);
+        }
+        entry2 = it2.next();
+    }
+
+    console.log('finished aliyun data structure');
+    eventHandler.emit('constructed data structure');
+}
+
+function comparePkgVersion(){
+    let it = package_version_map_flutter.keys();
+    let entry = it.next();
+    while(!entry.done){
+        let pkg = entry.value;
+        if(!package_version_map_aliyun.has(pkg)){
+            console.log('package not found in aliyun map, pkg-->' + pkg);
+            res_pkg_not_found.push(pkg);
+        }else{
+            let version_flutter = package_version_map_flutter.get(pkg);
+            let version_aliyun = package_version_map_aliyun.get(pkg);
+            if(version_flutter != version_aliyun){
+                console.log('version inconsistent, pkg-->' + pkg);
+                res_version_inconsistent.push(pkg);
+            }
+        }
+        entry = it.next();
+    }
+    eventHandler.emit('comparing finished');
+}
+
+function showResult(){
+    if(res_pkg_not_found.length > 0){
+        console.log('\n\n**************************************the following packages are not found in aliyun package list*********************************\n\n');
+        for(let item of res_pkg_not_found){
+            console.log('package: ' + item + ' is not found in aliyun package list, official version:' + package_version_map_flutter.get(item));
+        }
+    }else{
+        console.log('\n\nall packages are found in aliyun package list.\n');
+    }
+
+    if(res_version_inconsistent.length > 0){
+        console.log('\n\n**************************************the version of following packages are inconsistent between official site and aliyun CDN*********************************\n\n');
+        for(let item of res_version_inconsistent){
+            console.log('the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item));
+        }
+    }else{
+        console.log('\n\nversion of all packages are consistent between official site and aliyun CDN.\n');
+    }
+    console.log('************************************end of result report******************************************');
 }
 
 console.log('requesting package list from official site...');
