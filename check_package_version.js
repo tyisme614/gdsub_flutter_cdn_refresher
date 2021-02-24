@@ -220,29 +220,31 @@ function constructDataStructure(){
     while(!entry.done){
         let rawJSON = entry.value;
         let packages = rawJSON.packages;
-        for(let i=0; i<packages.length; i++){
-            let pkg = packages[i];
-            package_version_map_flutter.set(pkg.name, pkg.latest.version);
-        }
-        entry = it.next();
+        console.log(packages);
+        console.log(JSON.stringify(packages));
+        // for(let i=0; i<packages.length; i++){
+        //     let pkg = packages[i];
+        //     package_version_map_flutter.set(pkg.name, pkg.latest.version);
+        // }
+        // entry = it.next();
 
     }
     console.log('finished official data structure');
     console.log('start constructing data structure for aliyun data');
     let it2 = package_info_map_aliyun.entries();
     let entry2 = it2.next();
-    while(!entry2.done){
-        let rawJSON = entry2.value;
-        let packages = rawJSON.packages;
-        for(let i=0; i<packages.length; i++){
-            let pkg = packages[i];
-            package_version_map_aliyun.set(pkg.name, pkg.latest.version);
-        }
-        entry2 = it2.next();
-    }
+    // while(!entry2.done){
+    //     let rawJSON = entry2.value;
+    //     let packages = rawJSON.packages;
+    //     for(let i=0; i<packages.length; i++){
+    //         let pkg = packages[i];
+    //         package_version_map_aliyun.set(pkg.name, pkg.latest.version);
+    //     }
+    //     entry2 = it2.next();
+    // }
 
     console.log('finished aliyun data structure');
-    eventHandler.emit('constructed data structure');
+    // eventHandler.emit('constructed data structure');
 }
 
 function comparePkgVersion(){
