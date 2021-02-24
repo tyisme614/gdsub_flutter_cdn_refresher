@@ -48,14 +48,16 @@ console.log('initialize mailer authentication');
 initializeAuth();
 
 //main process
+console.log('service started');
 console.log('requesting package list from official site...');
+
 // for(let i=0; i<200; i+=40){
 //     loadPackageInfo(i, true);
 // }
 
 requestPackageList();
-
-
+//check time if it is time to start checking per hour
+setInterval(checkWorker, 3600000);
 
 /**
  *
@@ -159,6 +161,8 @@ eventHandler.on('compare', (pkg)=>{
         let content = showResult();
         let title = 'flutter package check report -- '+ currentTimestamp();
         composeEmail(report_sender, report_receiver, title, content);
+
+        cleanDataMembers();
     }else{
         let i = pkgList.indexOf(pkg);
         i++;
@@ -266,7 +270,7 @@ function checkPackageVersion(pkg, official){
     };
     request.get(options, (err, response, body) => {
         if(err){
-            console.error('http request error-->' + err.message);
+            console.error(currentTimestamp() + ' http request error-->' + err.message);
             if(official){
                 // let res = 'failed to request version info of  package ' + pkg + ' from official site';
                 res_http_request_failed_flutter.push(pkg + '\nhttp error:' + err.message);
@@ -595,6 +599,35 @@ function composeEmail(sender, target, title, content){
     });
 }
 
+function cleanDataMembers(){
+    //clean up containers
+    index = 0;
+    pkgList = null;
+    results = [];
+    package_info_map_flutter = new Map();
+    package_info_map_aliyun = new Map();
+    package_version_map_flutter = new Map();
+    package_version_map_aliyun = new Map();
+    checked_package = new Map();
+
+    res_version_inconsistent = [];
+    res_pkg_not_found_flutter = [];
+    res_pkg_not_found_aliyun = [];
+    res_http_request_failed_flutter = [];
+    res_http_request_failed_aliyun = [];
+    res_parse_json_error_flutter = [];
+    res_parse_json_error_aliyun = [];
+
+    page_count = 0;
+    package_count = 0;
+    package_count2 = 0;
+    page_total_aliyun = 200;
+    page_total_flutter = 200;
+    loaded_flutter = false;
+    loaded_aliyun = false;
+    loading = false;
+}
+
 function currentTimestamp(){
     let ts = Date.now();
 
@@ -610,7 +643,16 @@ function currentTimestamp(){
     return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
 }
 
-
+function checkWorker(){
+    let ts = Date.now();
+    let date = new Date(ts);
+    let hour = date.getHours();
+    if(hour == 2){//2 o'clock in the morning
+        console.log('start checking package versions');
+        console.log('requesting package list from official site...');
+        requestPackageList();
+    }
+}
 
 
 
