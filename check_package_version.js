@@ -65,7 +65,7 @@ eventHandler.on('flutter_loaded', ()=>{
     loaded_flutter = true;
     if(!loading){
         loading = true;
-        for(let i=0; i<20; i+=10){
+        for(let i=190; i<200; i++){
             loadPackageInfo(i, false);
         }
     }
@@ -190,7 +190,7 @@ function loadPackageInfo(page, official){
                 }else{
                     package_info_map_aliyun.set(page, json);
                 }
-
+                console.log('package length-->' + json.packages.length);
                 let next_url = json.next_url;
                 if(next_url == null){
                     console.log('found last page, page-->' + page);
@@ -198,7 +198,7 @@ function loadPackageInfo(page, official){
                 }else{
                     eventHandler.emit('load_next_page', page + 1, official);
                 }
-                if(page_count == 194){
+                if(page_count == 5){
                     if(official){
                         page_count = 0;
                         eventHandler.emit('flutter_loaded');
@@ -290,7 +290,7 @@ function showResult(){
 }
 
 console.log('requesting package list from official site...');
-for(let i=0; i<20; i+=10){
+for(let i=190; i<200; i++){
     loadPackageInfo(i, true);
 }
 
