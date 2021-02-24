@@ -296,7 +296,7 @@ function checkPackageVersion(pkg, official){
                         }else{
                             // let res = 'package ' + pkg + ' not found in aliyun cdn';
                             // res_pkg_not_found_aliyun.push(pkg);
-                            res_parse_json_error_flutter.push('package:' + pkg +  ' original message:' + body.toString())
+                            res_parse_json_error_aliyun.push('package:' + pkg +  ' original message:' + body.toString())
                         }
                     }
                     eventHandler.emit('next_package', pkg);
@@ -327,7 +327,7 @@ function checkPackageVersion(pkg, official){
                 }else{
                     // let res = 'package ' + pkg + ' not found in aliyun cdn';
                     // res_pkg_not_found_aliyun.push(pkg);
-                    res_parse_json_error_flutter.push('package:' + pkg +  ' original message:' + body.toString())
+                    res_parse_json_error_aliyun.push('package:' + pkg +  ' original message:' + body.toString())
                 }
                 eventHandler.emit('next_package', pkg);
             }
@@ -535,6 +535,19 @@ function showResult(){
         report += '\n\n-- no json parse error from official site encountered during checking --\n\n';
     }
 
+    if(res_parse_json_error_aliyun.length > 0){
+        console.log('\n\n--failed to parse the returned json of the version information of the following packages from aliyun package list --\n\n');
+        report += '\n\n-- failed to parse the returned json of the version information of the following packages from aliyun package list --\n\n';
+        for(let item of res_parse_json_error_aliyun){
+            console.log(item);
+            report += item + '\n';
+        }
+        console.log('\ntotal: ' + res_parse_json_error_aliyun.length + '\n');
+        report +='\ntotal: ' + res_parse_json_error_aliyun.length + '\n';
+    }else{
+        console.log('\n\n-- no json parse error from aliyun site encountered during checking --\n\n');
+        report += '\n\n-- no json parse error from aliyun site encountered during checking --\n\n';
+    }
 
 
     console.log('\n\n*************************************************************************');
