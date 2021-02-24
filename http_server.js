@@ -31,10 +31,13 @@ const requestListener = function (req, res) {
                             onRefreshEventListener(target);
                         }
 
+                        let service_info = mainApp.getServiceInfo();
                         res.writeHead(200);
                         res.end('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version
                             +'\n\nadded new requests of refreshing cdn resources...'
                             + '\n\n\n\nverbose package information\n' + body
+                            +'\n\nservice info:\n'
+                            + service_info
                             );
                     }
                 }catch(e){

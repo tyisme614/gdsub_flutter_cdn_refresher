@@ -280,21 +280,24 @@ function comparePkgVersion(){
 
 function showResult(){
     if(res_pkg_not_found.length > 0){
-        console.log('\n\n**************************************the following packages are not found in aliyun package list*********************************\n\n');
+        console.log('\n\n********the following packages are not found in aliyun package list*******\n\n');
         for(let item of res_pkg_not_found){
             console.log('package: ' + item + ' is not found in aliyun package list, official version:' + package_version_map_flutter.get(item));
         }
+        console.log('\ntotal: ' + res_pkg_not_found.length + '\n');
     }else{
         console.log('\n\nall packages are found in aliyun package list.\n');
     }
 
     if(res_version_inconsistent.length > 0){
-        console.log('\n\n**************************************the version of following packages are inconsistent between official site and aliyun CDN*********************************\n\n');
+        console.log('\n\n***the version of following packages are inconsistent between official site and aliyun CDN****\n\n');
         for(let item of res_version_inconsistent){
             console.log('the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item));
         }
+        console.log('\ntotal: ' + res_version_inconsistent.length + '\n');
     }else{
         console.log('\n\nversion of all packages are consistent between official site and aliyun CDN.\n');
+
     }
     console.log('************************************end of result report******************************************');
 }

@@ -77,6 +77,8 @@ let isProcessing = false;
 
 let retry_time = 0;
 
+let cdn_refresh_privilege_info = '';
+
 // let lastCheckMSG = '';
 
 
@@ -698,7 +700,7 @@ function check_service_status(callback){
 
     cmd.stdout.on('data', (data) => {
         console.log(`stdout: ${data}`);
-
+        cdn_refresh_privilege_info = data;
             try{
                 let j = JSON.parse(data);
                 if(typeof(j.UrlRemain) !== 'undefined'){
@@ -801,7 +803,7 @@ let onHTTPEventListener = function(pkgName){
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkgName + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
-        // refresh_cache.push(browser_document);
+        refresh_cache.push(browser_document);
     }
 };
 
@@ -874,4 +876,7 @@ function currentTimestamp(){
     return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
 }
 
+module.exports.getServiceInfo = function(){
+    return cdn_refresh_privilege_info;
+}
 
