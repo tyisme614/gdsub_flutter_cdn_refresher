@@ -5,14 +5,20 @@ class CheckerEventHandler extends EventEmitter {}
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
-const package_info_url = 'https://pub.dartlang.org/api/packages?page=';
+const package_info_url_flutter = 'https://pub.dartlang.org/api/packages?page=';
+const package_info_url_aliyun = 'https://pub.flutter-io.cn/api/packages?page=';
 
 let index = 0;
 let pkgList;
 let aliyun_version = '';
 let official_version = '';
 let results = [];
-let package_info_map = new Map();
+let package_info_map_flutter = new Map();
+let package_info_map_aliyun = new Map();
+let page_count = 0;
+let loaded_flutter = false;
+let loaded_aliyun = false;
+let loading = false;
 
 const eventHandler = new CheckerEventHandler();
 
@@ -23,18 +29,40 @@ eventHandler.on('retrieved_packages', (list)=>{
     // checkPackageVersion(list[0], true);
 });
 
-eventHandler.on('load_next_page', (page)=>{
-    if(package_info_map.has(page)){
+eventHandler.on('load_next_page', (page, official)=>{
+    let map = package_info_map_aliyun;
+    if(official){
+        map = package_info_map_flutter;
+    }
+    if(map.has(page)){
         console.log('page ' + page + ' has been loaded, omit request...');
     }else{
         console.log('loading package page ' + page);
-        loadPackageInfo(page);
+        loadPackageInfo(page, official);
     }
 
 })
 
 eventHandler.on('pkg_info_loaded', ()=>{
    console.log('loading package information completed');
+});
+
+eventHandler.on('aliyun_loaded', ()=>{
+    console.log('loading aliyun package information completed');
+    loaded_aliyun = true;
+    console.log('starting comparing...');
+});
+
+eventHandler.on('flutter_loaded', ()=>{
+    console.log('loading official flutter package information completed');
+    loaded_flutter = true;
+    if(!loading){
+        loading = true;
+        for(let i=0; i<200; i+=10){
+            loadPackageInfo(i, false);
+        }
+    }
+
 });
 
 eventHandler.on('check_aliyun', (pkg)=>{
@@ -126,9 +154,14 @@ function checkPackageVersion(pkg, official){
     });
 }
 
-function loadPackageInfo(page){
+function loadPackageInfo(page, official){
+    let base = package_info_url_aliyun;
+    if(official){
+        base = package_info_url_flutter;
+    }
+    page_count++;
     let options= {
-        url: package_info_url + page,
+        url: base + page,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
@@ -136,16 +169,29 @@ function loadPackageInfo(page){
 
     request.get(options, (err, response, body) => {
             try{
-                console.log('loaded page ' + page);
+                console.log('loaded page ' + page + ' page_count=' + page_count);
 
                 let json = JSON.parse(body);
-                package_info_map.set(page, json);
+                if(official){
+                    package_info_map_flutter.set(page, json);
+                }else{
+                    package_info_map_aliyun.set(page, json);
+                }
+
                 let next_url = json.next_url;
                 if(next_url == null){
-                    console.log('loading package information completed');
+                    console.log('found last page, page-->' + page);
                     eventHandler.emit('pkg_info_loaded');
                 }else{
-                    eventHandler.emit('load_next_page', page + 1);
+                    eventHandler.emit('load_next_page', page + 1, official);
+                }
+                if(page_count == 194){
+                    if(official){
+                        page_count = 0;
+                        eventHandler.emit('flutter_loaded');
+                    }else{
+                        eventHandler.emit('aliyun_loaded');
+                    }
                 }
             }catch(e){
                 console.error(e.message);
@@ -156,7 +202,7 @@ function loadPackageInfo(page){
 
 console.log('requesting package list from official site...');
 for(let i=0; i<200; i+=10){
-    loadPackageInfo(i);
+    loadPackageInfo(i, true);
 }
 
 // requestPackageList();
