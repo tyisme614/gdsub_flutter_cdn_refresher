@@ -132,7 +132,7 @@ eventHandler.on('compare', (pkg)=>{
         let i = pkgList.indexOf(pkg);
         i++;
         if(i < pkgList.length){
-            let next = pkgList[i + 1];
+            let next = pkgList[i];
             if(!checked_package.has(next)){
                 // console.log('check next package:' + next + ' index=' + i);
 
