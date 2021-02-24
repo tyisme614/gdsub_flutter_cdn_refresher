@@ -123,7 +123,7 @@ eventHandler.on('compare', (pkg)=>{
         res_version_inconsistent.push(pkg);
     }
 
-    // console.log('package checked:' + package_count);
+    console.log('package checked:' + package_count);
     checked_package.set(pkg, true);
     if(package_count >= pkgList.length){
         console.log('process finished. package_count=' + package_count);
