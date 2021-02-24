@@ -148,7 +148,7 @@ eventHandler.on('compare', (pkg)=>{
     let flutter_version = package_version_map_flutter.get(pkg);
     let aliyun_version = package_version_map_aliyun.get(pkg);
     // console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
-    if(flutter_version != aliyun_version){
+    if(flutter_version.latest != aliyun_version.latest || flutter_version.v_list_count != aliyun_version.v_list_count){
         res_version_inconsistent.push(pkg);
     }
 
@@ -301,17 +301,25 @@ function checkPackageVersion(pkg, official){
                     }
                     eventHandler.emit('next_package', pkg);
                 }else{
+                    let version_info = {};
+                    version_info.latest = data.latest.version;
+                    version_info.v_list_count = data.versions.length;
+                    let len = data.versions.length;
+                    version_info.latest_version = data.versions[len - 1];
                     if(official){
 
                         // console.log('request count:' + package_count2);
                         // console.log('official latest version of ' + pkg + ' is ' + data.latest.version);
                         // official_version = data.latest.version;
-                        package_version_map_flutter.set(pkg, data.latest.version);
+
+                        // package_version_map_flutter.set(pkg, data.latest.version);
+                        package_version_map_flutter.set(pkg, version_info);
                         eventHandler.emit('check_aliyun', pkg);
                     }else{
                         // console.log('aliyun latest version of ' + pkg + ' is ' + data.latest.version);
                         // aliyun_version = data.latest.version;
-                        package_version_map_aliyun.set(pkg, data.latest.version);
+                        // package_version_map_aliyun.set(pkg, data.latest.version);
+                        package_version_map_aliyun.set(pkg, version_info);
                         eventHandler.emit('compare', pkg);
 
                     }
@@ -454,8 +462,21 @@ function showResult(){
         console.log('\n\n-- the version of following packages are inconsistent between official site and aliyun CDN --\n\n');
         report += '\n\n-- the version of following packages are inconsistent between official site and aliyun CDN --\n\n';
         for(let item of res_version_inconsistent){
-            console.log('the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item));
-            report += 'the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item) + '\n';
+
+            let version_info_flutter = package_version_map_flutter.get(item);
+            let version_info_aliyun = package_version_map_aliyun.get(item);
+            console.log('the version of package: ' + item + ' is inconsistent. \n[official site]\nlatest stable version:' + version_info_flutter.latest
+                + ' latest published version:'+ version_info_flutter.latest_version
+                + ' version list length:' +version_info_flutter.v_list_count
+                +' \n[aliyun cdn]\nversion:' + version_info_aliyun.latest
+                + ' latest published version:' + version_info_aliyun.latest_version
+                + ' version list length:' + version_info_aliyun.v_list_count);
+            report += 'the version of package: ' + item + ' is inconsistent. \n[official site]\nlatest stable version:' + version_info_flutter.latest
+                + ' latest published version:'+ version_info_flutter.latest_version
+                + ' version list length:' +version_info_flutter.v_list_count
+                +' \n[aliyun cdn]\nversion:' + version_info_aliyun.latest
+                + ' latest published version:' + version_info_aliyun.latest_version
+                + ' version list length:' + version_info_aliyun.v_list_count + '\n';
         }
         console.log('\ntotal: ' + res_version_inconsistent.length + '\n');
         report += '\ntotal: ' + res_version_inconsistent.length + '\n';
