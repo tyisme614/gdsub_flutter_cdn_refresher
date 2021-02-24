@@ -11,6 +11,8 @@ const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
 const package_info_url_flutter = 'https://pub.dartlang.org/api/packages?page=';
 const package_info_url_aliyun = 'https://pub.flutter-io.cn/api/packages?page=';
+const report_sender = 'stevenstian@aol.com';
+const report_receiver = 'yuan@gdsub.com, lu@gdsub.com, lucydevrel@gmail.com'
 
 let index = 0;
 let pkgList;
@@ -151,7 +153,9 @@ eventHandler.on('compare', (pkg)=>{
     checked_package.set(pkg, true);
     if(package_count >= pkgList.length){
         console.log('process finished. package_count=' + package_count);
-        showResult();
+        let content = showResult();
+        let title = 'flutter package check report -- '+ currentTimestamp();
+        composeEmail(report_sender, report_receiver, title, content);
     }else{
         let i = pkgList.indexOf(pkg);
         i++;
@@ -426,52 +430,70 @@ function showResult(){
         report += '\ntotal: ' + res_pkg_not_found_flutter.length + '\n'
     }else{
         console.log('\n\nall packages are found in official package list.\n');
+        report += '\n\nall packages are found in official package list.\n';
     }
 
     if(res_pkg_not_found_aliyun.length > 0){
         console.log('\n\n-- the following packages are not found in aliyun package list --\n\n');
+        report += '\n\n-- the following packages are not found in aliyun package list --\n\n';
         for(let item of res_pkg_not_found_aliyun){
             console.log(item);
+            report += item + '\n';
         }
         console.log('\ntotal: ' + res_pkg_not_found_aliyun.length + '\n');
+        report += '\ntotal: ' + res_pkg_not_found_aliyun.length + '\n';
     }else{
         console.log('\n\nall packages are found in aliyun package list.\n');
+        report +='\n\nall packages are found in aliyun package list.\n';
     }
 
     if(res_http_request_failed_flutter.length > 0){
         console.log('\n\n--the following packages are  failed to request the version information of the following packages from official package list --\n\n');
+        report += '\n\n--the following packages are  failed to request the version information of the following packages from official package list --\n\n';
         for(let item of res_http_request_failed_flutter){
             console.log(item);
+            report += item + '\n';
         }
         console.log('\ntotal: ' + res_http_request_failed_flutter.length + '\n');
+        report +='\ntotal: ' + res_http_request_failed_flutter.length + '\n';
     }else{
         console.log('\n\n-- no http request error from official site encountered during checking --\n\n');
+        report += '\n\n-- no http request error from official site encountered during checking --\n\n';
     }
 
     if(res_http_request_failed_aliyun.length > 0){
         console.log('\n\n-- the following packages are failed to request the version information of the following packages from alliyun package list --\n\n');
+        report += '\n\n-- the following packages are failed to request the version information of the following packages from alliyun package list --\n\n';
         for(let item of res_http_request_failed_aliyun){
             console.log(item);
+            report += item + '\n';
         }
         console.log('\ntotal: ' + res_http_request_failed_aliyun.length + '\n');
+        report += '\ntotal: ' + res_http_request_failed_aliyun.length + '\n';
     }else{
         console.log('\n\n-- no http request error from aliyun cdn encountered during checking --\n\n');
+        report += '\n\n-- no http request error from aliyun cdn encountered during checking --\n\n';
     }
 
 
     if(res_version_inconsistent.length > 0){
         console.log('\n\n-- the version of following packages are inconsistent between official site and aliyun CDN --\n\n');
+        report += '\n\n-- the version of following packages are inconsistent between official site and aliyun CDN --\n\n';
         for(let item of res_version_inconsistent){
             console.log('the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item));
+            report += 'the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item) + '\n';
         }
         console.log('\ntotal: ' + res_version_inconsistent.length + '\n');
+        report += '\ntotal: ' + res_version_inconsistent.length + '\n';
     }else{
         console.log('\n\n-- version of all packages are consistent between official site and aliyun CDN. --\n');
-
+        report += '\n\n-- version of all packages are consistent between official site and aliyun CDN. --\n';
     }
     console.log('\n\n*************************************************************************');
     console.log('                      end of result report');
     console.log('***************************************************************************\n\n');
+
+    return report;
 }
 
 
