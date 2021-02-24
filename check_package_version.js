@@ -187,26 +187,31 @@ function loadPackageInfo(page, official){
                 let json = JSON.parse(body);
 
                 let next_url = json.next_url;
-                if(next_url == null){
-                    console.log('found last page, page-->' + page);
-                    eventHandler.emit('pkg_info_loaded');
+                if(typeof next_url != 'undefined'){
+                    if(next_url == null){
+                        console.log('found last page, page-->' + page);
+                        eventHandler.emit('pkg_info_loaded');
+                    }else{
+                        if(official){
+                            package_info_map_flutter.set(page, json);
+                        }else{
+                            package_info_map_aliyun.set(page, json);
+                        }
+                        console.log('package length-->' + json.packages.length);
+                        eventHandler.emit('load_next_page', page + 1, official);
+                    }
+                    if(page_count == 194){
+                        if(official){
+                            page_count = 0;
+                            eventHandler.emit('flutter_loaded');
+                        }else{
+                            eventHandler.emit('aliyun_loaded');
+                        }
+                    }
                 }else{
-                    if(official){
-                        package_info_map_flutter.set(page, json);
-                    }else{
-                        package_info_map_aliyun.set(page, json);
-                    }
-                    console.log('package length-->' + json.packages.length);
-                    eventHandler.emit('load_next_page', page + 1, official);
+                    console.error('not content error.');
                 }
-                if(page_count == 194){
-                    if(official){
-                        page_count = 0;
-                        eventHandler.emit('flutter_loaded');
-                    }else{
-                        eventHandler.emit('aliyun_loaded');
-                    }
-                }
+
             }catch(e){
                 console.error(e.message);
             }
@@ -219,7 +224,7 @@ function constructDataStructure(){
     console.log('start constructing data structure for official data');
     let entry = it.next();
     while(!entry.done){
-        let rawJSON = entry.value;
+        let rawJSON = JSON.parse(entry.value);
         let packages = rawJSON.packages;
         console.log(packages);
         console.log(JSON.stringify(packages));
