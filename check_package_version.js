@@ -223,45 +223,45 @@ function loadPackageInfo(page, official){
 }
 
 function constructDataStructure(){
-    let it = package_info_map_flutter.entries();
+    let it = package_info_map_flutter.values();
     console.log('start constructing data structure for official data');
-    let entry = it.next();
-    while(!entry.done){
-        console.log('entry-->' + entry.value);
-        // let rawJSON = JSON.parse(entry.value);
-        // let packages = rawJSON.packages;
+    let obj = it.next();
+    while(!obj.done){
+
+        let rawJSON = obj.value;
+        let packages = rawJSON.packages;
         // console.log(packages);
         // console.log(JSON.stringify(packages));
-        // for(let i=0; i<packages.length; i++){
-        //     let pkg = packages[i];
-        //     package_version_map_flutter.set(pkg.name, pkg.latest.version);
-        // }
-        // entry = it.next();
+        for(let i=0; i<packages.length; i++){
+            let pkg = packages[i];
+            package_version_map_flutter.set(pkg.name, pkg.latest.version);
+        }
+        obj = it.next();
 
     }
     console.log('finished official data structure');
     console.log('start constructing data structure for aliyun data');
-    let it2 = package_info_map_aliyun.entries();
-    let entry2 = it2.next();
-    // while(!entry2.done){
-    //     let rawJSON = entry2.value;
-    //     let packages = rawJSON.packages;
-    //     for(let i=0; i<packages.length; i++){
-    //         let pkg = packages[i];
-    //         package_version_map_aliyun.set(pkg.name, pkg.latest.version);
-    //     }
-    //     entry2 = it2.next();
-    // }
+    let it2 = package_info_map_aliyun.values();
+    let obj2 = it2.next();
+    while(!obj2.done){
+        let rawJSON = obj2.value;
+        let packages = rawJSON.packages;
+        for(let i=0; i<packages.length; i++){
+            let pkg = packages[i];
+            package_version_map_aliyun.set(pkg.name, pkg.latest.version);
+        }
+        obj2 = it2.next();
+    }
 
     console.log('finished aliyun data structure');
-    // eventHandler.emit('constructed data structure');
+    eventHandler.emit('constructed data structure');
 }
 
 function comparePkgVersion(){
     let it = package_version_map_flutter.keys();
-    let entry = it.next();
-    while(!entry.done){
-        let pkg = entry.value;
+    let key = it.next();
+    while(!key.done){
+        let pkg = key.value;
         if(!package_version_map_aliyun.has(pkg)){
             console.log('package not found in aliyun map, pkg-->' + pkg);
             res_pkg_not_found.push(pkg);
@@ -273,7 +273,7 @@ function comparePkgVersion(){
                 res_version_inconsistent.push(pkg);
             }
         }
-        entry = it.next();
+        key = it.next();
     }
     eventHandler.emit('comparing finished');
 }
