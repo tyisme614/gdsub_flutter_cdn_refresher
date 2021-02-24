@@ -2,7 +2,7 @@ const request = require('request');
 const EventEmitter = require('events');
 class CheckerEventHandler extends EventEmitter {}
 
-const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
+const flutter_base_url = 'https://dartlang-pub.appspot.com/api/packages/';//https://pub.dartlang.org/api/packages/';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
 const package_info_url_flutter = 'https://pub.dartlang.org/api/packages?page=';
@@ -17,11 +17,15 @@ let package_info_map_flutter = new Map();
 let package_info_map_aliyun = new Map();
 let package_version_map_flutter = new Map();
 let package_version_map_aliyun = new Map();
+let checked_package = new Map();
 
 let res_version_inconsistent = [];
 let res_pkg_not_found = [];
 
 let page_count = 0;
+let package_count = 0;
+let page_total_aliyun = 200;
+let page_total_flutter = 200;
 let loaded_flutter = false;
 let loaded_aliyun = false;
 let loading = false;
@@ -32,7 +36,11 @@ eventHandler.on('retrieved_packages', (list)=>{
     pkgList = list;
     index = 0;
     console.log(' length=' + list.length);
-    // checkPackageVersion(list[0], true);
+    for(let i=0; i<list.length; i+=100){
+        let pkg = list[i];
+        checkPackageVersion(pkg, true);
+    }
+
 });
 
 eventHandler.on('load_next_page', (page, official)=>{
@@ -80,7 +88,7 @@ eventHandler.on('check_aliyun', (pkg)=>{
    checkPackageVersion(pkg, false);
 });
 
-eventHandler.on('compare', (pkg)=>{
+eventHandler.on('compare_deprecated', (pkg)=>{
     console.log('comparing version of ' + pkg + ' offcial:' + official_version + ' aliyun:' + aliyun_version);
     if(aliyun_version != official_version){
         let res = 'inconsistent version, package: ' + pkg + ' offcial:' + official_version + ' aliyun:' + aliyun_version;
@@ -98,6 +106,35 @@ eventHandler.on('compare', (pkg)=>{
             console.log(results[i]);
         }
     }
+
+});
+
+eventHandler.on('compare', (pkg)=>{
+    console.log('comparing version of ' + pkg + ' offcial:' + official_version + ' aliyun:' + aliyun_version);
+    if(aliyun_version != official_version){
+        res_version_inconsistent.push(pkg);
+    }
+    package_count++;
+    checked_package.set(pkg, true);
+    if(package_count >= pkgList.length){
+        console.log('process finished. package_count=' + package_count);
+        showResult();
+    }else{
+        let i = pkgList.indexOf(pkg);
+        i++;
+        if(i < pkgList.length){
+            let next = pkgList[i + 1];
+            if(!checked_package.has(next)){
+                console.log('check next package:' + next);
+                checkPackageVersion(next, true);
+            }else{
+                console.log('package ' + next + ' has been checked, stop this worker');
+            }
+
+        }
+    }
+
+
 
 });
 
@@ -212,11 +249,11 @@ function loadPackageInfo(page, official){
                         }
                     }
                 }else{
-                    console.error('not content error.');
+                    console.error('no content error.');
                 }
 
             }catch(e){
-                console.error(e.message);
+                console.error(e.message + '\noriginal data:\n' + body);
             }
     });
 
@@ -303,11 +340,11 @@ function showResult(){
 }
 
 console.log('requesting package list from official site...');
-for(let i=0; i<200; i+=40){
-    loadPackageInfo(i, true);
-}
+// for(let i=0; i<200; i+=40){
+//     loadPackageInfo(i, true);
+// }
 
-// requestPackageList();
+requestPackageList();
 
 
 
