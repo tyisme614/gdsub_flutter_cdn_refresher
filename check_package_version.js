@@ -366,7 +366,7 @@ function showResult(){
             // console.log('package: ' + item + ' is not found in official package list');
             console.log(item);
         }
-        console.log('\ntotal: ' + res_pkg_not_found.length + '\n');
+        console.log('\ntotal: ' + res_pkg_not_found_flutter.length + '\n');
     }else{
         console.log('\n\nall packages are found in official package list.\n');
     }
@@ -392,7 +392,7 @@ function showResult(){
     }
 
     if(res_http_request_failed_aliyun.length > 0){
-        console.log('\n\n********failed to request the version information of the following packages from official package list*******\n\n');
+        console.log('\n\n********failed to request the version information of the following packages from alliyun package list*******\n\n');
         for(let item of res_http_request_failed_aliyun){
             console.log(item);
         }
