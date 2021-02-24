@@ -297,7 +297,7 @@ function checkPackageVersion(pkg, official){
                     version_info.latest = data.latest.version;
                     version_info.v_list_count = data.versions.length;
                     let len = data.versions.length;
-                    version_info.latest_version = data.versions[len - 1];
+                    version_info.latest_version = data.versions[len - 1].version;
                     if(official){
 
                         // console.log('request count:' + package_count2);
