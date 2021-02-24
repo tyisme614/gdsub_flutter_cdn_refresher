@@ -85,7 +85,7 @@ eventHandler.on('flutter_loaded', ()=>{
 });
 
 eventHandler.on('check_aliyun', (pkg)=>{
-    console.log('checking aliyun cdn version of ' + pkg);
+    // console.log('checking aliyun cdn version of ' + pkg);
    checkPackageVersion(pkg, false);
 });
 
@@ -113,11 +113,12 @@ eventHandler.on('compare_deprecated', (pkg)=>{
 eventHandler.on('compare', (pkg)=>{
     let flutter_version = package_version_map_flutter.get(pkg);
     let aliyun_version = package_version_map_aliyun.get(pkg);
-    console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
+    // console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
     if(flutter_version != aliyun_version){
         res_version_inconsistent.push(pkg);
     }
     package_count++;
+    console.log('package checked:' + package_count);
     checked_package.set(pkg, true);
     if(package_count >= pkgList.length){
         console.log('process finished. package_count=' + package_count);
@@ -128,10 +129,11 @@ eventHandler.on('compare', (pkg)=>{
         if(i < pkgList.length){
             let next = pkgList[i + 1];
             if(!checked_package.has(next)){
-                console.log('check next package:' + next);
+                // console.log('check next package:' + next);
                 checkPackageVersion(next, true);
             }else{
-                console.log('package ' + next + ' has been checked, stop this worker');
+                // console.log('package ' + next + ' has been checked, stop this worker');
+                showResult();
             }
 
         }
