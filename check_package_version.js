@@ -129,7 +129,7 @@ eventHandler.on('compare', (pkg)=>{
         if(i < pkgList.length){
             let next = pkgList[i + 1];
             if(!checked_package.has(next)){
-                // console.log('check next package:' + next);
+                console.log('check next package:' + next + ' index=' + i);
                 checkPackageVersion(next, true);
             }else{
                 // console.log('package ' + next + ' has been checked, stop this worker');
@@ -208,7 +208,7 @@ function checkPackageVersion(pkg, official){
 
                 }
             }catch(e){
-                console.error('json parsing error-->' + e.message);
+                console.error('json parsing error-->' + e.message + ' original message:' + body.toString());
             }
         }
     });
