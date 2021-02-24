@@ -200,6 +200,8 @@ function checkPackageVersion(pkg, official){
 
     let base_url = aliyun_cdn_url;
     if(official){
+        package_count2++;
+        console.log('request count:' + package_count2);
         base_url = flutter_base_url;
     }
     let options= {
@@ -223,8 +225,8 @@ function checkPackageVersion(pkg, official){
             try{
                 let data = JSON.parse(body);
                 if(official){
-                    package_count2++;
-                    console.log('request count:' + package_count2);
+
+                    // console.log('request count:' + package_count2);
                     // console.log('official latest version of ' + pkg + ' is ' + data.latest.version);
                     // official_version = data.latest.version;
                     package_version_map_flutter.set(pkg, data.latest.version);
@@ -360,7 +362,9 @@ function comparePkgVersion(){
 }
 
 function showResult(){
-    console.log('\n\n*************************start of result report***************************\n\n');
+    console.log('\n\n*************************************************************************');
+    console.log('                                                 start of result report');
+    console.log('***************************************************************************\n\n');
     if(res_pkg_not_found_flutter.length > 0){
         console.log('\n\n********the following packages are not found in official package list*******\n\n');
         for(let item of res_pkg_not_found_flutter){
@@ -413,7 +417,9 @@ function showResult(){
         console.log('\n\nversion of all packages are consistent between official site and aliyun CDN.\n');
 
     }
-    console.log('************************************end of result report******************************************');
+    console.log('\n\n*************************************************************************');
+    console.log('                                                 end of result report');
+    console.log('***************************************************************************\n\n');
 }
 
 console.log('requesting package list from official site...');
