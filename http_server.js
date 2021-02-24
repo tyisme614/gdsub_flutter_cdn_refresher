@@ -1,5 +1,6 @@
 const http = require('http');
 const mainApp = require('./app.js');
+const worker = require('./check_package_version');
 const request = require('request');
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 let onRefreshEventListener = null;
@@ -48,6 +49,8 @@ const requestListener = function (req, res) {
             // res.writeHead(200);
             // res.end('add target into request queue....');
 
+        }else if(route == 'checkPackage'){
+            worker.checkPackage();
         }else{
             console.log('unimplemented route -->' + route);
             res.writeHead(404);

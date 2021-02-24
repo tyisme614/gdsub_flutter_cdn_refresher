@@ -44,20 +44,7 @@ let loaded_aliyun = false;
 let loading = false;
 
 
-console.log('initialize mailer authentication');
-initializeAuth();
 
-//main process
-console.log('service started');
-console.log('requesting package list from official site...');
-
-// for(let i=0; i<200; i+=40){
-//     loadPackageInfo(i, true);
-// }
-
-requestPackageList();
-//check time if it is time to start checking per hour
-setInterval(checkWorker, 3600000);
 
 /**
  *
@@ -152,13 +139,14 @@ eventHandler.on('compare', (pkg)=>{
     // console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
     if(flutter_version.latest != aliyun_version.latest || flutter_version.v_list_count != aliyun_version.v_list_count){
         res_version_inconsistent.push(pkg);
+        refreshCDN(pkg);
     }
 
     // console.log('package checked:' + package_count);
     checked_package.set(pkg, true);
     if(package_count >= pkgList.length){
         console.log('process finished. package_count=' + package_count);
-        let content = showResult();
+        let content = generateReport();
         let title = 'flutter package check report -- '+ currentTimestamp();
         composeEmail(report_sender, report_receiver, title, content);
 
@@ -174,7 +162,7 @@ eventHandler.on('compare', (pkg)=>{
                 checkPackageVersion(next, true);
             }else{
                 // console.log('package ' + next + ' has been checked, stop this worker');
-                // showResult();
+                // generateReport();
             }
 
         }else{
@@ -193,7 +181,7 @@ eventHandler.on('next_package', (pkg)=>{
             checkPackageVersion(next, true);
         }else{
             // console.log('package ' + next + ' has been checked, stop this worker');
-            // showResult();
+            // generateReport();
         }
 
     }else{
@@ -205,7 +193,7 @@ eventHandler.on('constructed data structure', ()=>{
 });
 
 eventHandler.on('comparing finished', ()=>{
-    showResult();
+    generateReport();
 });
 
 /**
@@ -455,7 +443,93 @@ function comparePkgVersion(){
     eventHandler.emit('comparing finished');
 }
 
-function showResult(){
+
+
+function composeEmail(sender, target, title, content){
+    let mailOptions = {
+        from: sender,
+        to: target,
+        subject: title,
+        text: content
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(currentTimestamp() + 'Email sent: ' + info.response);
+        }
+    });
+}
+
+function cleanDataMembers(){
+    //clean up containers
+    index = 0;
+    pkgList = null;
+    results = [];
+    package_info_map_flutter = new Map();
+    package_info_map_aliyun = new Map();
+    package_version_map_flutter = new Map();
+    package_version_map_aliyun = new Map();
+    checked_package = new Map();
+
+    res_version_inconsistent = [];
+    res_pkg_not_found_flutter = [];
+    res_pkg_not_found_aliyun = [];
+    res_http_request_failed_flutter = [];
+    res_http_request_failed_aliyun = [];
+    res_parse_json_error_flutter = [];
+    res_parse_json_error_aliyun = [];
+
+    page_count = 0;
+    package_count = 0;
+    package_count2 = 0;
+    page_total_aliyun = 200;
+    page_total_flutter = 200;
+    loaded_flutter = false;
+    loaded_aliyun = false;
+    loading = false;
+}
+
+function refreshCDN(pkg){
+
+    let options= {
+        url: 'http://127.0.0.1:17788/refreshCDN/' + pkg,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+    };
+
+    request.get(options, (err, response, body) => {
+        try{
+            if(err){
+                console.error(currentTimestamp() + ' encountered error while requesting to refresh CDN, err:' + err.message);
+            }else{
+                console.log(currentTimestamp() + 'refreshed ' + pkg + ' response:\n' + body);
+            }
+        }catch(e){
+            console.error(e.message + '\noriginal data:\n' + body);
+        }
+    });
+}
+
+function currentTimestamp(){
+    let ts = Date.now();
+
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+
+    let hour = date_ob.getHours();
+    let minute = date_ob.getMinutes();
+    let second = date_ob.getSeconds();
+
+    return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
+}
+
+
+
+function generateReport(){
     let report = '';
 
     console.log('\n\n*************************************************************************');
@@ -583,78 +657,19 @@ function showResult(){
 }
 
 
-function composeEmail(sender, target, title, content){
-    let mailOptions = {
-        from: sender,
-        to: target,
-        subject: title,
-        text: content
-    };
-    transporter.sendMail(mailOptions, function(error, info){
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(currentTimestamp() + 'Email sent: ' + info.response);
-        }
-    });
+module.exports.checkPackage = function(){
+    console.log('initialize mailer authentication');
+    initializeAuth();
+
+//main process
+    console.log('requesting package list from official site...');
+
+// for(let i=0; i<200; i+=40){
+//     loadPackageInfo(i, true);
+// }
+
+    requestPackageList();
+//check time if it is time to start checking per hour
+//     setInterval(checkWorker, 3600000);
 }
-
-function cleanDataMembers(){
-    //clean up containers
-    index = 0;
-    pkgList = null;
-    results = [];
-    package_info_map_flutter = new Map();
-    package_info_map_aliyun = new Map();
-    package_version_map_flutter = new Map();
-    package_version_map_aliyun = new Map();
-    checked_package = new Map();
-
-    res_version_inconsistent = [];
-    res_pkg_not_found_flutter = [];
-    res_pkg_not_found_aliyun = [];
-    res_http_request_failed_flutter = [];
-    res_http_request_failed_aliyun = [];
-    res_parse_json_error_flutter = [];
-    res_parse_json_error_aliyun = [];
-
-    page_count = 0;
-    package_count = 0;
-    package_count2 = 0;
-    page_total_aliyun = 200;
-    page_total_flutter = 200;
-    loaded_flutter = false;
-    loaded_aliyun = false;
-    loading = false;
-}
-
-function currentTimestamp(){
-    let ts = Date.now();
-
-    let date_ob = new Date(ts);
-    let date = date_ob.getDate();
-    let month = date_ob.getMonth() + 1;
-    let year = date_ob.getFullYear();
-
-    let hour = date_ob.getHours();
-    let minute = date_ob.getMinutes();
-    let second = date_ob.getSeconds();
-
-    return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
-}
-
-function checkWorker(){
-    let ts = Date.now();
-    let date = new Date(ts);
-    let hour = date.getHours();
-    if(hour == 2){//2 o'clock in the morning
-        console.log('start checking package versions');
-        console.log('requesting package list from official site...');
-        requestPackageList();
-    }
-}
-
-
-
-
 
