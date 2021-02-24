@@ -360,6 +360,7 @@ function comparePkgVersion(){
 }
 
 function showResult(){
+    console.log('\n\n*************************start of result report***************************\n\n');
     if(res_pkg_not_found_flutter.length > 0){
         console.log('\n\n********the following packages are not found in official package list*******\n\n');
         for(let item of res_pkg_not_found_flutter){
