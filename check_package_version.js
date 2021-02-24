@@ -65,7 +65,7 @@ eventHandler.on('flutter_loaded', ()=>{
     loaded_flutter = true;
     if(!loading){
         loading = true;
-        for(let i=0; i<200; i+=10){
+        for(let i=0; i<20; i+=10){
             loadPackageInfo(i, false);
         }
     }
@@ -290,7 +290,7 @@ function showResult(){
 }
 
 console.log('requesting package list from official site...');
-for(let i=0; i<200; i+=10){
+for(let i=0; i<20; i+=10){
     loadPackageInfo(i, true);
 }
 
