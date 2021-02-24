@@ -303,7 +303,7 @@ function showResult(){
 }
 
 console.log('requesting package list from official site...');
-for(let i=0; i<200; i+=20){
+for(let i=0; i<200; i+=40){
     loadPackageInfo(i, true);
 }
 
