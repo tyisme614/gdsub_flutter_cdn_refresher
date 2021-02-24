@@ -51,6 +51,8 @@ const requestListener = function (req, res) {
 
         }else if(route == 'checkPackage'){
             worker.checkPackage();
+            res.writeHead(200);
+            res.end('package checking started...');
         }else{
             console.log('unimplemented route -->' + route);
             res.writeHead(404);
