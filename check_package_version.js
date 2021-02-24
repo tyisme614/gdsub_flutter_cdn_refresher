@@ -1,5 +1,9 @@
 const request = require('request');
 const EventEmitter = require('events');
+const nodemailer = require('nodemailer');
+let transporter;
+const fs = require('fs');
+
 class CheckerEventHandler extends EventEmitter {}
 
 const flutter_base_url = 'https://dartlang-pub.appspot.com/api/packages/';//https://pub.dartlang.org/api/packages/';
@@ -34,6 +38,26 @@ let loaded_flutter = false;
 let loaded_aliyun = false;
 let loading = false;
 
+
+console.log('initialize mailer authentication');
+initializeAuth();
+
+//main process
+console.log('requesting package list from official site...');
+// for(let i=0; i<200; i+=40){
+//     loadPackageInfo(i, true);
+// }
+
+requestPackageList();
+
+
+
+/**
+ *
+ * event handler
+ *
+ *
+ */
 const eventHandler = new CheckerEventHandler();
 
 eventHandler.on('retrieved_packages', (list)=>{
@@ -139,7 +163,7 @@ eventHandler.on('compare', (pkg)=>{
                 checkPackageVersion(next, true);
             }else{
                 console.log('package ' + next + ' has been checked, stop this worker');
-                showResult();
+                // showResult();
             }
 
         }else{
@@ -155,11 +179,10 @@ eventHandler.on('next_package', (pkg)=>{
         let next = pkgList[i];
         if(!checked_package.has(next)){
             // console.log('check next package:' + next + ' index=' + i);
-
             checkPackageVersion(next, true);
         }else{
             console.log('package ' + next + ' has been checked, stop this worker');
-            showResult();
+            // showResult();
         }
 
     }else{
@@ -173,6 +196,26 @@ eventHandler.on('constructed data structure', ()=>{
 eventHandler.on('comparing finished', ()=>{
     showResult();
 });
+
+/**
+ *
+ *
+ * local functions
+ *
+ *
+ */
+function initializeAuth(){
+    let data = fs.readFileSync(__dirname + '/auth.json');
+    let j = JSON.parse(data);
+    //initialize mailer
+    transporter = nodemailer.createTransport({
+        service: 'aol',
+        auth: {
+            user: j.mailer.account,
+            pass: j.mailer.pwd
+        }
+    });
+}
 
 function requestPackageList(){
     let options= {
@@ -366,22 +409,27 @@ function comparePkgVersion(){
 }
 
 function showResult(){
+    let report = '';
+
     console.log('\n\n*************************************************************************');
-    console.log('                                                 start of result report');
+    console.log('                            start of result report');
     console.log('***************************************************************************\n\n');
     if(res_pkg_not_found_flutter.length > 0){
-        console.log('\n\n********the following packages are not found in official package list*******\n\n');
+        console.log('\n\n-- the following packages are not found in official package list --\n\n');
+        report += '\n\n-- the following packages are not found in official package list --\n\n';
         for(let item of res_pkg_not_found_flutter){
             // console.log('package: ' + item + ' is not found in official package list');
             console.log(item);
+            report += item + '\n';
         }
         console.log('\ntotal: ' + res_pkg_not_found_flutter.length + '\n');
+        report += '\ntotal: ' + res_pkg_not_found_flutter.length + '\n'
     }else{
         console.log('\n\nall packages are found in official package list.\n');
     }
 
     if(res_pkg_not_found_aliyun.length > 0){
-        console.log('\n\n********the following packages are not found in aliyun package list*******\n\n');
+        console.log('\n\n-- the following packages are not found in aliyun package list --\n\n');
         for(let item of res_pkg_not_found_aliyun){
             console.log(item);
         }
@@ -391,47 +439,74 @@ function showResult(){
     }
 
     if(res_http_request_failed_flutter.length > 0){
-        console.log('\n\n********failed to request the version information of the following packages from official package list*******\n\n');
+        console.log('\n\n--the following packages are  failed to request the version information of the following packages from official package list --\n\n');
         for(let item of res_http_request_failed_flutter){
             console.log(item);
         }
         console.log('\ntotal: ' + res_http_request_failed_flutter.length + '\n');
     }else{
-        console.log('\n\nno http request error from official site encountered during checking\n\n');
+        console.log('\n\n-- no http request error from official site encountered during checking --\n\n');
     }
 
     if(res_http_request_failed_aliyun.length > 0){
-        console.log('\n\n********failed to request the version information of the following packages from alliyun package list*******\n\n');
+        console.log('\n\n-- the following packages are failed to request the version information of the following packages from alliyun package list --\n\n');
         for(let item of res_http_request_failed_aliyun){
             console.log(item);
         }
         console.log('\ntotal: ' + res_http_request_failed_aliyun.length + '\n');
     }else{
-        console.log('\n\nno http request error from aliyun cdn encountered during checking\n\n');
+        console.log('\n\n-- no http request error from aliyun cdn encountered during checking --\n\n');
     }
 
 
     if(res_version_inconsistent.length > 0){
-        console.log('\n\n***the version of following packages are inconsistent between official site and aliyun CDN****\n\n');
+        console.log('\n\n-- the version of following packages are inconsistent between official site and aliyun CDN --\n\n');
         for(let item of res_version_inconsistent){
             console.log('the version of package: ' + item + ' is inconsistent, official version:' + package_version_map_flutter.get(item) + ' aliyun version:' + package_version_map_aliyun.get(item));
         }
         console.log('\ntotal: ' + res_version_inconsistent.length + '\n');
     }else{
-        console.log('\n\nversion of all packages are consistent between official site and aliyun CDN.\n');
+        console.log('\n\n-- version of all packages are consistent between official site and aliyun CDN. --\n');
 
     }
     console.log('\n\n*************************************************************************');
-    console.log('                                                 end of result report');
+    console.log('                      end of result report');
     console.log('***************************************************************************\n\n');
 }
 
-console.log('requesting package list from official site...');
-// for(let i=0; i<200; i+=40){
-//     loadPackageInfo(i, true);
-// }
 
-requestPackageList();
+function composeEmail(sender, target, title, content){
+    let mailOptions = {
+        from: sender,
+        to: target,
+        subject: title,
+        text: content
+    };
+    transporter.sendMail(mailOptions, function(error, info){
+        if (error) {
+            console.log(error);
+        } else {
+            console.log(currentTimestamp() + 'Email sent: ' + info.response);
+        }
+    });
+}
+
+function currentTimestamp(){
+    let ts = Date.now();
+
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+
+    let hour = date_ob.getHours();
+    let minute = date_ob.getMinutes();
+    let second = date_ob.getSeconds();
+
+    return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
+}
+
+
 
 
 

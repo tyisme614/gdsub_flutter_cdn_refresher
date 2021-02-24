@@ -17,6 +17,7 @@
   "dependencies": {
     "https": "^1.0.0",
     "jslint": "^0.12.1",
+    "nodemailer": "^6.4.18",
     "qiniu": "^7.2.2",
     "request": "^2.88.0",
     "request-promise": "^4.2.5"
