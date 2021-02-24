@@ -37,6 +37,7 @@ eventHandler.on('retrieved_packages', (list)=>{
     index = 0;
     console.log(' length=' + list.length);
     for(let i=0; i<list.length; i+=100){
+
         let pkg = list[i];
         checkPackageVersion(pkg, true);
     }
@@ -110,8 +111,10 @@ eventHandler.on('compare_deprecated', (pkg)=>{
 });
 
 eventHandler.on('compare', (pkg)=>{
-    console.log('comparing version of ' + pkg + ' offcial:' + official_version + ' aliyun:' + aliyun_version);
-    if(aliyun_version != official_version){
+    let flutter_version = package_version_map_flutter.get(pkg);
+    let aliyun_version = package_version_map_aliyun.get(pkg);
+    console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
+    if(flutter_version != aliyun_version){
         res_version_inconsistent.push(pkg);
     }
     package_count++;
@@ -192,11 +195,13 @@ function checkPackageVersion(pkg, official){
                 let data = JSON.parse(body);
                 if(official){
                     // console.log('official latest version of ' + pkg + ' is ' + data.latest.version);
-                    official_version = data.latest.version;
+                    // official_version = data.latest.version;
+                    package_version_map_flutter.set(pkg, data.latest.version);
                     eventHandler.emit('check_aliyun', pkg);
                 }else{
                     // console.log('aliyun latest version of ' + pkg + ' is ' + data.latest.version);
-                    aliyun_version = data.latest.version;
+                    // aliyun_version = data.latest.version;
+                    package_version_map_aliyun.set(pkg, data.latest.version);
                     eventHandler.emit('compare', pkg);
 
                 }
