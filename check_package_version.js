@@ -169,7 +169,7 @@ eventHandler.on('compare', (pkg)=>{
 
                 checkPackageVersion(next, true);
             }else{
-                console.log('package ' + next + ' has been checked, stop this worker');
+                // console.log('package ' + next + ' has been checked, stop this worker');
                 // showResult();
             }
 
@@ -188,7 +188,7 @@ eventHandler.on('next_package', (pkg)=>{
             // console.log('check next package:' + next + ' index=' + i);
             checkPackageVersion(next, true);
         }else{
-            console.log('package ' + next + ' has been checked, stop this worker');
+            // console.log('package ' + next + ' has been checked, stop this worker');
             // showResult();
         }
 
@@ -465,8 +465,8 @@ function showResult(){
     }
 
     if(res_pkg_not_found_flutter.length > 0){
-        console.log('\n\n-- the following packages are not found in official package list --\n\n');
-        report += '\n\n-- the following packages are not found in official package list --\n\n';
+        console.log('\n\n-- the following packages are not found in official path of  /api/packages/  --\n\n');
+        report += '\n\n-- the following packages are not found in official path of  /api/packages/ --\n\n';
         for(let item of res_pkg_not_found_flutter){
             // console.log('package: ' + item + ' is not found in official package list');
             console.log(item);
@@ -475,13 +475,13 @@ function showResult(){
         console.log('\ntotal: ' + res_pkg_not_found_flutter.length + '\n');
         report += '\ntotal: ' + res_pkg_not_found_flutter.length + '\n'
     }else{
-        console.log('\n\nall packages are found in official package list.\n');
-        report += '\n\nall packages are found in official package list.\n';
+        console.log('\n\nall packages are found in official path of  /api/packages/ .\n');
+        report += '\n\nall packages are found in officialpath of  /api/packages/ .\n';
     }
 
     if(res_pkg_not_found_aliyun.length > 0){
-        console.log('\n\n-- the following packages are not found in aliyun package list --\n\n');
-        report += '\n\n-- the following packages are not found in aliyun package list --\n\n';
+        console.log('\n\n-- the following packages are not found in aliyun path of  /api/packages/ but could be found in official site  --\n\n');
+        report += '\n\n-- the following packages are not found in aliyun path of  /api/packages/  but could be found in official site   --\n\n';
         for(let item of res_pkg_not_found_aliyun){
             console.log(item);
             report += item + '\n';
@@ -489,8 +489,8 @@ function showResult(){
         console.log('\ntotal: ' + res_pkg_not_found_aliyun.length + '\n');
         report += '\ntotal: ' + res_pkg_not_found_aliyun.length + '\n';
     }else{
-        console.log('\n\nall packages are found in aliyun package list.\n');
-        report +='\n\nall packages are found in aliyun package list.\n';
+        console.log('\n\nall packages that could be found from official site are found in aliyun path of  /api/packages/ .\n');
+        report +='\n\nall packages that could be found from official site  are found in aliyun path of  /api/packages/ .\n';
     }
 
     if(res_http_request_failed_flutter.length > 0){
