@@ -37,7 +37,7 @@ eventHandler.on('retrieved_packages', (list)=>{
     index = 0;
     console.log(' length=' + list.length);
     for(let i=0; i<list.length; i+=100){
-
+        console.log('task id:'+ i);
         let pkg = list[i];
         checkPackageVersion(pkg, true);
     }
@@ -118,7 +118,7 @@ eventHandler.on('compare', (pkg)=>{
         res_version_inconsistent.push(pkg);
     }
     package_count++;
-    console.log('package checked:' + package_count);
+    // console.log('package checked:' + package_count);
     checked_package.set(pkg, true);
     if(package_count >= pkgList.length){
         console.log('process finished. package_count=' + package_count);
@@ -129,11 +129,11 @@ eventHandler.on('compare', (pkg)=>{
         if(i < pkgList.length){
             let next = pkgList[i + 1];
             if(!checked_package.has(next)){
-                console.log('check next package:' + next + ' index=' + i);
+                // console.log('check next package:' + next + ' index=' + i);
                 checkPackageVersion(next, true);
             }else{
                 // console.log('package ' + next + ' has been checked, stop this worker');
-                showResult();
+                // showResult();
             }
 
         }
