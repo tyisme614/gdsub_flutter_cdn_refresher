@@ -122,7 +122,7 @@ eventHandler.on('compare', (pkg)=>{
     if(flutter_version != aliyun_version){
         res_version_inconsistent.push(pkg);
     }
-    package_count++;
+
     // console.log('package checked:' + package_count);
     checked_package.set(pkg, true);
     if(package_count >= pkgList.length){
@@ -142,6 +142,8 @@ eventHandler.on('compare', (pkg)=>{
                 showResult();
             }
 
+        }else{
+            console.log('reached end of package list');
         }
     }
 });
@@ -150,7 +152,7 @@ eventHandler.on('next_package', (pkg)=>{
     let i = pkgList.indexOf(pkg);
     i++;
     if(i < pkgList.length){
-        let next = pkgList[i + 1];
+        let next = pkgList[i];
         if(!checked_package.has(next)){
             // console.log('check next package:' + next + ' index=' + i);
 
@@ -160,6 +162,8 @@ eventHandler.on('next_package', (pkg)=>{
             showResult();
         }
 
+    }else{
+        console.log('reached end of package list.');
     }
 });
 eventHandler.on('constructed data structure', ()=>{
@@ -200,8 +204,8 @@ function checkPackageVersion(pkg, official){
 
     let base_url = aliyun_cdn_url;
     if(official){
-        package_count2++;
-        console.log('request count:' + package_count2);
+        package_count++;
+        // console.log('request count:' + package_count2);
         base_url = flutter_base_url;
     }
     let options= {
