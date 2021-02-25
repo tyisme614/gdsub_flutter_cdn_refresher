@@ -226,16 +226,38 @@ function requestPackageList(){
     request.get(options, (err, response, body) => {
         if(err){
             console.error('http request error-->' + err.message);
+            let title = '[Error] failed to retrieve flutter package list -- '+ currentTimestamp();
+            let content = 'Check worker failed to get package list from official site after http request, the error message is the following:\n' + err.message;
+            composeEmail('Yuan@gdsub.com', report_receiver, title, content);
         }else{
+            let json_error = false;
             try{
                 let data = JSON.parse(body);
-                let list = [];
-                for(let i=0; i<data.packages.length; i++){
-                    list.push(data.packages[i]);
+                if(typeof data != 'undefined' && typeof data.packages != 'undefined'){
+                    if(data.packages.length > 0){
+                        let list = [];
+                        for(let i=0; i<data.packages.length; i++){
+                            list.push(data.packages[i]);
+                        }
+                        eventHandler.emit('retrieved_packages', list);
+                        json_error = false;
+                    }else{
+                       json_error = true;
+                    }
+
+                }else{
+                    json_error = true;
                 }
-                eventHandler.emit('retrieved_packages', list);
+
+
             }catch(e){
                 console.error('json parsing error-->' + e.message);
+                json_error = true;
+            }
+            if(json_error){
+                let title = '[Error] failed to retrieve flutter package list -- '+ currentTimestamp();
+                let content = 'Check worker failed to get package list from official site after http request, the received json message is the following:\n' + data;
+                composeEmail('Yuan@gdsub.com', report_receiver, title, content);
             }
         }
     });
