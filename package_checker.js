@@ -5,7 +5,7 @@ console.log('service started');
 console.log('requesting package list from official site...');
 
 //check time if it is time to start checking per hour
-setInterval(checkWorker, 3600000);
+setInterval(checkWorker, 1800000);
 
 function checkWorker(){
     let ts = Date.now();
