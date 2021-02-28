@@ -11,7 +11,7 @@ const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
 const package_info_url_flutter = 'https://pub.dartlang.org/api/packages?page=';
 const package_info_url_aliyun = 'https://pub.flutter-io.cn/api/packages?page=';
-const report_sender = 'stevenstian@aol.com';
+const report_sender = 'yuan@gdsub.com';
 const report_receiver = 'yuan@gdsub.com, lu@gdsub.com, lucydevrel@gmail.com'
 
 let index = 0;
@@ -251,7 +251,7 @@ function requestPackageList(){
 
 
             }catch(e){
-                console.error('json parsing error-->' + e.message);
+                console.error(currentTimestamp() + 'json parsing error-->' + e.message);
                 json_error = true;
             }
             if(json_error){
@@ -340,7 +340,7 @@ function checkPackageVersion(pkg, official){
                 }
 
             }catch(e){
-                console.error('json parsing error-->' + e.message + ' original message:' + body.toString());
+                console.error(currentTimestamp() + 'pkg json parsing error-->' + e.message + ' original message:' + body.toString());
                 //{"error":{"code":"NotFound","message":"Could not find `package \"flutter_basirun_al_qoddam\"`."},"code":"NotFound","message":"Could not find `package \"flutter_basirun_al_qoddam\"`."}
                 if(official){
                     // let res = 'package ' + pkg + ' not found in official site';
