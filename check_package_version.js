@@ -673,6 +673,7 @@ function generateReport(){
 
     console.log('\n\n*************************************************************************');
     console.log('                      end of result report');
+    console.log('report date: ' + currentTimestamp());
     console.log('***************************************************************************\n\n');
 
     return report;
