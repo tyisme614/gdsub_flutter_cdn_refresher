@@ -315,28 +315,42 @@ function checkPackageVersion(pkg, official){
                     }
                     eventHandler.emit('next_package', pkg);
                 }else{
-                    let version_info = {};
-                    version_info.latest = data.latest.version;
-                    version_info.v_list_count = data.versions.length;
-                    let len = data.versions.length;
-                    version_info.latest_version = data.versions[len - 1].version;
-                    if(official){
-
-                        // console.log('request count:' + package_count2);
-                        // console.log('official latest version of ' + pkg + ' is ' + data.latest.version);
-                        // official_version = data.latest.version;
-
-                        // package_version_map_flutter.set(pkg, data.latest.version);
-                        package_version_map_flutter.set(pkg, version_info);
-                        eventHandler.emit('check_aliyun', pkg);
+                    if(typeof data == 'undefined' || typeof data.latest == 'undefined'){
+                        if(official){
+                            // let res = 'package ' + pkg + ' not found in official site';
+                            // res_pkg_not_found_flutter.push(pkg);
+                            res_parse_json_error_flutter.push('package:' + pkg +  ' original message:' + body.toString())
+                        }else{
+                            // let res = 'package ' + pkg + ' not found in aliyun cdn';
+                            // res_pkg_not_found_aliyun.push(pkg);
+                            res_parse_json_error_aliyun.push('package:' + pkg +  ' original message:' + body.toString())
+                        }
+                        eventHandler.emit('next_package', pkg);
                     }else{
-                        // console.log('aliyun latest version of ' + pkg + ' is ' + data.latest.version);
-                        // aliyun_version = data.latest.version;
-                        // package_version_map_aliyun.set(pkg, data.latest.version);
-                        package_version_map_aliyun.set(pkg, version_info);
-                        eventHandler.emit('compare', pkg);
+                        let version_info = {};
+                        version_info.latest = data.latest.version;
+                        version_info.v_list_count = data.versions.length;
+                        let len = data.versions.length;
+                        version_info.latest_version = data.versions[len - 1].version;
+                        if(official){
 
+                            // console.log('request count:' + package_count2);
+                            // console.log('official latest version of ' + pkg + ' is ' + data.latest.version);
+                            // official_version = data.latest.version;
+
+                            // package_version_map_flutter.set(pkg, data.latest.version);
+                            package_version_map_flutter.set(pkg, version_info);
+                            eventHandler.emit('check_aliyun', pkg);
+                        }else{
+                            // console.log('aliyun latest version of ' + pkg + ' is ' + data.latest.version);
+                            // aliyun_version = data.latest.version;
+                            // package_version_map_aliyun.set(pkg, data.latest.version);
+                            package_version_map_aliyun.set(pkg, version_info);
+                            eventHandler.emit('compare', pkg);
+
+                        }
                     }
+
                 }
 
             }catch(e){
@@ -672,8 +686,8 @@ function generateReport(){
 
 
     console.log('\n\n*************************************************************************');
-    console.log('                      end of result report');
-    console.log('report date: ' + currentTimestamp());
+    console.log('- end of result report\n');
+    console.log('- report date: ' + currentTimestamp());
     console.log('***************************************************************************\n\n');
 
     return report;
@@ -685,7 +699,7 @@ module.exports.checkPackage = function(){
     initializeAuth();
 
 //main process
-    console.log('requesting package list from official site...');
+    console.log(currentTimestamp() + ' requesting package list from official site...');
 
 // for(let i=0; i<200; i+=40){
 //     loadPackageInfo(i, true);
