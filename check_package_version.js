@@ -228,7 +228,7 @@ function requestPackageList(){
             console.error('http request error-->' + err.message);
             let title = '[Error] failed to retrieve flutter package list -- '+ currentTimestamp();
             let content = 'Check worker failed to get package list from official site after http request, the error message is the following:\n' + err.message;
-            composeEmail('Yuan@gdsub.com', report_receiver, title, content);
+            composeEmail(report_sender, report_receiver, title, content);
         }else{
             let json_error = false;
             try{
@@ -257,7 +257,7 @@ function requestPackageList(){
             if(json_error){
                 let title = '[Error] failed to retrieve flutter package list -- '+ currentTimestamp();
                 let content = 'Check worker failed to get package list from official site after http request, the received json message is the following:\n' + data;
-                composeEmail('Yuan@gdsub.com', report_receiver, title, content);
+                composeEmail(report_sender, report_receiver, title, content);
             }
         }
     });
