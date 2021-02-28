@@ -11,7 +11,7 @@ const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
 const package_info_url_flutter = 'https://pub.dartlang.org/api/packages?page=';
 const package_info_url_aliyun = 'https://pub.flutter-io.cn/api/packages?page=';
-const report_sender = 'yuan@gdsub.com';
+const report_sender = 'stevenstian@aol.com';
 const report_receiver = 'yuan@gdsub.com, lu@gdsub.com, lucydevrel@gmail.com'
 
 let index = 0;

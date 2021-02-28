@@ -35,7 +35,6 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v.0.2.9&#10;refresh the whole CDN site if Aliyun service refreshed">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/check_package_version.js" beforeDir="false" afterPath="$PROJECT_DIR$/check_package_version.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -160,20 +159,6 @@
       <workItem from="1612620107166" duration="3863000" />
       <workItem from="1614080858133" duration="1963000" />
       <workItem from="1614085690013" duration="4969000" />
-    </task>
-    <task id="LOCAL-00017" summary="debug package checking &amp; update function">
-      <created>1579582840938</created>
-      <option name="number" value="00017" />
-      <option name="presentableId" value="LOCAL-00017" />
-      <option name="project" value="LOCAL" />
-      <updated>1579582840939</updated>
-    </task>
-    <task id="LOCAL-00018" summary="debug package checking &amp; update function">
-      <created>1579583405831</created>
-      <option name="number" value="00018" />
-      <option name="presentableId" value="LOCAL-00018" />
-      <option name="project" value="LOCAL" />
-      <updated>1579583405831</updated>
     </task>
     <task id="LOCAL-00019" summary="v0.0.12&#10;*refresh package_url as file in CDN refreshing&#10;*wrapped json parsing code by try-catch block for processing exception messages responded by Aliyun Server.">
       <created>1579623382189</created>
@@ -504,7 +489,21 @@
       <option name="project" value="LOCAL" />
       <updated>1614088891181</updated>
     </task>
-    <option name="localTasksCounter" value="66" />
+    <task id="LOCAL-00066" summary="v0.2.10&#10;added timestamp on log messages">
+      <created>1614490323883</created>
+      <option name="number" value="00066" />
+      <option name="presentableId" value="LOCAL-00066" />
+      <option name="project" value="LOCAL" />
+      <updated>1614490323883</updated>
+    </task>
+    <task id="LOCAL-00067" summary="debug package_checker">
+      <created>1614492821178</created>
+      <option name="number" value="00067" />
+      <option name="presentableId" value="LOCAL-00067" />
+      <option name="project" value="LOCAL" />
+      <updated>1614492821178</updated>
+    </task>
+    <option name="localTasksCounter" value="68" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -523,8 +522,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.1.1&#10;check publisher ID &amp; refresh publisher resources" />
-    <MESSAGE value="v0.1.2 &#10;added debugging code" />
     <MESSAGE value="added MIT license for this project." />
     <MESSAGE value="test package checking code" />
     <MESSAGE value="disabled dir refreshing &amp; conservative strategy for testing purpose" />
@@ -548,13 +545,15 @@
     <MESSAGE value="v.0.2.9&#10;added try-catch block to wrap json parsing code" />
     <MESSAGE value="v.0.2.10&#10;added test code for checking package versions on official site and aliyun cdn" />
     <MESSAGE value="v.0.2.9&#10;added debug infomation" />
-    <option name="LAST_COMMIT_MESSAGE" value="v.0.2.9&#10;added debug infomation" />
+    <MESSAGE value="v0.2.10&#10;added timestamp on log messages" />
+    <MESSAGE value="debug package_checker" />
+    <option name="LAST_COMMIT_MESSAGE" value="debug package_checker" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="402" y="2" key="CommitChangelistDialog2" timestamp="1614088891081">
+    <state x="402" y="2" key="CommitChangelistDialog2" timestamp="1614492821085">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="402" y="2" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1614088891081" />
+    <state x="402" y="2" key="CommitChangelistDialog2/0.0.1680.1050@0.0.1680.1050" timestamp="1614492821085" />
     <state x="168" y="90" key="DiffContextDialog" timestamp="1614085736684">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
@@ -623,10 +622,10 @@
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
     <state width="1659" height="337" key="GridCell.Tab.3.right/0.0.1680.1050@0.0.1680.1050" timestamp="1614121481466" />
-    <state x="440" y="258" key="Vcs.Push.Dialog.v2" timestamp="1614088892802">
+    <state x="440" y="258" key="Vcs.Push.Dialog.v2" timestamp="1614492942242">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
-    <state x="440" y="258" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1614088892802" />
+    <state x="440" y="258" key="Vcs.Push.Dialog.v2/0.0.1680.1050@0.0.1680.1050" timestamp="1614492942242" />
     <state x="630" y="439" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1614082490585">
       <screen x="0" y="0" width="1680" height="1050" />
     </state>
