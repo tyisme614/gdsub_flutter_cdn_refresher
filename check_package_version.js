@@ -172,21 +172,31 @@ eventHandler.on('compare', (pkg)=>{
 });
 
 eventHandler.on('next_package', (pkg)=>{
-    let i = pkgList.indexOf(pkg);
-    i++;
-    if(i < pkgList.length){
-        let next = pkgList[i];
-        if(!checked_package.has(next)){
-            // console.log('check next package:' + next + ' index=' + i);
-            checkPackageVersion(next, true);
-        }else{
-            // console.log('package ' + next + ' has been checked, stop this worker');
-            // generateReport();
-        }
+    try{
+        if(pkgList != null){
+            let i = pkgList.indexOf(pkg);
+            i++;
+            if(i < pkgList.length){
+                let next = pkgList[i];
+                if(!checked_package.has(next)){
+                    // console.log('check next package:' + next + ' index=' + i);
+                    checkPackageVersion(next, true);
+                }else{
+                    // console.log('package ' + next + ' has been checked, stop this worker');
+                    // generateReport();
+                }
 
-    }else{
-        console.log('reached end of package list.');
+            }else{
+                console.log('reached end of package list.');
+            }
+        }else{
+            console.log(currentTimestamp() + ' package checking has finished.');
+        }
+    }catch(e){
+        console.error(currentTimestamp() + ' encountered error while getting next package info, err-->' +e.message);
     }
+
+
 });
 eventHandler.on('constructed data structure', ()=>{
     comparePkgVersion();

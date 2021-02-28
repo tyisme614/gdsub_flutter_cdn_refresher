@@ -5,13 +5,13 @@ console.log(currentTimestamp() + 'service started');
 // console.log(currentTimestamp() + 'requesting package list from official site...');
 
 //check time if it is time to start checking per hour
-setInterval(checkWorker, 1800000);
+setInterval(checkWorker, 3600000);
 
 function checkWorker(){
     let ts = Date.now();
     let date = new Date(ts);
     let hour = date.getHours();
-    if(true){//hour == 2){//2 o'clock in the morning
+    if(hour == 2){//2 o'clock in the morning
         console.log(currentTimestamp() +' start checking package versions');
         console.log(currentTimestamp() + ' requesting package list from official site...');
         worker.checkPackage();
