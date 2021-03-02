@@ -11,7 +11,7 @@ function checkWorker(){
     let ts = Date.now();
     let date = new Date(ts);
     let hour = date.getHours();
-    if(hour == 2){//2 o'clock in the morning
+    if(true){//hour == 2){//2 o'clock in the morning
         console.log(currentTimestamp() +' start checking package versions');
         console.log(currentTimestamp() + ' requesting package list from official site...');
         worker.checkPackage();
