@@ -11,10 +11,13 @@ function checkWorker(){
     let ts = Date.now();
     let date = new Date(ts);
     let hour = date.getHours();
-    if(true){//hour == 2){//2 o'clock in the morning
+    let report_duration = ts - worker.lastReportTime();
+    console.log('last report time -->' + worker.lastReportTime());
+    if(hour == 2 || report_duration >= 86400000){//2 o'clock in the morning or no reports for more than 24 hours
         console.log(currentTimestamp() +' start checking package versions');
         console.log(currentTimestamp() + ' requesting package list from official site...');
         worker.checkPackage();
+
     }
 }
 
