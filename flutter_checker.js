@@ -410,6 +410,9 @@ const startCheckTask = function(){
     }
     mainTask = setInterval(checkVersion, 10 * 60 * 1000);
 
+    console.log('[debug] removing qiniu resources');
+    mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
+    mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux_legacy);
 
 };
 
