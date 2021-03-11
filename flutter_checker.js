@@ -355,7 +355,7 @@ function removeFileFromBucket(b, f, callback){
             res = false;
         }else{
 
-            // console.log('respInfo=' + JSON.stringify(respInfo));
+            console.log('respInfo=' + JSON.stringify(respInfo));
             if(respInfo.status === 200){
                 console.log('operation done.');
                 res = true;
