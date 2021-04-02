@@ -13,6 +13,7 @@ mEmitter.on('remove_windows', (b, f) => {
     console.log('remove json file of windows version ');
     removeFileFromBucket(b, f, (res)=> {
         mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
+        mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux_legacy);
         if(res){
             setTimeout(requestSource, 300 * 1000, [url_qiniu_base + 'releases_windows.json']);
 
@@ -29,6 +30,7 @@ mEmitter.on('remove_linux', (b, f) => {
     console.log('remove json file of linux version ');
     removeFileFromBucket(b, f, (res)=> {
         mEmitter.emit('remove_macos', bucket, qiniu_jsonfile_macos);
+        mEmitter.emit('remove_macos', bucket, qiniu_jsonfile_macos_legacy);
         if(res){
             setTimeout(requestSource, 300 * 1000, [url_qiniu_base + 'releases_linux.json']);
         }
@@ -46,19 +48,24 @@ mEmitter.on('remove_macos', (b, f) => {
         }
     });
 
-
 });
 
+const URL_FLUTTER_WINDOWS = 'https://storage.googleapis.com/flutter_infra_release/releases/releases_windows.json';
+const URL_FLUTTER_MACOS = 'https://storage.googleapis.com/flutter_infra_release/releases/releases_macos.json';
+const URL_FLUTTER_LINUX = 'https://storage.googleapis.com/flutter_infra_release/releases/releases_linux.json';
+//legacy address
+const URL_FLUTTER_WINDOWS_LEGACY = 'https://storage.googleapis.com/flutter_infra/releases/releases_windows.json';
+const URL_FLUTTER_MACOS_LEGACY = 'https://storage.googleapis.com/flutter_infra/releases/releases_macos.json';
+const URL_FLUTTER_LINUX_LEGACY = 'https://storage.googleapis.com/flutter_infra/releases/releases_linux.json';
 
 
-const URL_FLUTTER_WINDOWS = 'https://storage.flutter-io.cn/flutter_infra_release/releases/releases_windows.json';
-const URL_FLUTTER_MACOS = 'https://storage.flutter-io.cn/flutter_infra/releases/releases_macos.json';
-const URL_FLUTTER_LINUX = 'https://storage.flutter-io.cn/flutter_infra/releases/releases_linux.json';
-
-
-const qiniu_jsonfile_linux = 'flutter_infra/releases/releases_linux.json';
-const qiniu_jsonfile_macos = 'flutter_infra/releases/releases_macos.json';
-const qiniu_jsonfile_windows = 'flutter_infra/releases/releases_windows.json';
+const qiniu_jsonfile_linux_legacy = 'flutter_infra/releases/releases_linux.json';
+const qiniu_jsonfile_macos_legacy = 'flutter_infra/releases/releases_macos.json';
+const qiniu_jsonfile_windows_legacy = 'flutter_infra/releases/releases_windows.json';
+//legacy resources
+const qiniu_jsonfile_linux = 'flutter_infra_release/releases/releases_linux.json';
+const qiniu_jsonfile_macos = 'flutter_infra_release/releases/releases_macos.json';
+const qiniu_jsonfile_windows = 'flutter_infra_release/releases/releases_windows.json';
 
 const url_qiniu_base = 'https://storage.flutter-io.cn/flutter_infra/releases/';
 
@@ -165,7 +172,8 @@ function retriveFlutterVersion(platform){
 
                             console.log('files are updated, remove related files from Qiniu buckets');
                             mEmitter.emit('remove_windows', bucket, qiniu_jsonfile_windows);
-
+                            //update legacy bucket
+                            mEmitter.emit('remove_windows', bucket, qiniu_jsonfile_windows_legacy);
 
                         }
 
@@ -351,7 +359,7 @@ function removeFileFromBucket(b, f, callback){
             res = false;
         }else{
 
-            // console.log('respInfo=' + JSON.stringify(respInfo));
+            console.log('respInfo=' + JSON.stringify(respInfo));
             if(respInfo.status === 200){
                 console.log('operation done.');
                 res = true;
@@ -406,6 +414,9 @@ const startCheckTask = function(){
     }
     mainTask = setInterval(checkVersion, 10 * 60 * 1000);
 
+    console.log('[debug] removing qiniu resources');
+    mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
+    mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux_legacy);
 
 };
 

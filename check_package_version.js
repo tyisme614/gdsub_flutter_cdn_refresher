@@ -43,8 +43,8 @@ let loaded_flutter = false;
 let loaded_aliyun = false;
 let loading = false;
 
-
-
+let checking = false;
+let last_report_time = 0;
 
 /**
  *
@@ -134,41 +134,51 @@ eventHandler.on('compare_deprecated', (pkg)=>{
 });
 
 eventHandler.on('compare', (pkg)=>{
-    let flutter_version = package_version_map_flutter.get(pkg);
-    let aliyun_version = package_version_map_aliyun.get(pkg);
-    // console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
-    if(flutter_version.latest != aliyun_version.latest || flutter_version.v_list_count != aliyun_version.v_list_count){
-        res_version_inconsistent.push(pkg);
-        refreshCDN(pkg);
-    }
-
-    // console.log('package checked:' + package_count);
-    checked_package.set(pkg, true);
-    if(package_count >= pkgList.length){
-        console.log('process finished. package_count=' + package_count);
-        let content = generateReport();
-        let title = 'flutter package check report -- '+ currentTimestamp();
-        composeEmail(report_sender, report_receiver, title, content);
-
-        cleanDataMembers();
+    if(!checking){
+        console.log(currentTimestamp() + ' checking has finished or terminated.');
     }else{
-        let i = pkgList.indexOf(pkg);
-        i++;
-        if(i < pkgList.length){
-            let next = pkgList[i];
-            if(!checked_package.has(next)){
-                // console.log('check next package:' + next + ' index=' + i);
+        let flutter_version = package_version_map_flutter.get(pkg);
+        let aliyun_version = package_version_map_aliyun.get(pkg);
+        // console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
+        if(flutter_version.latest != aliyun_version.latest || flutter_version.v_list_count != aliyun_version.v_list_count){
+            res_version_inconsistent.push(pkg);
+            refreshCDN(pkg);
+        }
 
-                checkPackageVersion(next, true);
-            }else{
-                // console.log('package ' + next + ' has been checked, stop this worker');
-                // generateReport();
+        // console.log('package checked:' + package_count);
+        checked_package.set(pkg, true);
+        if(package_count >= pkgList.length){
+            checking = false;
+            console.log('process finished. package_count=' + package_count);
+            let content = generateReport();
+            let title = 'flutter package check report -- '+ currentTimestamp();
+            composeEmail(report_sender, report_receiver, title, content);
+            last_report_time = Date.now();
+            cleanDataMembers();
+        }else{
+            try{
+                let i = pkgList.indexOf(pkg);
+                i++;
+                if(i < pkgList.length){
+                    let next = pkgList[i];
+                    if(!checked_package.has(next)){
+                        // console.log('check next package:' + next + ' index=' + i);
+                        checkPackageVersion(next, true);
+                    }else{
+                        // console.log('package ' + next + ' has been checked, stop this worker');
+                        // generateReport();
+                    }
+
+                }else{
+                    console.log('reached end of package list');
+                }
+            }catch(e){
+                console.error(currentTimestamp() + ' event: compare | error: ' + e.message);
             }
 
-        }else{
-            console.log('reached end of package list');
         }
     }
+
 });
 
 eventHandler.on('next_package', (pkg)=>{
@@ -227,6 +237,7 @@ function initializeAuth(){
 }
 
 function requestPackageList(){
+    checking = true;
     let options= {
         url: package_list_url,
         headers: {
@@ -239,6 +250,7 @@ function requestPackageList(){
             let title = '[Error] failed to retrieve flutter package list -- '+ currentTimestamp();
             let content = 'Check worker failed to get package list from official site after http request, the error message is the following:\n' + err.message;
             composeEmail(report_sender, report_receiver, title, content);
+            checking = false;
         }else{
             let json_error = false;
             try{
@@ -263,11 +275,13 @@ function requestPackageList(){
             }catch(e){
                 console.error(currentTimestamp() + 'json parsing error-->' + e.message);
                 json_error = true;
+
             }
             if(json_error){
                 let title = '[Error] failed to retrieve flutter package list -- '+ currentTimestamp();
                 let content = 'Check worker failed to get package list from official site after http request, the received json message is the following:\n' + data;
                 composeEmail(report_sender, report_receiver, title, content);
+                checking = false;
             }
         }
     });
@@ -294,7 +308,6 @@ function checkPackageVersion(pkg, official){
             if(official){
                 // let res = 'failed to request version info of  package ' + pkg + ' from official site';
                 res_http_request_failed_flutter.push(pkg + '\nhttp error:' + err.message);
-
             }else{
                 res_http_request_failed_aliyun.push(pkg + '\nhttp error:' + err.message);
             }
@@ -364,7 +377,7 @@ function checkPackageVersion(pkg, official){
                 }
 
             }catch(e){
-                console.error(currentTimestamp() + 'pkg json parsing error-->' + e.message + ' original message:' + body.toString());
+                console.error(currentTimestamp() + 'checkPackageVersion  error message-->' + e.message + ' stack info:' + e.stack.toString());
                 //{"error":{"code":"NotFound","message":"Could not find `package \"flutter_basirun_al_qoddam\"`."},"code":"NotFound","message":"Could not find `package \"flutter_basirun_al_qoddam\"`."}
                 if(official){
                     // let res = 'package ' + pkg + ' not found in official site';
@@ -718,5 +731,12 @@ module.exports.checkPackage = function(){
     requestPackageList();
 //check time if it is time to start checking per hour
 //     setInterval(checkWorker, 3600000);
+}
+
+module.exports.lastReportTime = function(){
+    if(last_report_time == 0){
+        return Date.now();
+    }
+    return last_report_time;
 }
 
