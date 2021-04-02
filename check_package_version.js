@@ -58,8 +58,9 @@ eventHandler.on('retrieved_packages', (list)=>{
     pkgList = list;
     index = 0;
     let task_count = 0;
-    console.log(' length=' + list.length);
-    for(let i=0; i<list.length; i+=250){
+    console.log('package list length=' + list.length);
+    let step = list.length/2;//250
+    for(let i=0; i<list.length; i+=step){
 
         let pkg = list[i];
         checkPackageVersion(pkg, true);
