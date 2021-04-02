@@ -51,7 +51,7 @@ mEmitter.on('remove_macos', (b, f) => {
 
 
 
-const URL_FLUTTER_WINDOWS = 'https://storage.flutter-io.cn/flutter_infra/releases/releases_windows.json';
+const URL_FLUTTER_WINDOWS = 'https://storage.flutter-io.cn/flutter_infra_release/releases/releases_windows.json';
 const URL_FLUTTER_MACOS = 'https://storage.flutter-io.cn/flutter_infra/releases/releases_macos.json';
 const URL_FLUTTER_LINUX = 'https://storage.flutter-io.cn/flutter_infra/releases/releases_linux.json';
 

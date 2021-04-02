@@ -6,7 +6,7 @@ const fs = require('fs');
 
 class CheckerEventHandler extends EventEmitter {}
 
-const flutter_base_url = 'https://dartlang-pub.appspot.com/api/packages/';//https://pub.dartlang.org/api/packages/';
+const flutter_base_url = 'https://pub.dartlang.org/api/packages/';//'https://dartlang-pub.appspot.com/api/packages/';//https://pub.dartlang.org/api/packages/';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const package_list_url = 'https://pub.dartlang.org/api/packages?compact=1';
 const package_info_url_flutter = 'https://pub.dartlang.org/api/packages?page=';
