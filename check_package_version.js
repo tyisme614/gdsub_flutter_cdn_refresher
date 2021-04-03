@@ -150,7 +150,7 @@ eventHandler.on('compare', (pkg)=>{
 
         console.log('package checked:' + package_count);
         checked_package.set(pkg, true);
-        if(package_count >= 100){//pkgList.length){
+        if(package_count >= pkgList.length){
             checking = false;
             console.log('process finished. package_count=' + package_count);
             let content = generateReport();
