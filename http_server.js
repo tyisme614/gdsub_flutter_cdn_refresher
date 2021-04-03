@@ -53,6 +53,11 @@ const requestListener = function (req, res) {
             worker.checkPackage();
             res.writeHead(200);
             res.end('package checking started...');
+        }else if(route == 'checkEmail'){
+            worker.checkEmailService();
+            res.writeHead(200);
+            res.end('sending test email to yuan@gdsub.com');
+
         }else{
             console.log('unimplemented route -->' + route);
             res.writeHead(404);

@@ -737,6 +737,11 @@ module.exports.checkPackage = function(){
 //     setInterval(checkWorker, 3600000);
 }
 
+module.exports.checkEmailService = function(){
+    let content = 'This message is sent from flutter cdn refresher service for testing email sending service. Server time:' + currentTimestamp();
+    composeEmail(report_sender, 'yuan@gdsub.com', 'Email Service Test', content);
+}
+
 module.exports.lastReportTime = function(){
     if(last_report_time == 0){
         return Date.now();
