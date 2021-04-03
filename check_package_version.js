@@ -738,6 +738,8 @@ module.exports.checkPackage = function(){
 }
 
 module.exports.checkEmailService = function(){
+    console.log('initialize mailer authentication');
+    initializeAuth();
     let content = 'This message is sent from flutter cdn refresher service for testing email sending service. Server time:' + currentTimestamp();
     composeEmail(report_sender, 'yuan@gdsub.com', 'Email Service Test', content);
 }
