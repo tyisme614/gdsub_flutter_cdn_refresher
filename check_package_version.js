@@ -60,11 +60,12 @@ eventHandler.on('retrieved_packages', (list)=>{
     let task_count = 0;
     console.log('package list length=' + list.length);
     let step = list.length/2;//250
-    for(let i=0; i<list.length; i+=step){
-
-        let pkg = list[i];
-        checkPackageVersion(pkg, true);
-    }
+    checkPackageVersion(pkg, true);
+    // for(let i=0; i<list.length; i+=step){
+    //
+    //     let pkg = list[i];
+    //     checkPackageVersion(pkg, true);
+    // }
 
 });
 
@@ -140,15 +141,15 @@ eventHandler.on('compare', (pkg)=>{
     }else{
         let flutter_version = package_version_map_flutter.get(pkg);
         let aliyun_version = package_version_map_aliyun.get(pkg);
-        // console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
+        console.log('comparing version of ' + pkg + ' offcial:' + flutter_version + ' aliyun:' + aliyun_version);
         if(flutter_version.latest != aliyun_version.latest || flutter_version.v_list_count != aliyun_version.v_list_count){
             res_version_inconsistent.push(pkg);
             refreshCDN(pkg);
         }
 
-        // console.log('package checked:' + package_count);
+        console.log('package checked:' + package_count);
         checked_package.set(pkg, true);
-        if(package_count >= pkgList.length){
+        if(package_count >= 100){//pkgList.length){
             checking = false;
             console.log('process finished. package_count=' + package_count);
             let content = generateReport();
