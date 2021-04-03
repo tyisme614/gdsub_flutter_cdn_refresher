@@ -58,11 +58,11 @@ const URL_FLUTTER_WINDOWS_LEGACY = 'https://storage.googleapis.com/flutter_infra
 const URL_FLUTTER_MACOS_LEGACY = 'https://storage.googleapis.com/flutter_infra/releases/releases_macos.json';
 const URL_FLUTTER_LINUX_LEGACY = 'https://storage.googleapis.com/flutter_infra/releases/releases_linux.json';
 
-
+//legacy resources
 const qiniu_jsonfile_linux_legacy = 'flutter_infra/releases/releases_linux.json';
 const qiniu_jsonfile_macos_legacy = 'flutter_infra/releases/releases_macos.json';
 const qiniu_jsonfile_windows_legacy = 'flutter_infra/releases/releases_windows.json';
-//legacy resources
+
 const qiniu_jsonfile_linux = 'flutter_infra_release/releases/releases_linux.json';
 const qiniu_jsonfile_macos = 'flutter_infra_release/releases/releases_macos.json';
 const qiniu_jsonfile_windows = 'flutter_infra_release/releases/releases_windows.json';

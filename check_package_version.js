@@ -304,6 +304,7 @@ function checkPackageVersion(pkg, official){
         }
     };
     request.get(options, (err, response, body) => {
+        console.log(currentTimestamp() + '[debug] body-->' + body);
         if(err){
             console.error(currentTimestamp() + ' http request error-->' + err.message);
             if(official){
