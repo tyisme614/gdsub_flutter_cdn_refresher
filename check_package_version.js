@@ -231,7 +231,8 @@ function initializeAuth(){
     let j = JSON.parse(data);
     //initialize mailer
     transporter = nodemailer.createTransport({
-        service: 'aol',
+        host: 'smtp.aol.com',
+        port: 587,
         auth: {
             user: j.mailer.account,
             pass: j.mailer.pwd
