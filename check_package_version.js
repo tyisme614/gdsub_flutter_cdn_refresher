@@ -233,6 +233,7 @@ function initializeAuth(){
     transporter = nodemailer.createTransport({
         host: 'smtp.aol.com',
         port: 587,
+        security:'STARTTLS',
         auth: {
             user: j.mailer.account,
             pass: j.mailer.pwd
