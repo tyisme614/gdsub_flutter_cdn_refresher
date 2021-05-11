@@ -7,9 +7,9 @@ The primary function of this project is checking flutter package version from of
 This project is based on Aliyun CDN where the mirror resources are cached.
 
 ## Prerequisitions
-1.NodeJS 0.8 and above
-2.Aliyun cli command tool 3.0.10 and above
-3.Ubuntu Server 18.04 amd-64
+1. NodeJS 0.8 and above
+2. Aliyun cli command tool 3.0.10 and above
+3. Ubuntu Server 18.04 amd-64
 
 ## Check Rules
 1. This service would cache the first page of package info list from official site as anchor page.
