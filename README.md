@@ -20,5 +20,7 @@ This project is based on Aliyun CDN where the mirror resources are cached.
 
 **powered by** [<img src="https://nodejs.org/static/images/logo.svg" width="64px" height="64px">](https://nodejs.org/en/)
 [<img src="https://www.jetbrains.com/company/brand/img/jetbrains_logo.png" width="64px" height="64px">](https://jb.gg/OpenSource/)
-[<img src="https://img.alicdn.com/tfs/TB13DzOjXP7gK0jSZFjXXc5aXXa-212-48.png" width="64px" height="64px">](https://www.aliyun.com/)
+[<img src="https://i.pinimg.com/originals/cf/8c/11/cf8c11d285559e700b105abd4adaee56.jpg" width="64px" height="64px">](https://www.aliyun.com/)
+
+* If you have any questions, please feel free to contact yuan@gdsub.com *
 
