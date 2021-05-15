@@ -17,3 +17,6 @@ This project is based on Aliyun CDN where the mirror resources are cached.
 3. As official Flutter site would insert the newly updated pakcage info at the head of the received pakcage list, this service would invoke CDN refreshing if received list is different from the cached 'first' page.
 
 **Note: After running this service for 2 years, we found that the newly updated package would sometimes be inserted at some other position of the package list, not the head of it. So we implemented a service which would run once per day to check all package versions between CDN and official site, and update the inconsistent pakcages to the newest version.**
+
+powered by [https://www.jetbrains.com/company/brand/img/jetbrains_logo.png](https://jb.gg/OpenSource)
+
