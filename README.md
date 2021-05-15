@@ -22,5 +22,5 @@ This project is based on Aliyun CDN where the mirror resources are cached.
 [<img src="https://www.jetbrains.com/company/brand/img/jetbrains_logo.png" width="64px" height="64px">](https://jb.gg/OpenSource/)
 [<img src="https://i.pinimg.com/originals/cf/8c/11/cf8c11d285559e700b105abd4adaee56.jpg" width="64px" height="64px">](https://www.aliyun.com/)
 
-* If you have any questions, please feel free to contact yuan@gdsub.com *
+*If you have any questions, please feel free to contact yuan@gdsub.com*
 
