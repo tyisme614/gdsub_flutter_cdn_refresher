@@ -18,5 +18,7 @@ This project is based on Aliyun CDN where the mirror resources are cached.
 
 **Note: After running this service for 2 years, we found that the newly updated package would sometimes be inserted at some other position of the package list, not the head of it. So we implemented a service which would run once per day to check all package versions between CDN and official site, and update the inconsistent pakcages to the newest version.**
 
-**powered by** [<img src="https://nodejs.org/static/images/logo.svg" width="128px" height="128px">](https://nodejs.org/en/)[<img src="https://www.jetbrains.com/company/brand/img/jetbrains_logo.png">](https://jb.gg/OpenSource/)
+**powered by** [<img src="https://nodejs.org/static/images/logo.svg" width="64px" height="64px">](https://nodejs.org/en/)
+[<img src="https://www.jetbrains.com/company/brand/img/jetbrains_logo.png" width="64px" height="64px">](https://jb.gg/OpenSource/)
+[<img src="https://img.alicdn.com/tfs/TB13DzOjXP7gK0jSZFjXXc5aXXa-212-48.png" width="64px" height="64px">](https://www.aliyun.com/)
 
