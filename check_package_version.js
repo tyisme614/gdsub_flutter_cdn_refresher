@@ -14,6 +14,8 @@ const package_info_url_aliyun = 'https://pub.flutter-io.cn/api/packages?page=';
 const report_sender = 'stevenstian@aol.com';
 const report_receiver = 'yuan@gdsub.com, lu@gdsub.com, lucydevrel@gmail.com'
 
+const HTTP_TIMEOUT = 15000;
+
 let index = 0;
 let pkgList;
 let aliyun_version = '';
@@ -148,11 +150,11 @@ eventHandler.on('compare', (pkg)=>{
             refreshCDN(pkg);
         }
 
-        console.log('package checked:' + package_count);
+        console.log(currentTimestamp() + 'package checked:' + package_count);
         checked_package.set(pkg, true);
         if(package_count >= pkgList.length){
             checking = false;
-            console.log('process finished. package_count=' + package_count);
+            console.log(currentTimestamp() + 'process finished. package_count=' + package_count);
             let content = generateReport();
             let title = 'flutter package check report -- '+ currentTimestamp();
             composeEmail(report_sender, report_receiver, title, content);
@@ -173,7 +175,7 @@ eventHandler.on('compare', (pkg)=>{
                     }
 
                 }else{
-                    console.log('reached end of package list');
+                    console.log(currentTimestamp() + 'reached end of package list');
                 }
             }catch(e){
                 console.error(currentTimestamp() + ' event: compare | error: ' + e.message);
@@ -200,7 +202,7 @@ eventHandler.on('next_package', (pkg)=>{
                 }
 
             }else{
-                console.log('reached end of package list.');
+                console.log(currentTimestamp() + 'reached end of package list.');
             }
         }else{
             console.log(currentTimestamp() + ' package checking has finished.');
@@ -231,9 +233,7 @@ function initializeAuth(){
     let j = JSON.parse(data);
     //initialize mailer
     transporter = nodemailer.createTransport({
-        host: 'smtp.aol.com',
-        port: 587,
-        security:'STARTTLS',
+        service: 'aol',
         auth: {
             user: j.mailer.account,
             pass: j.mailer.pwd
@@ -245,6 +245,7 @@ function requestPackageList(){
     checking = true;
     let options= {
         url: package_list_url,
+        timeout: HTTP_TIMEOUT,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
@@ -298,17 +299,17 @@ function checkPackageVersion(pkg, official){
     let base_url = aliyun_cdn_url;
     if(official){
         package_count++;
-        // console.log('request count:' + package_count2);
+        console.log(currentTimestamp() + 'request count:' + package_count2);
         base_url = flutter_base_url;
     }
     let options= {
         url: base_url + pkg,
+        timeout: HTTP_TIMEOUT,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
     };
     request.get(options, (err, response, body) => {
-        console.log(currentTimestamp() + '[debug] body-->' + body);
         if(err){
             console.error(currentTimestamp() + ' http request error-->' + err.message);
             if(official){
@@ -408,6 +409,7 @@ function loadPackageInfo(page, official){
     page_count++;
     let options= {
         url: base + page,
+        timeout: HTTP_TIMEOUT,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
@@ -415,8 +417,7 @@ function loadPackageInfo(page, official){
 
     request.get(options, (err, response, body) => {
             try{
-                console.log('loaded page ' + page + ' page_count=' + page_count);
-
+                console.log(currentTimestamp() + 'loaded page ' + page + ' page_count=' + page_count);
                 let json = JSON.parse(body);
 
                 let next_url = json.next_url;
@@ -430,7 +431,7 @@ function loadPackageInfo(page, official){
                         }else{
                             package_info_map_aliyun.set(page, json);
                         }
-                        console.log('package length-->' + json.packages.length);
+                        console.log(currentTimestamp() + 'package length-->' + json.packages.length);
                         eventHandler.emit('load_next_page', page + 1, official);
                     }
                     if(page_count == 194){
@@ -493,13 +494,13 @@ function comparePkgVersion(){
     while(!key.done){
         let pkg = key.value;
         if(!package_version_map_aliyun.has(pkg)){
-            console.log('package not found in aliyun map, pkg-->' + pkg);
+            console.log(currentTimestamp() + 'package not found in aliyun map, pkg-->' + pkg);
             res_pkg_not_found.push(pkg);
         }else{
             let version_flutter = package_version_map_flutter.get(pkg);
             let version_aliyun = package_version_map_aliyun.get(pkg);
             if(version_flutter != version_aliyun){
-                console.log('version inconsistent, pkg-->' + pkg);
+                console.log(currentTimestamp() + 'version inconsistent, pkg-->' + pkg);
                 res_version_inconsistent.push(pkg);
             }
         }
