@@ -384,7 +384,7 @@ function checkPackageVersion(pkg, official){
                 }
 
             }catch(e){
-                console.error(currentTimestamp() + 'checkPackageVersion  error message-->' + e.message + ' stack info:' + e.stack.toString());
+                console.error(currentTimestamp() + 'checkPackageVersion\n[error message]-->' + e.message + '\n[stack info]:' + e.stack.toString());
                 //{"error":{"code":"NotFound","message":"Could not find `package \"flutter_basirun_al_qoddam\"`."},"code":"NotFound","message":"Could not find `package \"flutter_basirun_al_qoddam\"`."}
                 if(official){
                     // let res = 'package ' + pkg + ' not found in official site';
@@ -754,3 +754,6 @@ module.exports.lastReportTime = function(){
     return last_report_time;
 }
 
+module.exports.is_checking = checking;
+
+module.exports.package_count = package_count;
