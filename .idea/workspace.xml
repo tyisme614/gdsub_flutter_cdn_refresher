@@ -32,12 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="fixed sender's email address">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/check_package_version.js" beforeDir="false" afterPath="$PROJECT_DIR$/check_package_version.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package_checker.js" beforeDir="false" afterPath="$PROJECT_DIR$/package_checker.js" afterDir="false" />
-    </list>
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.13&#10;added extra inforamtion for debugging purpose" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +87,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion.SSH" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Node.js.app">
@@ -112,7 +107,8 @@
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
-    <configuration />
+    <configuration>$USER_HOME$/.subversion</configuration>
+    <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
   </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -181,14 +177,7 @@
       <workItem from="1617406583051" duration="921000" />
       <workItem from="1617440048051" duration="7208000" />
       <workItem from="1618749308464" duration="146000" />
-      <workItem from="1622128831341" duration="726000" />
-    </task>
-    <task id="LOCAL-00033" summary="test chuangcache service">
-      <created>1581778450295</created>
-      <option name="number" value="00033" />
-      <option name="presentableId" value="LOCAL-00033" />
-      <option name="project" value="LOCAL" />
-      <updated>1581778450295</updated>
+      <workItem from="1622128831341" duration="1067000" />
     </task>
     <task id="LOCAL-00034" summary="v0.1.1&#10;check publisher ID &amp; refresh publisher resources">
       <created>1581819514418</created>
@@ -526,7 +515,14 @@
       <option name="project" value="LOCAL" />
       <updated>1617462719883</updated>
     </task>
-    <option name="localTasksCounter" value="82" />
+    <task id="LOCAL-00082" summary="v0.2.13&#10;added extra inforamtion for debugging purpose">
+      <created>1622129925548</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1622129925548</updated>
+    </task>
+    <option name="localTasksCounter" value="83" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -555,7 +551,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="enabled dir refresh" />
     <MESSAGE value="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files" />
     <MESSAGE value="added test code" />
     <MESSAGE value="v0.2.7&#10;added new worker for checking package update time, if a package is updated without changing the latest version, service would also update the CDN resource." />
@@ -580,7 +575,8 @@
     <MESSAGE value="test email" />
     <MESSAGE value="disable parallel http requests when checking package version on official site" />
     <MESSAGE value="fixed sender's email address" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed sender's email address" />
+    <MESSAGE value="v0.2.13&#10;added extra inforamtion for debugging purpose" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.13&#10;added extra inforamtion for debugging purpose" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
