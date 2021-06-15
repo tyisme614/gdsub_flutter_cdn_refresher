@@ -299,7 +299,7 @@ function checkPackageVersion(pkg, official){
     let base_url = aliyun_cdn_url;
     if(official){
         package_count++;
-        console.log(currentTimestamp() + 'request count:' + package_count2);
+        console.log(currentTimestamp() + 'request count:' + package_count);
         base_url = flutter_base_url;
     }
     let options= {
@@ -754,6 +754,8 @@ module.exports.lastReportTime = function(){
     return last_report_time;
 }
 
-module.exports.is_checking = checking;
+module.exports.is_checking = function() {
+    return checking;
+};
 
 module.exports.package_count = package_count;
