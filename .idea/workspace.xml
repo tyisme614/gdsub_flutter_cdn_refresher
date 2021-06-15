@@ -32,11 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;added extra inforamtion for debugging purpose">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/check_package_version.js" beforeDir="false" afterPath="$PROJECT_DIR$/check_package_version.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package_checker.js" beforeDir="false" afterPath="$PROJECT_DIR$/package_checker.js" afterDir="false" />
-    </list>
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.13&#10;get isChecking value before starting processing" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -91,7 +87,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="vcs.Subversion.SSH" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Node.js.app">
@@ -182,14 +178,7 @@
       <workItem from="1617440048051" duration="7208000" />
       <workItem from="1618749308464" duration="146000" />
       <workItem from="1622128831341" duration="1198000" />
-      <workItem from="1623763670211" duration="751000" />
-    </task>
-    <task id="LOCAL-00035" summary="v0.1.2 &#10;added debugging code">
-      <created>1582121340376</created>
-      <option name="number" value="00035" />
-      <option name="presentableId" value="LOCAL-00035" />
-      <option name="project" value="LOCAL" />
-      <updated>1582121340376</updated>
+      <workItem from="1623763670211" duration="2698000" />
     </task>
     <task id="LOCAL-00036" summary="fixed syntax error">
       <created>1582122011862</created>
@@ -527,7 +516,14 @@
       <option name="project" value="LOCAL" />
       <updated>1622131282366</updated>
     </task>
-    <option name="localTasksCounter" value="84" />
+    <task id="LOCAL-00084" summary="v0.2.13&#10;get isChecking value before starting processing">
+      <created>1623764536106</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1623764536107</updated>
+    </task>
+    <option name="localTasksCounter" value="85" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -556,7 +552,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files" />
     <MESSAGE value="added test code" />
     <MESSAGE value="v0.2.7&#10;added new worker for checking package update time, if a package is updated without changing the latest version, service would also update the CDN resource." />
     <MESSAGE value="fixed bug:&#10;package_url is not included in package info json, deprecate the url replace functions." />
@@ -581,7 +576,8 @@
     <MESSAGE value="disable parallel http requests when checking package version on official site" />
     <MESSAGE value="fixed sender's email address" />
     <MESSAGE value="v0.2.13&#10;added extra inforamtion for debugging purpose" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.13&#10;added extra inforamtion for debugging purpose" />
+    <MESSAGE value="v0.2.13&#10;get isChecking value before starting processing" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.13&#10;get isChecking value before starting processing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
