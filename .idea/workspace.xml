@@ -32,7 +32,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.13&#10;get isChecking value before starting processing" />
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.13&#10;get isChecking value before starting processing">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -178,14 +182,10 @@
       <workItem from="1617440048051" duration="7208000" />
       <workItem from="1618749308464" duration="146000" />
       <workItem from="1622128831341" duration="1198000" />
-      <workItem from="1623763670211" duration="2698000" />
-    </task>
-    <task id="LOCAL-00036" summary="fixed syntax error">
-      <created>1582122011862</created>
-      <option name="number" value="00036" />
-      <option name="presentableId" value="LOCAL-00036" />
-      <option name="project" value="LOCAL" />
-      <updated>1582122011862</updated>
+      <workItem from="1623763670211" duration="2778000" />
+      <workItem from="1624163362072" duration="488000" />
+      <workItem from="1624163930261" duration="127000" />
+      <workItem from="1627788396218" duration="320000" />
     </task>
     <task id="LOCAL-00037" summary="added MIT license for this project.">
       <created>1587264072415</created>
@@ -523,7 +523,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623764536107</updated>
     </task>
-    <option name="localTasksCounter" value="85" />
+    <task id="LOCAL-00085" summary="v0.2.13&#10;get isChecking value before starting processing">
+      <created>1623770372784</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1623770372784</updated>
+    </task>
+    <option name="localTasksCounter" value="86" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

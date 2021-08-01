@@ -53,7 +53,7 @@ let cdn_refresh_service_remain = 0;
 let present_day = 0;
 let refresh_interval = 600000;//10 minutes
 let alert_threshold = 999;//conservative strategy is not used
-let allowed_maximum_dir_refresh_times = 200;
+let allowed_maximum_dir_refresh_times = 800;
 
 let check_task;
 let check_task_conservative;
@@ -114,7 +114,7 @@ function cdnRefreshChecker(){
                 //start conservative strategy
                 // check_task_conservative = setInterval(conservative_refresh, refresh_interval);
             }else{
-                if(left_refresh_amount == allowed_maximum_dir_refresh_times){
+                if(left_refresh_amount >= allowed_maximum_dir_refresh_times){
                     if(debug){
                         console.log('Aliyun service refreshed usage count, refresh whole CDN resource site');
                     }
