@@ -32,10 +32,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.13&#10;get isChecking value before starting processing">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;increased maximum refreshing amount">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -185,14 +184,8 @@
       <workItem from="1623763670211" duration="2778000" />
       <workItem from="1624163362072" duration="488000" />
       <workItem from="1624163930261" duration="127000" />
-      <workItem from="1627788396218" duration="320000" />
-    </task>
-    <task id="LOCAL-00037" summary="added MIT license for this project.">
-      <created>1587264072415</created>
-      <option name="number" value="00037" />
-      <option name="presentableId" value="LOCAL-00037" />
-      <option name="project" value="LOCAL" />
-      <updated>1587264072415</updated>
+      <workItem from="1627788396218" duration="424000" />
+      <workItem from="1627835368901" duration="556000" />
     </task>
     <task id="LOCAL-00038" summary="added MIT license for this project.">
       <created>1587264219177</created>
@@ -530,7 +523,14 @@
       <option name="project" value="LOCAL" />
       <updated>1623770372784</updated>
     </task>
-    <option name="localTasksCounter" value="86" />
+    <task id="LOCAL-00086" summary="v0.2.14&#10;increased maximum refreshing amount">
+      <created>1627788798680</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1627788798682</updated>
+    </task>
+    <option name="localTasksCounter" value="87" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -559,7 +559,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="added test code" />
     <MESSAGE value="v0.2.7&#10;added new worker for checking package update time, if a package is updated without changing the latest version, service would also update the CDN resource." />
     <MESSAGE value="fixed bug:&#10;package_url is not included in package info json, deprecate the url replace functions." />
     <MESSAGE value="show value of timecomparecount" />
@@ -584,7 +583,8 @@
     <MESSAGE value="fixed sender's email address" />
     <MESSAGE value="v0.2.13&#10;added extra inforamtion for debugging purpose" />
     <MESSAGE value="v0.2.13&#10;get isChecking value before starting processing" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.13&#10;get isChecking value before starting processing" />
+    <MESSAGE value="v0.2.14&#10;increased maximum refreshing amount" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.14&#10;increased maximum refreshing amount" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

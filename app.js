@@ -52,7 +52,7 @@ let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
 let refresh_interval = 600000;//10 minutes
-let alert_threshold = 999;//conservative strategy is not used
+let alert_threshold = 50;//conservative strategy is not used
 let allowed_maximum_dir_refresh_times = 800;
 
 let check_task;
