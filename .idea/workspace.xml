@@ -32,7 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;increased maximum refreshing amount">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;fixed fatal error that caused infinite url refreshing">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
@@ -185,14 +185,7 @@
       <workItem from="1624163362072" duration="488000" />
       <workItem from="1624163930261" duration="127000" />
       <workItem from="1627788396218" duration="424000" />
-      <workItem from="1627835368901" duration="556000" />
-    </task>
-    <task id="LOCAL-00038" summary="added MIT license for this project.">
-      <created>1587264219177</created>
-      <option name="number" value="00038" />
-      <option name="presentableId" value="LOCAL-00038" />
-      <option name="project" value="LOCAL" />
-      <updated>1587264219177</updated>
+      <workItem from="1627835368901" duration="1006000" />
     </task>
     <task id="LOCAL-00039" summary="test package checking code">
       <created>1589706425251</created>
@@ -530,7 +523,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627788798682</updated>
     </task>
-    <option name="localTasksCounter" value="87" />
+    <task id="LOCAL-00087" summary="v0.2.14&#10;fixed fatal error that caused infinite url refreshing">
+      <created>1627836075948</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1627836075948</updated>
+    </task>
+    <option name="localTasksCounter" value="88" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -559,7 +559,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v0.2.7&#10;added new worker for checking package update time, if a package is updated without changing the latest version, service would also update the CDN resource." />
     <MESSAGE value="fixed bug:&#10;package_url is not included in package info json, deprecate the url replace functions." />
     <MESSAGE value="show value of timecomparecount" />
     <MESSAGE value="do not refresh directory for newly added package in extra_cache" />
@@ -584,7 +583,8 @@
     <MESSAGE value="v0.2.13&#10;added extra inforamtion for debugging purpose" />
     <MESSAGE value="v0.2.13&#10;get isChecking value before starting processing" />
     <MESSAGE value="v0.2.14&#10;increased maximum refreshing amount" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.14&#10;increased maximum refreshing amount" />
+    <MESSAGE value="v0.2.14&#10;fixed fatal error that caused infinite url refreshing" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.2.14&#10;fixed fatal error that caused infinite url refreshing" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
