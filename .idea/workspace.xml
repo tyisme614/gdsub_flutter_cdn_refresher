@@ -32,10 +32,9 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;correct logical error">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -190,14 +189,8 @@
       <workItem from="1630932685864" duration="148000" />
       <workItem from="1631023769618" duration="1082000" />
       <workItem from="1631410377538" duration="1481000" />
-      <workItem from="1631445647367" duration="4675000" />
-    </task>
-    <task id="LOCAL-00040" summary="test package checking code">
-      <created>1589706760667</created>
-      <option name="number" value="00040" />
-      <option name="presentableId" value="LOCAL-00040" />
-      <option name="project" value="LOCAL" />
-      <updated>1589706760667</updated>
+      <workItem from="1631445647367" duration="5326000" />
+      <workItem from="1631453634885" duration="207000" />
     </task>
     <task id="LOCAL-00041" summary="test package checking code">
       <created>1589707054334</created>
@@ -535,7 +528,14 @@
       <option name="project" value="LOCAL" />
       <updated>1627836398335</updated>
     </task>
-    <option name="localTasksCounter" value="89" />
+    <task id="LOCAL-00089" summary="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn">
+      <created>1631450414395</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1631450414397</updated>
+    </task>
+    <option name="localTasksCounter" value="90" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +564,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="show value of timecomparecount" />
     <MESSAGE value="do not refresh directory for newly added package in extra_cache" />
     <MESSAGE value="refresh cdn resource without refresh directory in extra_refresh_worker" />
     <MESSAGE value="fixed bug&#10;reset update time after checking refresh state" />
@@ -589,7 +588,8 @@
     <MESSAGE value="v0.2.14&#10;increased maximum refreshing amount" />
     <MESSAGE value="v0.2.14&#10;fixed fatal error that caused infinite url refreshing" />
     <MESSAGE value="v0.2.14&#10;correct logical error" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.2.14&#10;correct logical error" />
+    <MESSAGE value="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

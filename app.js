@@ -273,10 +273,10 @@ function traversePackages(pkg_json){
 function composeFileRefreshUrl(target){
     let res = 'https://'+ cdn_base_address + '/api/packages/' + target;
 
-    res += '\n' + 'https://'+ cdn_base_address + '/api/documentation/' + target;
-    res += '\n' + cdn_browser_resource_address + target;
-    res += '\n' + cdn_browser_resource_address + target + '/';
-    res += '\n' + cdn_browser_resource_address + target + '/versions';
+    res += ',' + 'https://'+ cdn_base_address + '/api/documentation/' + target;
+    res += ',' + cdn_browser_resource_address + target;
+    res += ',' + cdn_browser_resource_address + target + '/';
+    res += ',' + cdn_browser_resource_address + target + '/versions';
 
     return res;
 }
@@ -577,7 +577,7 @@ function refresh_target_directory_from_cache(){
     for(let i=0; i<refresh_dir_list.length; i++){
         let target = refresh_dir_list.pop();
         let url = cdn_browser_document_address + target + '/latest/'
-        url_collection += url + '\n';
+        url_collection += url + ',';
     }
 
     let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_DIRECTORY, '--secure']);
