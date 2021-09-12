@@ -32,7 +32,11 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;correct logical error" />
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.2.14&#10;correct logical error">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -183,6 +187,10 @@
       <workItem from="1624163930261" duration="127000" />
       <workItem from="1627788396218" duration="424000" />
       <workItem from="1627835368901" duration="1460000" />
+      <workItem from="1630932685864" duration="148000" />
+      <workItem from="1631023769618" duration="1082000" />
+      <workItem from="1631410377538" duration="1481000" />
+      <workItem from="1631445647367" duration="4675000" />
     </task>
     <task id="LOCAL-00040" summary="test package checking code">
       <created>1589706760667</created>
