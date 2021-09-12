@@ -32,7 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="print cli parameter">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
@@ -190,14 +190,7 @@
       <workItem from="1631023769618" duration="1082000" />
       <workItem from="1631410377538" duration="1481000" />
       <workItem from="1631445647367" duration="5326000" />
-      <workItem from="1631453634885" duration="1152000" />
-    </task>
-    <task id="LOCAL-00042" summary="added test code">
-      <created>1589992289836</created>
-      <option name="number" value="00042" />
-      <option name="presentableId" value="LOCAL-00042" />
-      <option name="project" value="LOCAL" />
-      <updated>1589992289836</updated>
+      <workItem from="1631453634885" duration="1905000" />
     </task>
     <task id="LOCAL-00043" summary="added test code">
       <created>1590041612602</created>
@@ -535,7 +528,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631453854596</updated>
     </task>
-    <option name="localTasksCounter" value="91" />
+    <task id="LOCAL-00091" summary="print cli parameter">
+      <created>1631459359959</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1631459359959</updated>
+    </task>
+    <option name="localTasksCounter" value="92" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +564,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="do not refresh directory for newly added package in extra_cache" />
     <MESSAGE value="refresh cdn resource without refresh directory in extra_refresh_worker" />
     <MESSAGE value="fixed bug&#10;reset update time after checking refresh state" />
     <MESSAGE value="fixed logical error" />
@@ -589,7 +588,8 @@
     <MESSAGE value="v0.2.14&#10;fixed fatal error that caused infinite url refreshing" />
     <MESSAGE value="v0.2.14&#10;correct logical error" />
     <MESSAGE value="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn" />
+    <MESSAGE value="print cli parameter" />
+    <option name="LAST_COMMIT_MESSAGE" value="print cli parameter" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

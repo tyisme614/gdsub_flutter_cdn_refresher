@@ -273,10 +273,10 @@ function traversePackages(pkg_json){
 function composeFileRefreshUrl(target){
     let res = 'https://'+ cdn_base_address + '/api/packages/' + target;
 
-    res += ',' + 'https://'+ cdn_base_address + '/api/documentation/' + target;
-    res += ',' + cdn_browser_resource_address + target;
-    res += ',' + cdn_browser_resource_address + target + '/';
-    res += ',' + cdn_browser_resource_address + target + '/versions';
+    res += '\n' + 'https://'+ cdn_base_address + '/api/documentation/' + target;
+    res += '\n' + cdn_browser_resource_address + target;
+    res += '\n' + cdn_browser_resource_address + target + '/';
+    res += '\n' + cdn_browser_resource_address + target + '/versions';
 
     return res;
 }
