@@ -190,14 +190,7 @@
       <workItem from="1631023769618" duration="1082000" />
       <workItem from="1631410377538" duration="1481000" />
       <workItem from="1631445647367" duration="5326000" />
-      <workItem from="1631453634885" duration="207000" />
-    </task>
-    <task id="LOCAL-00041" summary="test package checking code">
-      <created>1589707054334</created>
-      <option name="number" value="00041" />
-      <option name="presentableId" value="LOCAL-00041" />
-      <option name="project" value="LOCAL" />
-      <updated>1589707054334</updated>
+      <workItem from="1631453634885" duration="1152000" />
     </task>
     <task id="LOCAL-00042" summary="added test code">
       <created>1589992289836</created>
@@ -535,7 +528,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631450414397</updated>
     </task>
-    <option name="localTasksCounter" value="90" />
+    <task id="LOCAL-00090" summary="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn">
+      <created>1631453854596</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1631453854596</updated>
+    </task>
+    <option name="localTasksCounter" value="91" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

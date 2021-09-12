@@ -577,12 +577,13 @@ function refresh_target_directory_from_cache(){
     for(let i=0; i<refresh_dir_list.length; i++){
         let target = refresh_dir_list.pop();
         let url = cdn_browser_document_address + target + '/latest/'
-        url_collection += url + ',';
+        url_collection += url + '\n';
     }
-
+    console.log('the url list-->' + url_collection);
     let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_DIRECTORY, '--secure']);
 
     cmd.stdout.on('data', (data) => {
+        console.log(currentTimestamp());
         console.log(`stdout: ${data}`);
         try{
             cdn_refresh_info = JSON.parse(data);
@@ -600,9 +601,9 @@ function refresh_target_directory_from_cache(){
 
         }catch(e){
             console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
-            if(debug){
-                console.log('unable to refresh cdn, url -->' + url);
-            }
+            // if(debug){
+            //     console.log('unable to refresh cdn, url -->' + url);
+            // }
 
         }
     });
@@ -627,7 +628,7 @@ function refresh_target_file_from_cache(){
             let urls = composeFileRefreshUrl(target);
             url_collection += urls + '\n';
         }
-
+        console.log('the url list-->' + url_collection);
         let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_FILE, '--secure']);
 
         cmd.stdout.on('data', (data) => {
