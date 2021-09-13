@@ -235,15 +235,26 @@ function traversePackages(pkg_json){
             console.log('current package is ' + pkg.name + ' latest version is ' + pkg.latest.version);
             let res = checkPackageUpdateState(pkg, timeCompareCount);
             timeCompareCount = res.timeCompareCount;
+
+            let pkgName = pkg.name;
             if(res.needUpdate){
                 // refreshTargetPackage(pkg, true);
-                refresh_dir_list.push(pkg.name);
-                refresh_list.push(pkg.name);
+                if(refresh_dir_list.includes(pkgName)){
+                    refresh_dir_list.push(pkgName);
+                }
+                if(refresh_list.includes(pkgName)){
+                    refresh_list.push(pkgName);
+                }
+
             }else{
                 if(res.timeCompareCount < 5 && res.code == 3){
                     // extra_cache.push(pkg);
-                    refresh_dir_list.push(pkg.name);
-                    refresh_list.push(pkg.name);
+                    if(refresh_dir_list.includes(pkgName)){
+                        refresh_dir_list.push(pkgName);
+                    }
+                    if(refresh_list.includes(pkgName)){
+                        refresh_list.push(pkgName);
+                    }
                 }else{
                     keepSearching = false;
                     return true;
