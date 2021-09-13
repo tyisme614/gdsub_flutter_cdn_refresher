@@ -51,14 +51,16 @@ const TYPE_DIRECTORY = 'Directory';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 600000;//10 minutes
-let alert_threshold = 999;//conservative strategy is not used
-let allowed_maximum_dir_refresh_times = 200;
+let refresh_interval = 300000;//10 minutes
+let alert_threshold = 50;//conservative strategy is not used
+let allowed_maximum_dir_refresh_times = 1000;
 
 let check_task;
 let check_task_conservative;
 let refresh_worker;
-let refresh_cache = [];
+// let refresh_cache = [];
+let refresh_list = [];
+let refresh_dir_list = [];
 let refresh_directory = true;
 
 let pkg_map = null;
@@ -89,6 +91,11 @@ let cdn_refresh_privilege_info = '';
  */
 function cdnRefreshChecker(){
     if(!isProcessing || retry_time >= 2){//force to start cdn refresh procedure if isProcessing is not set to false after 20 minutes
+
+        //refresh cdn resources cached in list
+        refresh_target_file_from_cache();
+        refresh_target_directory_from_cache();
+
         isProcessing = true;
         retry_time = 0;
         check_service_status((left_refresh_amount) => {
@@ -103,10 +110,10 @@ function cdnRefreshChecker(){
                 }
 
                 //stop refresh worker
-                if(debug){
-                    console.log('stop refresh worker');
-                    clearInterval(refresh_worker);
-                }
+                // if(debug){
+                //     console.log('stop refresh worker');
+                //     clearInterval(refresh_worker);
+                // }
 
 
                 //get the start date of conservative refresh
@@ -184,7 +191,7 @@ function retrievePackageData(page){
                     for(let i=0; i<pkg_list.length; i++){
                         let pkg = pkg_list[i];
                         pkg_map.set(pkg.name, pkg);
-                        extra_cache.push(pkg);
+                        // extra_cache.push(pkg);
                     }
                     isProcessing = false;
                 }else{
@@ -229,10 +236,14 @@ function traversePackages(pkg_json){
             let res = checkPackageUpdateState(pkg, timeCompareCount);
             timeCompareCount = res.timeCompareCount;
             if(res.needUpdate){
-                refreshTargetPackage(pkg, true);
+                // refreshTargetPackage(pkg, true);
+                refresh_dir_list.push(pkg.name);
+                refresh_list.push(pkg.name);
             }else{
                 if(res.timeCompareCount < 5 && res.code == 3){
-                    extra_cache.push(pkg);
+                    // extra_cache.push(pkg);
+                    refresh_dir_list.push(pkg.name);
+                    refresh_list.push(pkg.name);
                 }else{
                     keepSearching = false;
                     return true;
@@ -259,10 +270,20 @@ function traversePackages(pkg_json){
     }
 }
 
+function composeFileRefreshUrl(target){
+    let res = 'https://'+ cdn_base_address + '/api/packages/' + target;
+
+    res += '\n' + 'https://'+ cdn_base_address + '/api/documentation/' + target;
+    res += '\n' + cdn_browser_resource_address + target;
+    res += '\n' + cdn_browser_resource_address + target + '/';
+    res += '\n' + cdn_browser_resource_address + target + '/versions';
+
+    return res;
+}
 /**
  * refresh target package in aliyun CDN
  */
-function refreshTargetPackage(pkg, refreshDir){
+function deprecated_refreshTargetPackage(pkg, refreshDir){
     let pkg_url = 'https://'+ cdn_base_address + '/api/packages/';
     let package_url = {};
     package_url.url = pkg_url + pkg.name + '/';//replacePackage_url(pkg, cdn_base_address);
@@ -288,7 +309,7 @@ function refreshTargetPackage(pkg, refreshDir){
                 let publisher_url = {};
                 publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
                 publisher_url.type = TYPE_FILE;
-                refresh_cache.push(publisher_url);
+                // refresh_cache.push(publisher_url);
             }
         } catch (e) {
             console.error('failed to parse JSON, response-->' + res);
@@ -300,14 +321,17 @@ function refreshTargetPackage(pkg, refreshDir){
     browser_package.url = cdn_browser_resource_address + pkg.name;
     browser_package.type = TYPE_FILE;
     refresh_cache.push(browser_package);
+
     let browser_package2 = {};
     browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
     browser_package2.type = TYPE_FILE;
     refresh_cache.push(browser_package2);
+
     let browser_package_versions = {};
     browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
     browser_package_versions.type = TYPE_FILE;
     refresh_cache.push(browser_package_versions);
+
     if (refresh_directory && refreshDir) {
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
@@ -460,7 +484,9 @@ function show_package_info(pkg){
     return info;
 }
 
+
 /**
+ * @Deprecated
  *
  * @param url: the target resource url
  * @param type: the target type, File or Directory
@@ -546,18 +572,107 @@ function refresh_ali_cdn(){
     });
 }
 
-function refresh_target_from_cache(){
+function refresh_target_directory_from_cache(){
+    if(refresh_dir_list.length > 0){
+        let url_collection = '';
+        for(let i=0; i<refresh_dir_list.length; i++){
+            let target = refresh_dir_list.pop();
+            let url = cdn_browser_document_address + target + '/latest/'
+            url_collection += url + '\n';
+        }
+        console.log(currentTimestamp() + ' [refresh_target_directory_from_cache]');
+        console.log('the url list-->' + url_collection);
+        let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_DIRECTORY, '--secure']);
 
-    if(refresh_cache.length > 0){
-        console.log(currentTimestamp() + ' refresh_cache length is ' + refresh_cache.length);
-        // console.log('[info] last check message -->' + lastCheckMSG);
-        let target = refresh_cache.pop();
-        refresh_ali_cdn_of_target(target.url, target.type);
+        cmd.stdout.on('data', (data) => {
+
+            console.log(`stdout: ${data}`);
+            try{
+                cdn_refresh_info = JSON.parse(data);
+                if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                    console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+                }
+
+                if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                    console.log('RequestId=' + cdn_refresh_info.RequestId);
+                }
+
+                if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                    console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+                }
+
+            }catch(e){
+                console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
+                // if(debug){
+                //     console.log('unable to refresh cdn, url -->' + url);
+                // }
+
+            }
+        });
+
+        cmd.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+
+        cmd.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+        });
+    }
+
+
+}
+
+function refresh_target_file_from_cache(){
+
+    if(refresh_list.length > 0){
+        console.log(currentTimestamp() + ' refresh_cache length is ' + refresh_list.length);
+        let url_collection = '';
+        for(let i=0; i<refresh_list.length; i++){
+            let target = refresh_list.pop();
+            let urls = composeFileRefreshUrl(target);
+            url_collection += urls + '\n';
+        }
+        console.log(currentTimestamp() + ' [refresh_target_file_from_cache]');
+        console.log('the url list-->' + url_collection);
+        let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_FILE, '--secure']);
+
+        cmd.stdout.on('data', (data) => {
+            console.log(`stdout: ${data}`);
+            try{
+                cdn_refresh_info = JSON.parse(data);
+                if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
+                    console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+                }
+
+                if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
+                    console.log('RequestId=' + cdn_refresh_info.RequestId);
+                }
+
+                if(typeof(cdn_refresh_info.Code) != 'undefined'){
+                    console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+                }
+
+            }catch(e){
+                console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
+                if(debug){
+                    console.log('unable to refresh cdn, url -->' + url);
+                }
+
+            }
+        });
+
+        cmd.stderr.on('data', (data) => {
+            console.log(`stderr: ${data}`);
+        });
+
+        cmd.on('close', (code) => {
+            console.log(`child process exited with code ${code}`);
+        });
 
     }
 }
 
-function refresh_package_by_update_time(){
+function deprecated_refresh_package_by_update_time(){
     if(extra_cache.length > 0){
         let target = extra_cache.pop();
         let options= {
@@ -591,15 +706,15 @@ function refresh_package_by_update_time(){
                     }
                 }else{
                     console.log('[extra check] package not found in extra_pkg_map, cache it and refresh this package');
-                   let obj = {};
-                   obj.package = json;
+                    let obj = {};
+                    obj.package = json;
                     let versions = json.versions;
                     let len = versions.length;
                     let v = versions[len - 1];
                     let update_time = Date.parse(v.published);
-                   obj.last_updated_time = update_time;
-                   extra_pkg_map.set(name, obj);
-                   refreshTargetPackage(json, false);
+                    obj.last_updated_time = update_time;
+                    extra_pkg_map.set(name, obj);
+                    refreshTargetPackage(json, false);
                 }
 
             }
@@ -682,9 +797,9 @@ function conservative_refresh(){
                 present_day = 0;
 
                 //restart normal strategy
-                refresh_worker = setInterval(refresh_target_from_cache, 1000);//send refresh request at interval of 1 second
+                // refresh_worker = setInterval(refresh_target_from_cache, 600000);//send refresh request at interval of 600 second
 
-                check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
+                // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
             }else{
                 if(debug){
                     console.log('refresh service is not recovered, keep using conservative strategy');
@@ -814,15 +929,16 @@ let onHTTPEventListener = function(pkgName){
 //intialize first package information
 // check_first_package();
 //start refresh worker
-refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
+//commented by Yuan on Sep 12,2021
+// refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
 //start interval task
-check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per 5 min aka 300 sec
+check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per refresh_interval
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 flutter_checker.startCheckTask();
 
 //start extra refresh worker
-extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
+// extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
 //manually add new refresh requests
 http_server.startHTTPServer(onHTTPEventListener);

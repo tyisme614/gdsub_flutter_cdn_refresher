@@ -14,9 +14,18 @@ function checkWorker(){
     let report_duration = ts - worker.lastReportTime();
     console.log('last report time -->' + worker.lastReportTime());
     if(hour == 2 || report_duration >= 86400000){//2 o'clock in the morning or no reports for more than 24 hours
-        console.log(currentTimestamp() +' start checking package versions');
-        console.log(currentTimestamp() + ' requesting package list from official site...');
-        worker.checkPackage();
+        let checking = worker.is_checking();
+        console.log(currentTimestamp() + 'checking --> ' + checking);
+        if(checking){
+
+            console.log(currentTimestamp() + 'package checker is processing last task, report_duration is ' + report_duration);
+            console.log(currentTimestamp() + worker.package_count + ' packages have been checked.');
+        }else{
+            console.log(currentTimestamp() +' start checking package versions');
+            console.log(currentTimestamp() + ' requesting package list from official site...');
+            worker.checkPackage();
+        }
+
 
     }
 }
