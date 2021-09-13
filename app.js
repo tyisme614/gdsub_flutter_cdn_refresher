@@ -239,20 +239,20 @@ function traversePackages(pkg_json){
             let pkgName = pkg.name;
             if(res.needUpdate){
                 // refreshTargetPackage(pkg, true);
-                if(refresh_dir_list.includes(pkgName)){
+                if(!refresh_dir_list.includes(pkgName)){
                     refresh_dir_list.push(pkgName);
                 }
-                if(refresh_list.includes(pkgName)){
+                if(!refresh_list.includes(pkgName)){
                     refresh_list.push(pkgName);
                 }
 
             }else{
                 if(res.timeCompareCount < 5 && res.code == 3){
                     // extra_cache.push(pkg);
-                    if(refresh_dir_list.includes(pkgName)){
+                    if(!refresh_dir_list.includes(pkgName)){
                         refresh_dir_list.push(pkgName);
                     }
-                    if(refresh_list.includes(pkgName)){
+                    if(!refresh_list.includes(pkgName)){
                         refresh_list.push(pkgName);
                     }
                 }else{

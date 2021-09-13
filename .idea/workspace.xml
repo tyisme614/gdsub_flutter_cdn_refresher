@@ -32,7 +32,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="print cli parameter">
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="try to fix 'Url Malformed' issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
     </list>
@@ -90,7 +90,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Node.js.app">
@@ -190,14 +190,8 @@
       <workItem from="1631023769618" duration="1082000" />
       <workItem from="1631410377538" duration="1481000" />
       <workItem from="1631445647367" duration="5326000" />
-      <workItem from="1631453634885" duration="2415000" />
-    </task>
-    <task id="LOCAL-00044" summary="added test code">
-      <created>1590042983232</created>
-      <option name="number" value="00044" />
-      <option name="presentableId" value="LOCAL-00044" />
-      <option name="project" value="LOCAL" />
-      <updated>1590042983232</updated>
+      <workItem from="1631453634885" duration="3374000" />
+      <workItem from="1631542528767" duration="675000" />
     </task>
     <task id="LOCAL-00045" summary="disabled dir refreshing &amp; conservative strategy for testing purpose">
       <created>1590074606399</created>
@@ -535,7 +529,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631460933103</updated>
     </task>
-    <option name="localTasksCounter" value="93" />
+    <task id="LOCAL-00093" summary="try to fix 'Url Malformed' issue">
+      <created>1631462355523</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1631462355523</updated>
+    </task>
+    <option name="localTasksCounter" value="94" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -564,7 +565,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="refresh cdn resource without refresh directory in extra_refresh_worker" />
     <MESSAGE value="fixed bug&#10;reset update time after checking refresh state" />
     <MESSAGE value="fixed logical error" />
     <MESSAGE value="v.0.2.9&#10;refresh the whole CDN site if Aliyun service refreshed" />
@@ -589,7 +589,8 @@
     <MESSAGE value="v0.2.14&#10;correct logical error" />
     <MESSAGE value="v0.3.0&#10;put all candidate urls into one request to refresh aliyun cdn" />
     <MESSAGE value="print cli parameter" />
-    <option name="LAST_COMMIT_MESSAGE" value="print cli parameter" />
+    <MESSAGE value="try to fix 'Url Malformed' issue" />
+    <option name="LAST_COMMIT_MESSAGE" value="try to fix 'Url Malformed' issue" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
