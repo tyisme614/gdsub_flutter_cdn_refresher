@@ -591,6 +591,8 @@ function refresh_target_directory_from_cache(){
             let url = cdn_browser_document_address + target + '/latest/'
             url_collection += url + '\n';
         }
+        console.log('length of refresh_dir_list -->' + refresh_dir_list.length);
+        refresh_dir_list = [];
         console.log(currentTimestamp() + ' [refresh_target_directory_from_cache]');
         console.log('the url list-->' + url_collection);
         let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_DIRECTORY, '--secure']);
@@ -645,6 +647,8 @@ function refresh_target_file_from_cache(){
         }
         console.log(currentTimestamp() + ' [refresh_target_file_from_cache]');
         console.log('the url list-->' + url_collection);
+        console.log('length of refresh_list -->' + refresh_list.length);
+        refresh_list = [];
         let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_FILE, '--secure']);
 
         cmd.stdout.on('data', (data) => {

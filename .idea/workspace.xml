@@ -35,6 +35,7 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="try to fix 'Url Malformed' issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +109,7 @@
       <item itemvalue="Node.js.http-server" />
     </list>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
     <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
@@ -591,6 +592,12 @@
     <MESSAGE value="print cli parameter" />
     <MESSAGE value="try to fix 'Url Malformed' issue" />
     <option name="LAST_COMMIT_MESSAGE" value="try to fix 'Url Malformed' issue" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="2679" y="-100" width="840" height="1034" key="search.everywhere.popup" timestamp="1631596387556">
+      <screen x="2560" y="-526" width="1080" height="1872" />
+    </state>
+    <state x="2679" y="-100" width="840" height="1034" key="search.everywhere.popup/3640.302.1920.1032/2560.-526.1080.1872/0.0.2560.1032@2560.-526.1080.1872" timestamp="1631596387556" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
