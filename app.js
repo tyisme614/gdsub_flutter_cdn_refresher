@@ -238,6 +238,7 @@ function traversePackages(pkg_json){
 
             let pkgName = pkg.name;
             if(res.needUpdate){
+                console.log(currentTimestamp() + 'needUpdate is true, push package ' + pkgName + ' to refresh_list');
                 // refreshTargetPackage(pkg, true);
                 if(!refresh_dir_list.includes(pkgName)){
                     refresh_dir_list.push(pkgName);
@@ -248,6 +249,7 @@ function traversePackages(pkg_json){
 
             }else{
                 if(res.timeCompareCount < 5 && res.code == 3){
+                    console.log(currentTimestamp() + 'meet the condition -- res.timeCompareCount < 5 && res.code == 3, push package ' + pkgName + ' to refresh_list');
                     // extra_cache.push(pkg);
                     if(!refresh_dir_list.includes(pkgName)){
                         refresh_dir_list.push(pkgName);
