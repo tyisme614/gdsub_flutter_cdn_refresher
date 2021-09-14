@@ -35,7 +35,6 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="try to fix 'Url Malformed' issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,6 +192,7 @@
       <workItem from="1631445647367" duration="5326000" />
       <workItem from="1631453634885" duration="3374000" />
       <workItem from="1631542528767" duration="675000" />
+      <workItem from="1631599439437" duration="54000" />
     </task>
     <task id="LOCAL-00045" summary="disabled dir refreshing &amp; conservative strategy for testing purpose">
       <created>1590074606399</created>
@@ -541,7 +541,7 @@
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
+    <option name="version" value="2" />
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">

@@ -587,7 +587,7 @@ function refresh_target_directory_from_cache(){
     if(refresh_dir_list.length > 0){
         let url_collection = '';
         for(let i=0; i<refresh_dir_list.length; i++){
-            let target = refresh_dir_list.pop();
+            let target = refresh_dir_list[i];
             let url = cdn_browser_document_address + target + '/latest/'
             url_collection += url + '\n';
         }
@@ -641,7 +641,7 @@ function refresh_target_file_from_cache(){
         console.log(currentTimestamp() + ' refresh_cache length is ' + refresh_list.length);
         let url_collection = '';
         for(let i=0; i<refresh_list.length; i++){
-            let target = refresh_list.pop();
+            let target = refresh_list[i];
             let urls = composeFileRefreshUrl(target);
             url_collection += urls + '\n';
         }
