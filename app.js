@@ -51,7 +51,7 @@ const TYPE_DIRECTORY = 'Directory';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 300000;//10 minutes
+let refresh_interval = 666000;//10 minutes
 let alert_threshold = 50;//conservative strategy is not used
 let allowed_maximum_dir_refresh_times = 1000;
 
@@ -248,15 +248,15 @@ function traversePackages(pkg_json){
                 }
 
             }else{
-                if(res.timeCompareCount < 5 && res.code == 3){
+                if(res.timeCompareCount < 16 && res.code == 3){
                     console.log(currentTimestamp() + 'meet the condition -- res.timeCompareCount < 5 && res.code == 3, push package ' + pkgName + ' to refresh_list');
-                    // extra_cache.push(pkg);
-                    if(!refresh_dir_list.includes(pkgName)){
-                        refresh_dir_list.push(pkgName);
-                    }
-                    if(!refresh_list.includes(pkgName)){
-                        refresh_list.push(pkgName);
-                    }
+                    extra_cache.push(pkg);
+                    // if(!refresh_dir_list.includes(pkgName)){
+                    //     refresh_dir_list.push(pkgName);
+                    // }
+                    // if(!refresh_list.includes(pkgName)){
+                    //     refresh_list.push(pkgName);
+                    // }
                 }else{
                     keepSearching = false;
                     return true;
@@ -296,7 +296,7 @@ function composeFileRefreshUrl(target){
 /**
  * refresh target package in aliyun CDN
  */
-function deprecated_refreshTargetPackage(pkg, refreshDir){
+function refreshTargetPackage(pkg, refreshDir){
     let pkg_url = 'https://'+ cdn_base_address + '/api/packages/';
     let package_url = {};
     package_url.url = pkg_url + pkg.name + '/';//replacePackage_url(pkg, cdn_base_address);
@@ -689,7 +689,7 @@ function refresh_target_file_from_cache(){
     }
 }
 
-function deprecated_refresh_package_by_update_time(){
+function refresh_package_by_update_time(){
     if(extra_cache.length > 0){
         let target = extra_cache.pop();
         let options= {
@@ -955,7 +955,7 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 flutter_checker.startCheckTask();
 
 //start extra refresh worker
-// extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
+extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
 //manually add new refresh requests
 http_server.startHTTPServer(onHTTPEventListener);
