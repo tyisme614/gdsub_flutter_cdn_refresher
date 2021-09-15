@@ -743,7 +743,7 @@ function refresh_package_by_update_time(){
                 let json = JSON.parse(body);
                 let name = json.name;
                 if(extra_pkg_map.has(name)){
-                    console.log('[extra check] found package in extra_pkg_map, compare update time');
+                    console.log('[extra check] found package ' + name + ' in extra_pkg_map, compare update time');
                     let versions = json.versions;
                     let len = versions.length;
                     //find last update version, the last version should be the latest update record
@@ -758,7 +758,7 @@ function refresh_package_by_update_time(){
                         refreshTargetPackage(pkg.package, false);
                     }
                 }else{
-                    console.log('[extra check] package not found in extra_pkg_map, cache it and refresh this package');
+                    console.log('[extra check] package ' + name + '  not found in extra_pkg_map, cache it');
                     let obj = {};
                     obj.package = json;
                     let versions = json.versions;
@@ -767,7 +767,7 @@ function refresh_package_by_update_time(){
                     let update_time = Date.parse(v.published);
                     obj.last_updated_time = update_time;
                     extra_pkg_map.set(name, obj);
-                    refreshTargetPackage(json, false);
+                    // refreshTargetPackage(json, false);
                 }
 
             }
