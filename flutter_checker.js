@@ -390,6 +390,10 @@ const requestSource = function(url){
         resp.on('end', () => {
             console.log(data);
         });
+
+        resp.on('error', (err) =>{
+            console.error('encountered error in http request:' + err.message);
+        })
     });
 }
 
@@ -421,3 +425,6 @@ const startCheckTask = function(){
 };
 
 module.exports.startCheckTask = startCheckTask;
+
+console.log('starting flutter version checker...');
+startCheckTask();

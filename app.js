@@ -65,7 +65,7 @@ const TYPE_DIRECTORY = 'Directory';
 let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
-let refresh_interval = 666000;//10 minutes
+let refresh_interval = 666000;//11 minutes
 let alert_threshold = 50;//conservative strategy is not used
 let allowed_maximum_dir_refresh_times = 1000;
 
@@ -1006,13 +1006,13 @@ function currentTimestamp(){
 //intialize first package information
 // check_first_package();
 //start refresh worker
-//commented by Yuan on Sep 12,2021
+
 refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
 //start interval task
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per refresh_interval
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
-flutter_checker.startCheckTask();
+// flutter_checker.startCheckTask();
 
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
