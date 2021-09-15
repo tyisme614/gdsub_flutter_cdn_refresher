@@ -35,6 +35,7 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="try to fix 'Url Malformed' issue">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_chuangcache.js" beforeDir="false" afterPath="$PROJECT_DIR$/app_chuangcache.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,7 +110,7 @@
       <item itemvalue="Node.js.http-server" />
     </list>
   </component>
-  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="false" />
+  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
     <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
@@ -195,6 +196,7 @@
       <workItem from="1631542528767" duration="675000" />
       <workItem from="1631599439437" duration="192000" />
       <workItem from="1631601443542" duration="662000" />
+      <workItem from="1631671870926" duration="1211000" />
     </task>
     <task id="LOCAL-00045" summary="disabled dir refreshing &amp; conservative strategy for testing purpose">
       <created>1590074606399</created>

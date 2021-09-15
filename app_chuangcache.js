@@ -206,9 +206,6 @@ async function check_first_package(){
             }
         }
 
-
-
-
     });
 
 }
@@ -405,6 +402,8 @@ function refresh_target_from_cache(){
 
 }
 
+
+
 async function request_token(){
     if(!fs.existsSync(__dirname + '/auth.json')){
         console.error('unable to find auth.json');
@@ -452,6 +451,8 @@ function currentTimeInMilliseconds(){
     let timestamp = Date.now() - timezone * 60000;
     return timestamp;
 }
+
+//initialization
 
 check_first_package();
 

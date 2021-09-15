@@ -4,6 +4,12 @@ const flutter_checker = require('./flutter_checker');
 const http_server = require('./http_server');
 const fs = require('fs');
 
+const EventEmitter = require('events');
+
+/**
+ *
+ *  constants
+ */
 const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
 const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
 const flutter_source_url_arg_page = 'https://pub.dartlang.org/api/packages?page=';//[deprecated]'https://pub.dev/api/packages?page=1';
@@ -18,10 +24,11 @@ const cdn_browser_document_address = 'https://pub.flutter-io.cn/documentation/';
 const cdn_publisher_resource_address = 'https://pub.flutter-io.cn/publishers/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
 
-const EventEmitter = require('events');
 
+/**
+ * event handler & emitter
+ */
 class CheckerEventHandler extends EventEmitter {}
-
 const eventHandler = new CheckerEventHandler();
 eventHandler.on('checkPage', (page) => {
     if(page == -1){
@@ -38,10 +45,17 @@ eventHandler.on('checkPage', (page) => {
         isProcessing = false;
     }
 
-
 });
 
 
+/**
+ *
+ *
+ *  local data members
+ *
+ *
+ *
+ */
 
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
@@ -58,7 +72,7 @@ let allowed_maximum_dir_refresh_times = 1000;
 let check_task;
 let check_task_conservative;
 let refresh_worker;
-// let refresh_cache = [];
+let refresh_cache = [];
 let refresh_list = [];
 let refresh_dir_list = [];
 let refresh_directory = true;
@@ -82,7 +96,18 @@ let retry_time = 0;
 let cdn_refresh_privilege_info = '';
 
 // let lastCheckMSG = '';
+/**
+ * end of block
+ */
 
+
+/**
+ *
+ *
+ * local functions
+ *
+ *
+ */
 
 /**
  *
@@ -585,6 +610,7 @@ function refresh_ali_cdn(){
     });
 }
 
+//batch refresh
 function refresh_target_directory_from_cache(){
     if(refresh_dir_list.length > 0){
         let url_collection = '';
@@ -637,6 +663,7 @@ function refresh_target_directory_from_cache(){
 
 }
 
+//batch refresh
 function refresh_target_file_from_cache(){
 
     if(refresh_list.length > 0){
@@ -686,6 +713,15 @@ function refresh_target_file_from_cache(){
             console.log(`child process exited with code ${code}`);
         });
 
+    }
+}
+//work process function
+function refresh_target_from_cache(){
+    if(refresh_cache.length > 0){
+        console.log(currentTimestamp() + ' refresh_cache length is ' + refresh_cache.length);
+        // console.log('[info] last check message -->' + lastCheckMSG);
+        let target = refresh_cache.pop();
+        refresh_ali_cdn_of_target(target.url, target.type);
     }
 }
 
@@ -940,6 +976,30 @@ let onHTTPEventListener = function(pkgName){
     }
 };
 
+function currentTimestamp(){
+    let ts = Date.now();
+
+    let date_ob = new Date(ts);
+    let date = date_ob.getDate();
+    let month = date_ob.getMonth() + 1;
+    let year = date_ob.getFullYear();
+
+    let hour = date_ob.getHours();
+    let minute = date_ob.getMinutes();
+    let second = date_ob.getSeconds();
+
+    return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
+}
+
+/**
+ *
+ *
+ *
+ * end of local functions
+ *
+ *
+ *
+ */
 
 
 //start processing
@@ -947,7 +1007,7 @@ let onHTTPEventListener = function(pkgName){
 // check_first_package();
 //start refresh worker
 //commented by Yuan on Sep 12,2021
-// refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
+refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
 //start interval task
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per refresh_interval
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
@@ -995,20 +1055,7 @@ function checkPackageInfo(){
 
 // let debug_worker = setInterval(checkPackageInfo, 300000);
 
-function currentTimestamp(){
-    let ts = Date.now();
 
-    let date_ob = new Date(ts);
-    let date = date_ob.getDate();
-    let month = date_ob.getMonth() + 1;
-    let year = date_ob.getFullYear();
-
-    let hour = date_ob.getHours();
-    let minute = date_ob.getMinutes();
-    let second = date_ob.getSeconds();
-
-    return '[' + year + "-" + month + "-" + date + '_' + hour + ':' + minute +':' + second + ']';
-}
 
 
 
