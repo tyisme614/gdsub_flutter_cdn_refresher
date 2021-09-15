@@ -19,7 +19,10 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.5&#10;removed flutter checker from app.js" />
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -179,14 +182,7 @@
       <workItem from="1631599439437" duration="192000" />
       <workItem from="1631601443542" duration="662000" />
       <workItem from="1631671870926" duration="1355000" />
-      <workItem from="1631676456749" duration="1633000" />
-    </task>
-    <task id="LOCAL-00047" summary="changed package check interval to 10min&#10;changed interval of cdn refresh request worker to 0.1 second">
-      <created>1590164179669</created>
-      <option name="number" value="00047" />
-      <option name="presentableId" value="LOCAL-00047" />
-      <option name="project" value="LOCAL" />
-      <updated>1590164179669</updated>
+      <workItem from="1631676456749" duration="2849000" />
     </task>
     <task id="LOCAL-00048" summary="v0.2.5&#10;fixed logical error for package checking&#10;issue:&#10;when the first_package is updated in current checking round, the 'needRefresh' method would return true to let the worker go checking the following packages in current list which means the target 'first_package' that denoting the last start point of checking is totally not functioning for stopping checking round. It could not indicate that the current checking processing should be done.">
       <created>1590252522020</created>
@@ -524,7 +520,14 @@
       <option name="project" value="LOCAL" />
       <updated>1631677448808</updated>
     </task>
-    <option name="localTasksCounter" value="96" />
+    <task id="LOCAL-00096" summary="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately">
+      <created>1631680338205</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1631680338205</updated>
+    </task>
+    <option name="localTasksCounter" value="97" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -553,7 +556,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v.0.2.9&#10;refresh the whole CDN site if Aliyun service refreshed" />
     <MESSAGE value="v.0.2.9&#10;added try-catch block to wrap json parsing code" />
     <MESSAGE value="v.0.2.10&#10;added test code for checking package versions on official site and aliyun cdn" />
     <MESSAGE value="v.0.2.9&#10;added debug infomation" />
@@ -578,13 +580,14 @@
     <MESSAGE value="try to fix 'Url Malformed' issue" />
     <MESSAGE value="v0.3.4&#10;restored previous code for refreshing single packages" />
     <MESSAGE value="v0.3.5&#10;removed flutter checker from app.js" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.5&#10;removed flutter checker from app.js" />
+    <MESSAGE value="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="2592" y="77" key="Vcs.Push.Dialog.v2" timestamp="1631677450975">
+    <state x="2592" y="77" key="Vcs.Push.Dialog.v2" timestamp="1631680339506">
       <screen x="2560" y="-526" width="1080" height="1872" />
     </state>
-    <state x="2592" y="77" key="Vcs.Push.Dialog.v2/3640.302.1920.1032/2560.-526.1080.1872/0.0.2560.1032@2560.-526.1080.1872" timestamp="1631677450975" />
+    <state x="2592" y="77" key="Vcs.Push.Dialog.v2/3640.302.1920.1032/2560.-526.1080.1872/0.0.2560.1032@2560.-526.1080.1872" timestamp="1631680339506" />
     <state x="2679" y="-100" width="840" height="1034" key="search.everywhere.popup" timestamp="1631677387082">
       <screen x="2560" y="-526" width="1080" height="1872" />
     </state>

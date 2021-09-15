@@ -1,6 +1,6 @@
 const request = require('request');
 const { spawn } = require('child_process');
-const flutter_checker = require('./flutter_checker');
+
 const http_server = require('./http_server');
 const fs = require('fs');
 
