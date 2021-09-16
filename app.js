@@ -428,6 +428,14 @@ function checkPackageUpdateState(pkg, tcCount){
         if(p.latest.version != pkg.latest.version){
             res.needUpdate = true;
             res.code = 2;
+            if(extra_pkg_map.has(pkg.name)){
+                console.log(currentTimestamp() + '[checkPackageUpdateState] found ' + pkg.name + ' in extra_pkg_map, reset the update time');
+                //check if this package has its update time cached in extra_pkg_map
+                let pkg = extra_pkg_map.get(name);
+                pkg.last_updated_time = Date.now();
+                extra_pkg_map.set(name, pkg);
+
+            }
             return res;
         }else{
             console.log(currentTimestamp() + ' found package ' + pkg.name + ' in pkg_map, info-->' + show_package_info(pkg));
