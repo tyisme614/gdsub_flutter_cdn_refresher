@@ -2,7 +2,7 @@ const http = require('http');
 const mainApp = require('./app.js');
 const worker = require('./check_package_version');
 const request = require('request');
-const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
+const flutter_base_url = 'https://pub.dev/api/packages/';
 let onRefreshEventListener = null;
 let service_info;
 const requestListener = function (req, res) {
@@ -41,7 +41,7 @@ const requestListener = function (req, res) {
                             );
                     }
                 }catch(e){
-                    console.error('failed to parse JSON, response-->' + res);
+                    console.error('failed to parse JSON, response-->' + body.toString());
                 }
             });
 

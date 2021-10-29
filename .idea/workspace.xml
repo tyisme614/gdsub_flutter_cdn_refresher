@@ -22,6 +22,7 @@
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/http_server.js" beforeDir="false" afterPath="$PROJECT_DIR$/http_server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -77,7 +78,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
+    <property name="settings.editor.selected.configurable" value="http.proxy" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Node.js.app">
@@ -95,7 +96,7 @@
       <item itemvalue="Node.js.http-server" />
     </list>
   </component>
-  <component name="SpellCheckerSettings" BundledDictionaries="0" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" Dictionaries="0" CorrectionsLimit="5" DefaultDictionary="application-level" UseSingleDictionary="true" />
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
     <configuration>$USER_HOME$/.subversion</configuration>
     <myIsUseDefaultProxy>true</myIsUseDefaultProxy>
@@ -183,20 +184,9 @@
       <workItem from="1631601443542" duration="662000" />
       <workItem from="1631671870926" duration="1355000" />
       <workItem from="1631676456749" duration="2849000" />
-    </task>
-    <task id="LOCAL-00048" summary="v0.2.5&#10;fixed logical error for package checking&#10;issue:&#10;when the first_package is updated in current checking round, the 'needRefresh' method would return true to let the worker go checking the following packages in current list which means the target 'first_package' that denoting the last start point of checking is totally not functioning for stopping checking round. It could not indicate that the current checking processing should be done.">
-      <created>1590252522020</created>
-      <option name="number" value="00048" />
-      <option name="presentableId" value="LOCAL-00048" />
-      <option name="project" value="LOCAL" />
-      <updated>1590252522020</updated>
-    </task>
-    <task id="LOCAL-00049" summary="compare version in pkg_map for the same package">
-      <created>1590286379781</created>
-      <option name="number" value="00049" />
-      <option name="presentableId" value="LOCAL-00049" />
-      <option name="project" value="LOCAL" />
-      <updated>1590286379781</updated>
+      <workItem from="1631718397126" duration="1694000" />
+      <workItem from="1631802088249" duration="1152000" />
+      <workItem from="1635520359951" duration="2253000" />
     </task>
     <task id="LOCAL-00050" summary="save received package list data in file for testing purpose">
       <created>1590292879223</created>
@@ -527,11 +517,25 @@
       <option name="project" value="LOCAL" />
       <updated>1631680338205</updated>
     </task>
-    <option name="localTasksCounter" value="97" />
+    <task id="LOCAL-00097" summary="v0.3.6&#10;only cache the updated time &amp; package without refreshing the cdn resource when checking the update time of packages">
+      <created>1631719916845</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1631719916846</updated>
+    </task>
+    <task id="LOCAL-00098" summary="v0.3.5&#10;debug http interface">
+      <created>1635520615226</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1635520615226</updated>
+    </task>
+    <option name="localTasksCounter" value="99" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="2" />
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.History.Properties">
     <option name="COLUMN_ORDER">
@@ -556,8 +560,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v.0.2.9&#10;added try-catch block to wrap json parsing code" />
-    <MESSAGE value="v.0.2.10&#10;added test code for checking package versions on official site and aliyun cdn" />
     <MESSAGE value="v.0.2.9&#10;added debug infomation" />
     <MESSAGE value="v0.2.10&#10;added timestamp on log messages" />
     <MESSAGE value="debug package_checker" />
@@ -581,24 +583,16 @@
     <MESSAGE value="v0.3.4&#10;restored previous code for refreshing single packages" />
     <MESSAGE value="v0.3.5&#10;removed flutter checker from app.js" />
     <MESSAGE value="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately" />
-  </component>
-  <component name="WindowStateProjectService">
-    <state x="2592" y="77" key="Vcs.Push.Dialog.v2" timestamp="1631680339506">
-      <screen x="2560" y="-526" width="1080" height="1872" />
-    </state>
-    <state x="2592" y="77" key="Vcs.Push.Dialog.v2/3640.302.1920.1032/2560.-526.1080.1872/0.0.2560.1032@2560.-526.1080.1872" timestamp="1631680339506" />
-    <state x="2679" y="-100" width="840" height="1034" key="search.everywhere.popup" timestamp="1631677387082">
-      <screen x="2560" y="-526" width="1080" height="1872" />
-    </state>
-    <state x="2679" y="-100" width="840" height="1034" key="search.everywhere.popup/3640.302.1920.1032/2560.-526.1080.1872/0.0.2560.1032@2560.-526.1080.1872" timestamp="1631677387082" />
+    <MESSAGE value="v0.3.6&#10;only cache the updated time &amp; package without refreshing the cdn resource when checking the update time of packages" />
+    <MESSAGE value="v0.3.5&#10;debug http interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.3.5&#10;debug http interface" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/http_server.js</url>
-          <line>35</line>
+          <line>36</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>

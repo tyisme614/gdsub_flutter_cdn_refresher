@@ -10,9 +10,9 @@ const EventEmitter = require('events');
  *
  *  constants
  */
-const flutter_base_url = 'https://pub.dartlang.org/api/packages/';
-const flutter_source_url = 'https://pub.dartlang.org/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
-const flutter_source_url_arg_page = 'https://pub.dartlang.org/api/packages?page=';//[deprecated]'https://pub.dev/api/packages?page=1';
+const flutter_base_url = 'https://pub.dev/api/packages/';
+const flutter_source_url = 'https://pub.dev/api/packages?page=1';//[deprecated]'https://pub.dev/api/packages?page=1';
+const flutter_source_url_arg_page = 'https://pub.dev/api/packages?page=';//[deprecated]'https://pub.dev/api/packages?page=1';
 const aliyuncli_cmd = '/usr/local/bin/aliyuncli';
 // const aliyuncli_cmd = '/usr/local/bin/aliyuncli cdn RefreshObjectCaches ';
 const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
