@@ -20,6 +20,7 @@ const requestListener = function (req, res) {
 
             //check publisher resource
             request.get(flutter_base_url +target, (err, response, body) => {
+                console.log('http_server | body-->' + body);
                 try{
                     let j = JSON.parse(body);
                     if(j.error != null){
