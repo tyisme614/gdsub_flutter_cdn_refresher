@@ -172,6 +172,7 @@ function retrievePackageData(page){
     let url = flutter_source_url_arg_page + page;
     let options= {
         url: url,
+        gzip: true,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
@@ -340,7 +341,14 @@ function refreshTargetPackage(pkg, refreshDir){
     refresh_cache.push(document_url);
 
     //check publisher resource
-    request.get(flutter_base_url + pkg.name + '/publisher', (err, response, body) => {
+    let options= {
+        url: flutter_base_url + pkg.name + '/publisher',
+        gzip: true,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+    };
+    request.get(options, (err, response, body) => {
         try {
             let j = JSON.parse(body);
             if (j.publisherId != null) {
@@ -738,6 +746,7 @@ function refresh_package_by_update_time(){
         let target = extra_cache.pop();
         let options= {
             url: flutter_base_url + target.name,
+            gzip: true,
             headers: {
                 'User-Agent' : 'pub.flutter-io.cn'
             }
@@ -791,6 +800,7 @@ function conservative_refresh(){
         }
         let options= {
             url: flutter_source_url,
+            gzip: true,
             headers: {
                 'User-Agent' : 'pub.flutter-io.cn'
             }
@@ -949,7 +959,14 @@ let onHTTPEventListener = function(pkgName){
     refresh_cache.push(document_url);
 
     //check publisher resource
-    request.get(flutter_base_url + pkgName + '/publisher', (err, response, body) => {
+    let options= {
+        url: flutter_base_url + pkgName + '/publisher',
+        gzip: true,
+        headers: {
+            'User-Agent' : 'pub.flutter-io.cn'
+        }
+    };
+    request.get(options, (err, response, body) => {
         try{
             let j = JSON.parse(body);
             if(j.publisherId != null){
@@ -1035,6 +1052,7 @@ function checkPackageInfo(){
     let url = flutter_source_url_arg_page + '1';
     let options= {
         url: url,
+        gzip: true,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }

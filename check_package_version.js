@@ -245,6 +245,7 @@ function requestPackageList(){
     checking = true;
     let options= {
         url: package_list_url,
+        gzip: true,
         timeout: HTTP_TIMEOUT,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
@@ -305,6 +306,7 @@ function checkPackageVersion(pkg, official){
     let options= {
         url: base_url + pkg,
         timeout: HTTP_TIMEOUT,
+        gzip: true,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
@@ -410,6 +412,7 @@ function loadPackageInfo(page, official){
     let options= {
         url: base + page,
         timeout: HTTP_TIMEOUT,
+        gzip: true,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
@@ -560,6 +563,7 @@ function refreshCDN(pkg){
 
     let options= {
         url: 'http://127.0.0.1:17788/refreshCDN/' + pkg,
+        gzip: true,
         headers: {
             'User-Agent' : 'pub.flutter-io.cn'
         }
