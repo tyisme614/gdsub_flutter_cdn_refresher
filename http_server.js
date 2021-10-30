@@ -19,7 +19,14 @@ const requestListener = function (req, res) {
             console.log('refresh CDN resource, target-->' + target);
 
             //check publisher resource
-            request.get(flutter_base_url +target, (err, response, body) => {
+            let options= {
+                url: flutter_base_url +target,
+                gzip: true,
+                headers: {
+                    'User-Agent' : 'pub.flutter-io.cn'
+                }
+            };
+            request.get(options, (err, response, body) => {
                 console.log('http_server | body-->' + body);
                 try{
                     let j = JSON.parse(body);
