@@ -1,6 +1,7 @@
 const https = require('https');
 const fs = require('fs');
 const qiniu = require('qiniu');
+const needle = require('needle');
 
 const EventEmitter = require('events');
 
@@ -8,8 +9,10 @@ class MsgEmitter extends EventEmitter{}
 
 var mEmitter = new MsgEmitter();
 
-
 mEmitter.on('remove_windows', (b, f) => {
+
+    console.log('remove resources in UPYUN');
+    removeResourceFromTARGETS(0);
     console.log('remove json file of windows version ');
     removeFileFromBucket(b, f, (res)=> {
         mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
@@ -20,11 +23,7 @@ mEmitter.on('remove_windows', (b, f) => {
         }
     });
 
-
 });
-
-
-
 
 mEmitter.on('remove_linux', (b, f) => {
     console.log('remove json file of linux version ');
@@ -35,7 +34,6 @@ mEmitter.on('remove_linux', (b, f) => {
             setTimeout(requestSource, 300 * 1000, [url_qiniu_base + 'releases_linux.json']);
         }
     });
-
 
 });
 
@@ -69,6 +67,32 @@ const qiniu_jsonfile_windows = 'flutter_infra_release/releases/releases_windows.
 
 const url_qiniu_base = 'https://storage.flutter-io.cn/flutter_infra/releases/';
 
+
+//upyun information
+
+const UPYUN_BASE_URL = 'http://v0.api.upyun.com/xinyuehe-chenglu/';
+const UPYUN_RES_JSON_MACOS = 'flutter_infra_release/releases/releases_macos.json';
+const UPYUN_RES_JSON_WINDOWS = 'flutter_infra_release/releases/releases_windows.json';
+const UPYUN_RES_JSON_LINUX = 'flutter_infra_release/releases/releases_linux.json';
+const UPYUN_RES_DART_BETA = 'dart-archive/channels/beta/release/latest/VERSION';
+const UPYUN_RES_DART_DEV = 'dart-archive/channels/dev/release/latest/VERSION';
+const UPYUN_RES_DART_STABLE = 'dart-archive/channels/stable/release/latest/VERSION';
+const UPYUN_RES_FILE_DOWNLOAD_FLUTTER_IO = 'download.flutter.io';
+const UPYUN_RES_FILE_FLUTTER_INFRA = 'flutter_infra';
+const UPYUN_RES_FILE_FLUTTER_INFRA_RELEASE = 'flutter_infra_release';
+
+const OPERATION_TARGETS = [
+    UPYUN_RES_JSON_MACOS, UPYUN_RES_JSON_WINDOWS,
+    UPYUN_RES_JSON_LINUX, UPYUN_RES_DART_BETA,
+    UPYUN_RES_DART_DEV, UPYUN_RES_DART_STABLE,
+    UPYUN_RES_FILE_DOWNLOAD_FLUTTER_IO,
+    UPYUN_RES_FILE_FLUTTER_INFRA,
+    UPYUN_RES_FILE_FLUTTER_INFRA_RELEASE ];
+
+let upyun_options = {
+    username : '',
+    password : ''
+}
 
 
 let version_windows = {
@@ -377,6 +401,33 @@ function removeFileFromBucket(b, f, callback){
 });
 }
 
+//upyun
+function removeResourceFromTARGETS(index){
+    if(index < OPERATION_TARGETS.length){
+        let res = UPYUN_BASE_URL + OPERATION_TARGETS[index];
+        needle.delete(res, null, upyun_options, function(err, resp) {
+            if (err)
+                console.log(currentTimestamp() + 'encountered error : ' + err.message)
+            else{
+                if(resp.statusCode == 200){
+                    console.log(currentTimestamp() + 'deleted ' + res);
+
+                }else if(resp.statusCode == 404){
+                    console.log(currentTimestamp() + 'resource not found, res-->' + res);
+                }else{
+                    console.log(currentTimestamp() + 'statusCode-->' + resp.statusCode);
+                }
+            }
+            //next
+            console.log('prepare next item ');
+            removeResourceFromTARGETS(index + 1);
+        });
+    }else{
+        console.log(currentTimestamp() + 'reached end of target queue, operation done.');
+    }
+
+}
+
 
 const requestSource = function(url){
     console.log('requesting ' + url);
@@ -408,6 +459,9 @@ const startCheckTask = function(){
     mac = new qiniu.auth.digest.Mac(auth.access_key, auth.secret_key);
     bucketManager = new qiniu.rs.BucketManager(mac, config);
 
+    upyun_options.username = auth.upyun_username;
+    upyun_options.password = auth.upyun_password;
+
     console.log('initializing version information data from official Google Cloud Storage node');
     checkVersion();
 
@@ -418,9 +472,9 @@ const startCheckTask = function(){
     }
     mainTask = setInterval(checkVersion, 10 * 60 * 1000);
 
-    console.log('[debug] removing qiniu resources');
-    mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
-    mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux_legacy);
+    // console.log('[debug] removing qiniu resources');
+    // mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux);
+    // mEmitter.emit('remove_linux', bucket, qiniu_jsonfile_linux_legacy);
 
 };
 
