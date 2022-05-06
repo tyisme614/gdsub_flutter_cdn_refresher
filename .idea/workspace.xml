@@ -19,11 +19,7 @@
     <select />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/http_server.js" beforeDir="false" afterPath="$PROJECT_DIR$/http_server.js" afterDir="false" />
-    </list>
+    <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.7&#10;deprecated pub.dartlang.org, use pub.dev instead" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -78,7 +74,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="http.proxy" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Node.js.app">
@@ -186,35 +182,13 @@
       <workItem from="1631676456749" duration="2849000" />
       <workItem from="1631718397126" duration="1694000" />
       <workItem from="1631802088249" duration="1152000" />
-      <workItem from="1635520359951" duration="2253000" />
-    </task>
-    <task id="LOCAL-00050" summary="save received package list data in file for testing purpose">
-      <created>1590292879223</created>
-      <option name="number" value="00050" />
-      <option name="presentableId" value="LOCAL-00050" />
-      <option name="project" value="LOCAL" />
-      <updated>1590292879224</updated>
-    </task>
-    <task id="LOCAL-00051" summary="test&#10;check cdn per 10 seconds">
-      <created>1590295300614</created>
-      <option name="number" value="00051" />
-      <option name="presentableId" value="LOCAL-00051" />
-      <option name="project" value="LOCAL" />
-      <updated>1590295300614</updated>
-    </task>
-    <task id="LOCAL-00052" summary="set refresh interval back to 10min">
-      <created>1590300539711</created>
-      <option name="number" value="00052" />
-      <option name="presentableId" value="LOCAL-00052" />
-      <option name="project" value="LOCAL" />
-      <updated>1590300539711</updated>
-    </task>
-    <task id="LOCAL-00053" summary="enabled dir refresh">
-      <created>1590419545541</created>
-      <option name="number" value="00053" />
-      <option name="presentableId" value="LOCAL-00053" />
-      <option name="project" value="LOCAL" />
-      <updated>1590419545541</updated>
+      <workItem from="1635520359951" duration="2450000" />
+      <workItem from="1635605725200" duration="1861000" />
+      <workItem from="1635863079657" duration="4713000" />
+      <workItem from="1635949932787" duration="43000" />
+      <workItem from="1639216011328" duration="212000" />
+      <workItem from="1639290035483" duration="320000" />
+      <workItem from="1651823198074" duration="562000" />
     </task>
     <task id="LOCAL-00054" summary="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files">
       <created>1590419738670</created>
@@ -531,7 +505,35 @@
       <option name="project" value="LOCAL" />
       <updated>1635520615226</updated>
     </task>
-    <option name="localTasksCounter" value="99" />
+    <task id="LOCAL-00099" summary="v0.3.7&#10;deprecated pub.dartlang.org, use pub.dev instead">
+      <created>1635522749236</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1635522749236</updated>
+    </task>
+    <task id="LOCAL-00100" summary="v0.3.7&#10;set gzip to true in request options">
+      <created>1635606300342</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1635606300342</updated>
+    </task>
+    <task id="LOCAL-00101" summary="v0.3.8&#10;set gzip to true in request options to ensure the response data being parsed properly.">
+      <created>1635606883208</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1635606883208</updated>
+    </task>
+    <task id="LOCAL-00102" summary="v0.4.0&#10;added support for upyun.com">
+      <created>1635868897939</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1635868897939</updated>
+    </task>
+    <option name="localTasksCounter" value="103" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -560,10 +562,6 @@
     <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="v.0.2.9&#10;added debug infomation" />
-    <MESSAGE value="v0.2.10&#10;added timestamp on log messages" />
-    <MESSAGE value="debug package_checker" />
-    <MESSAGE value="fixed crashing bug" />
     <MESSAGE value="use alternative url for requesting package version info" />
     <MESSAGE value="reduce parallel requests when requesting package version info" />
     <MESSAGE value="debug http request timeout issue" />
@@ -585,14 +583,18 @@
     <MESSAGE value="v0.3.5&#10;removed flutter checker from app.js&#10;flutter_version checker needs to be started separately" />
     <MESSAGE value="v0.3.6&#10;only cache the updated time &amp; package without refreshing the cdn resource when checking the update time of packages" />
     <MESSAGE value="v0.3.5&#10;debug http interface" />
-    <option name="LAST_COMMIT_MESSAGE" value="v0.3.5&#10;debug http interface" />
+    <MESSAGE value="v0.3.7&#10;deprecated pub.dartlang.org, use pub.dev instead" />
+    <MESSAGE value="v0.3.7&#10;set gzip to true in request options" />
+    <MESSAGE value="v0.3.8&#10;set gzip to true in request options to ensure the response data being parsed properly." />
+    <MESSAGE value="v0.4.0&#10;added support for upyun.com" />
+    <option name="LAST_COMMIT_MESSAGE" value="v0.4.0&#10;added support for upyun.com" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/http_server.js</url>
-          <line>36</line>
+          <line>43</line>
           <option name="timeStamp" value="1" />
         </line-breakpoint>
       </breakpoints>
