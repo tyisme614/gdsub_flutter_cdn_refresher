@@ -74,7 +74,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RunManager" selected="Node.js.app">
@@ -188,7 +188,7 @@
       <workItem from="1635949932787" duration="43000" />
       <workItem from="1639216011328" duration="212000" />
       <workItem from="1639290035483" duration="320000" />
-      <workItem from="1651823198074" duration="562000" />
+      <workItem from="1651823198074" duration="2477000" />
     </task>
     <task id="LOCAL-00054" summary="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files">
       <created>1590419738670</created>
@@ -588,16 +588,5 @@
     <MESSAGE value="v0.3.8&#10;set gzip to true in request options to ensure the response data being parsed properly." />
     <MESSAGE value="v0.4.0&#10;added support for upyun.com" />
     <option name="LAST_COMMIT_MESSAGE" value="v0.4.0&#10;added support for upyun.com" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/http_server.js</url>
-          <line>43</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
