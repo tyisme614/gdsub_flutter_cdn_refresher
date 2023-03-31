@@ -437,7 +437,7 @@ function checkPackageUpdateState(_pkg, tcCount){
             console.log(currentTimestamp() + 'debug potential crash\ncurrent pkg info-->' + show_package_info(pkg));
         }catch(e){
             console.log(currentTimestamp()
-                + 'encountered error while checking package info in function-->' +checkPackageUpdateState );
+                + 'encountered error while checking package info in function-->checkPackageUpdateState' );
         }
 
     }
