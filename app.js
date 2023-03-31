@@ -180,14 +180,14 @@ function retrievePackageData(page){
     request.get(options, (err, response, body) => {
         //response from remote http server
         if(err){
-            console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+            console.error(currentTimestamp() + 'encountered error while requesting package information from remote server, message:' + err.toString());
             console.log('retry checking current page-->' + page);
             eventHandler.emit('checkPage', page);
         }else {
             console.log('cache package data');
 
             fs.appendFile(__dirname + '/logs/' + currentTimestamp() + '.dartlang.log', body, (err) => {
-                if (err) console.error('encountered error while caching package list, e-->' + err.message);
+                if (err) console.error(currentTimestamp() + 'encountered error while caching package list, e-->' + err.message);
                 console.log('file cached');
             });
 
@@ -268,9 +268,13 @@ function traversePackages(pkg_json){
                 // refreshTargetPackage(pkg, true);
                 if(!refresh_dir_list.includes(pkgName)){
                     refresh_dir_list.push(pkgName);
+                }else{
+                    console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_dir_list, this package might be ignored');
                 }
                 if(!refresh_list.includes(pkgName)){
                     refresh_list.push(pkgName);
+                }else{
+                    console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_list, this package might be ignored');
                 }
 
             }else{
@@ -358,7 +362,7 @@ function refreshTargetPackage(pkg, refreshDir){
                 // refresh_cache.push(publisher_url);
             }
         } catch (e) {
-            console.error('failed to parse JSON, response-->' + res);
+            console.error(currentTimestamp() + 'failed to parse JSON, response-->' + res);
         }
     });
 
@@ -425,7 +429,18 @@ function checkPKGMap(pkg){
 
 }
 
-function checkPackageUpdateState(pkg, tcCount){
+function checkPackageUpdateState(_pkg, tcCount){
+
+    let pkg = _pkg;
+    if(debug){
+        try{
+            console.log(currentTimestamp() + 'debug potential crash\ncurrent pkg info-->' + show_package_info(pkg));
+        }catch(e){
+            console.log(console.log(currentTimestamp()
+                + 'encountered error while checking package info in function-->' +checkPackageUpdateState );
+        }
+
+    }
     let res = {};
     res.needUpdate = false;
     res.code = -1;//1:newly updated package;2:same package, but a newer version is released;3:need to check update time
@@ -439,9 +454,9 @@ function checkPackageUpdateState(pkg, tcCount){
             if(extra_pkg_map.has(pkg.name)){
                 console.log(currentTimestamp() + '[checkPackageUpdateState] found ' + pkg.name + ' in extra_pkg_map, reset the update time');
                 //check if this package has its update time cached in extra_pkg_map
-                let pkg = extra_pkg_map.get(name);
+                let pkg = extra_pkg_map.get(pkg.name);
                 pkg.last_updated_time = Date.now();
-                extra_pkg_map.set(name, pkg);
+                extra_pkg_map.set(pkg.name, pkg);
 
             }
             return res;
@@ -643,23 +658,23 @@ function refresh_target_directory_from_cache(){
 
         cmd.stdout.on('data', (data) => {
 
-            console.log(`stdout: ${data}`);
+            console.log(currentTimestamp() +`stdout: ${data}`);
             try{
                 cdn_refresh_info = JSON.parse(data);
                 if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-                    console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+                    console.log(currentTimestamp() +'RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
                 }
 
                 if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-                    console.log('RequestId=' + cdn_refresh_info.RequestId);
+                    console.log(currentTimestamp() +'RequestId=' + cdn_refresh_info.RequestId);
                 }
 
                 if(typeof(cdn_refresh_info.Code) != 'undefined'){
-                    console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+                    console.log(currentTimestamp() +'Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
                 }
 
             }catch(e){
-                console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
+                console.log(currentTimestamp() +'[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
                 // if(debug){
                 //     console.log('unable to refresh cdn, url -->' + url);
                 // }
@@ -668,11 +683,11 @@ function refresh_target_directory_from_cache(){
         });
 
         cmd.stderr.on('data', (data) => {
-            console.log(`stderr: ${data}`);
+            console.log(currentTimestamp() +`stderr: ${data}`);
         });
 
         cmd.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
+            console.log(currentTimestamp() +`child process exited with code ${code}`);
         });
     }
 
@@ -697,36 +712,36 @@ function refresh_target_file_from_cache(){
         let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_FILE, '--secure']);
 
         cmd.stdout.on('data', (data) => {
-            console.log(`stdout: ${data}`);
+            console.log(currentTimestamp() + `stdout: ${data}`);
             try{
                 cdn_refresh_info = JSON.parse(data);
                 if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-                    console.log('RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
+                    console.log(currentTimestamp() +'RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
                 }
 
                 if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-                    console.log('RequestId=' + cdn_refresh_info.RequestId);
+                    console.log(currentTimestamp() +'RequestId=' + cdn_refresh_info.RequestId);
                 }
 
                 if(typeof(cdn_refresh_info.Code) != 'undefined'){
-                    console.log('Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
+                    console.log(currentTimestamp() +'Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
                 }
 
             }catch(e){
-                console.log('[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
+                console.log(currentTimestamp() +'[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
                 if(debug){
-                    console.log('unable to refresh cdn, url -->' + url);
+                    console.log(currentTimestamp() +'unable to refresh cdn, url -->' + url);
                 }
 
             }
         });
 
         cmd.stderr.on('data', (data) => {
-            console.log(`stderr: ${data}`);
+            console.log(currentTimestamp() +`stderr: ${data}`);
         });
 
         cmd.on('close', (code) => {
-            console.log(`child process exited with code ${code}`);
+            console.log(currentTimestamp() +`child process exited with code ${code}`);
         });
 
     }
@@ -754,13 +769,13 @@ function refresh_package_by_update_time(){
         };
         request.get(options, (err, response, body) => {
             if(err){
-                console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+                console.error(currentTimestamp() + ' encountered error while requesting package information from remote server, message:' + err.toString());
 
             }else{
                 let json = JSON.parse(body);
                 let name = json.name;
                 if(extra_pkg_map.has(name)){
-                    console.log('[extra check] found package ' + name + ' in extra_pkg_map, compare update time');
+                    console.log(currentTimestamp() + '[extra check] found package ' + name + ' in extra_pkg_map, compare update time');
                     let versions = json.versions;
                     let len = versions.length;
                     //find last update version, the last version should be the latest update record
@@ -809,7 +824,7 @@ function conservative_refresh(){
         request.get(options, (err, response, body) => {
 
             if(err){
-                console.error('encountered error while requesting package information from remote server, message:' + err.toString());
+                console.error(currentTimestamp() + 'encountered error while requesting package information from remote server, message:' + err.toString());
 
             }else{
                 let data = JSON.parse(body);
@@ -976,7 +991,7 @@ let onHTTPEventListener = function(pkgName){
                 refresh_cache.push(publisher_url);
             }
         }catch(e){
-            console.error('failed to parse JSON, response-->' + res);
+            console.error(currentTimestamp() + 'failed to parse JSON, response-->' + res);
         }
     });
 
@@ -1060,7 +1075,7 @@ function checkPackageInfo(){
     request.get(options, (err, response, body) => {
         //response from remote http server
         if (err) {
-            console.error('[debug] encountered error while requesting package information from remote server, message:' + err.toString());
+            console.error(currentTimestamp() + '[debug] encountered error while requesting package information from remote server, message:' + err.toString());
         } else {
             try{
                 let data = JSON.parse(body);
@@ -1072,7 +1087,7 @@ function checkPackageInfo(){
                     }
                 }
             }catch(e){
-                console.error('[debug] encountered error while parsing json data -->' + e.message);
+                console.error(currentTimestamp() + '[debug] encountered error while parsing json data -->' + e.message);
             }
 
         }
