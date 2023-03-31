@@ -454,9 +454,9 @@ function checkPackageUpdateState(_pkg, tcCount){
             if(extra_pkg_map.has(pkg.name)){
                 console.log(currentTimestamp() + '[checkPackageUpdateState] found ' + pkg.name + ' in extra_pkg_map, reset the update time');
                 //check if this package has its update time cached in extra_pkg_map
-                let pkg = extra_pkg_map.get(pkg.name);
-                pkg.last_updated_time = Date.now();
-                extra_pkg_map.set(pkg.name, pkg);
+                let pkg_item = extra_pkg_map.get(pkg.name);
+                pkg_item.last_updated_time = Date.now();
+                extra_pkg_map.set(pkg.name, pkg_item);
 
             }
             return res;
