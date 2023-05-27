@@ -4,7 +4,7 @@ const worker = require('./check_package_version');
 const request = require('request');
 const flutter_base_url = 'https://pub.dev/api/packages/';
 let onRefreshEventListener = null;
-let service_info;
+let service_info = 'not initialized';
 const requestListener = function (req, res) {
     console.log('received request from remote client -->' + req.method);
     console.log('url -->' + req.url);
