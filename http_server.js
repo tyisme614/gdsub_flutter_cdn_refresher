@@ -17,40 +17,46 @@ const requestListener = function (req, res) {
         if(route == 'refreshCDN'){
             let target = rawStr[2];
             console.log('refresh CDN resource, target-->' + target);
-
-            //check publisher resource
-            let options= {
-                url: flutter_base_url +target,
-                gzip: true,
-                headers: {
-                    'User-Agent' : 'pub.flutter-io.cn'
-                }
-            };
-            request.get(options, (err, response, body) => {
-                console.log('http_server | body-->' + body);
-                try{
-                    let j = JSON.parse(body);
-                    if(j.error != null){
-                        console.log('encountered error -->' + j.error.message);
-                        res.writeHead(404);
-                        res.end('encountered error while checking package information from official dart site.  error message-->' + j.error.message);
-                    }else{
-                        console.log('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version);
-                        if(onRefreshEventListener != null){
-                            onRefreshEventListener(target);
-                        }
-                        res.writeHead(200);
-                        res.end('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version
-                            +'\n\nadded new requests of refreshing cdn resources...'
-                            + '\n\n\n\nverbose package information\n' + body
-                            +'\n\nservice info:\n'
-                            + service_info
-                            );
+            if(target == '' || typeof(target) == 'undefined'){
+                res.writeHead(404);
+                res.end('requested path not found, please check your url.');
+            }else{
+                //check publisher resource
+                let options= {
+                    url: flutter_base_url +target,
+                    gzip: true,
+                    headers: {
+                        'User-Agent' : 'pub.flutter-io.cn'
                     }
-                }catch(e){
-                    console.error('failed to parse JSON, response-->' + body.toString());
-                }
-            });
+                };
+                request.get(options, (err, response, body) => {
+                    console.log('http_server | body-->' + body);
+                    try{
+                        let j = JSON.parse(body);
+                        if(j.error != null){
+                            console.log('encountered error -->' + j.error.message);
+                            res.writeHead(404);
+                            res.end('encountered error while checking package information from official dart site.  error message-->' + j.error.message);
+                        }else{
+                            console.log('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version);
+                            if(onRefreshEventListener != null){
+                                onRefreshEventListener(target);
+                            }
+                            res.writeHead(200);
+                            res.end('found package from official dart source site-->' + j.name + '  latest version is ' + j.latest.version
+                                +'\n\nadded new requests of refreshing cdn resources...'
+                                + '\n\n\n\nverbose package information\n' + body
+                                +'\n\nservice info:\n'
+                                + service_info
+                            );
+                        }
+                    }catch(e){
+                        console.error('failed to parse JSON, response-->' + body.toString());
+                    }
+                });
+            }
+
+
 
             // console.log('add target into request queue....');
             // // mainApp.add_refresh_package(target);

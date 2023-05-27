@@ -24,7 +24,7 @@
   <component name="ChangeListManager">
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.7&#10;deprecated pub.dartlang.org, use pub.dev instead">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/http_server.js" beforeDir="false" afterPath="$PROJECT_DIR$/http_server.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -200,7 +200,7 @@
       <workItem from="1684853953373" duration="541000" />
       <workItem from="1685109307574" duration="1242000" />
       <workItem from="1685110951076" duration="72000" />
-      <workItem from="1685200263459" duration="706000" />
+      <workItem from="1685200263459" duration="1181000" />
     </task>
     <task id="LOCAL-00054" summary="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files">
       <created>1590419738670</created>
@@ -599,16 +599,5 @@
     <MESSAGE value="v0.3.8&#10;set gzip to true in request options to ensure the response data being parsed properly." />
     <MESSAGE value="v0.4.0&#10;added support for upyun.com" />
     <option name="LAST_COMMIT_MESSAGE" value="v0.4.0&#10;added support for upyun.com" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/http_server.js</url>
-          <line>43</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
