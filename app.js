@@ -1057,6 +1057,8 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
+//check aliyun cdn refresh service status
+check_service_status();
 //manually add new refresh requests
 http_server.startHTTPServer(onHTTPEventListener);
 
