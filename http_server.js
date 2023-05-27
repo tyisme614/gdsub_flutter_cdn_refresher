@@ -73,7 +73,7 @@ const requestListener = function (req, res) {
         }
     }else{
         res.writeHead(404);
-        res.end('requested path not found, please check your url.  unknown path-->' + route);
+        res.end('requested path not found, please check your url.');
     }
 }
 
