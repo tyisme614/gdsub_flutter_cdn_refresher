@@ -19,9 +19,9 @@ const aliyun_cdn_url = 'https://pub.flutter-io.cn/api/packages/';
 const aliyun_cdn_base_url = 'https://pub.flutter-io.cn/packages/';
 const cdn_base_address = 'pub.flutter-io.cn';
 const cdn_whole_resource_address = 'https://pub.flutter-io.cn/';
-const cdn_browser_resource_address = 'https://pub.flutter-io.cn/packages/';
-const cdn_browser_document_address = 'https://pub.flutter-io.cn/documentation/';
-const cdn_publisher_resource_address = 'https://pub.flutter-io.cn/publishers/';
+const cdn_browser_resource_address = 'https://pub-web.flutter-io.cn/packages/';
+const cdn_browser_document_address = 'https://pub-web.flutter-io.cn/documentation/';
+const cdn_publisher_resource_address = 'https://pub-web.flutter-io.cn/publishers/';
 // const aliyun_cdn_url = 'https://material-io.cn/';
 
 
