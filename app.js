@@ -85,6 +85,7 @@ let refresh_cache_chuangcache_file = [];
 let refresh_cache_chuangcache_dir = [];
 let refresh_chuang_worker;
 let refresh_chuang_worker_dir;
+let refresh_chuang_token;
 
 let chuangcache_token = '';
 let token_refresh_time = 0;
@@ -653,17 +654,11 @@ function refresh_ali_cdn(){
 }
 
 async function refresh_chuangcache_resource(refresh_type, cache){
-    let current_ts = currentTimeInMilliseconds();
 
-    if((current_ts - token_refresh_time) > token_expire_time){
-        //access token has expired, request a new one
-        chuangcache_token = await request_token();
-        if(chuangcache_token == null){
-            console.log('failed to retrieve access token ,try again later');
-            return;
-        }
+    while(chuangcache_token == null){
+        //waiting for valid token
+        ;
     }
-
     let url_arr = [];
 
     for(let item of cache){
@@ -713,12 +708,16 @@ async function refresh_chuangcache_resource(refresh_type, cache){
 
 }
 
-async function initialize_chuang(){
+function initialize_chuang(){
+    console.log('cleaning up workers');
+    clearInterval(refresh_chuang_worker);
+    clearInterval(refresh_chuang_worker_dir);
+
+    console.log('refreshing token...');
     if(!fs.existsSync(__dirname + '/auth.json')){
         console.error('unable to find auth.json');
         return null;
     }
-
     let data = fs.readFileSync(__dirname + '/auth.json');
     console.log('parsing auth.json for chuang_cache authentication');
     try{
@@ -733,19 +732,26 @@ async function initialize_chuang(){
             'Accept': 'application/json',
             'Content-Type' : 'application/json; charset=utf-8'
         };
-        // let res = await axios.post(url, body, headers);
-        axios.post(url, body, headers).then((res) => {
-            console.log(res.data)
-            console.log(res.data.data.access_token)
-            // chuangcache_token
-            // refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
-            // refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
-        });
+
+        let current_ts = currentTimeInMilliseconds();
+
+        if((current_ts - token_refresh_time) > token_expire_time){
+            //access token has expired, request a new one
+            console.log('access token has expired, request a new one');
+            axios.post(url, body, headers).then((res) => {
+                chuangcache_token = res.data.data.access_token;
+                console.log('requested new token-->' + chuangcache_token);
+                console.log('starting refresh_chuang_worker');
+                refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
+                console.log('starting refresh_chuang_worker_dir')
+                refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
 
 
+            });
+        }
     }catch(e){
         console.error(e.message);
-        return null;
+
     }
 
 
@@ -1167,7 +1173,8 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 // flutter_checker.startCheckTask();
-initialize_chuang();
+
+refresh_chuang_token = setInterval(initialize_chuang, 86000000);
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
