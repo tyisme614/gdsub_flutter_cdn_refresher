@@ -734,9 +734,9 @@ async function initialize_chuang(){
             'Content-Type' : 'application/json; charset=utf-8'
         };
         // let res = await axios.post(url, body, headers);
-        axios.post(url, body, headers).then((data) => {
-            console.log(data.data)
-            console.log(data.data.access_token)
+        axios.post(url, body, headers).then((res) => {
+            console.log(res.data)
+            console.log(res.data.data.access_token)
             // chuangcache_token
             // refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
             // refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
