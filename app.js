@@ -1173,7 +1173,7 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 // flutter_checker.startCheckTask();
-
+initialize_chuang();
 refresh_chuang_token = setInterval(initialize_chuang, 86000000);
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
