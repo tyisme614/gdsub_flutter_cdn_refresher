@@ -736,7 +736,7 @@ async function request_token(){
         }
 
         let res = await request.post(options);
-        console.log('requested token data, res-->' + res);
+        console.log('requested token data, res-->' + res.toString());
         let res_json = JSON.parse(res);
         if(res_json.status == 1){
             let access_token = res_json.data.access_token;
