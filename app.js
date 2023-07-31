@@ -725,17 +725,24 @@ async function request_token(){
             ak: j.chuangcache.ak,
             sk: j.chuangcache.sk
         };
-        let options = {
-            uri: 'https://api.chuangcache.com/OAuth/authorize',
-            body: JSON.stringify(auth),
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type' : 'application/json; charset=utf-8'
-            },
-            json: false
-        }
+        let url = 'https://api.chuangcache.com/OAuth/authorize';
+        let body = JSON.stringify(auth);
+        let headers = {
+            'Accept': 'application/json',
+            'Content-Type' : 'application/json; charset=utf-8'
+        };
 
-        let res = await axios.post(options);
+        // let options = {
+        //     uri: 'https://api.chuangcache.com/OAuth/authorize',
+        //     body: JSON.stringify(auth),
+        //     headers: {
+        //         'Accept': 'application/json',
+        //         'Content-Type' : 'application/json; charset=utf-8'
+        //     },
+        //     json: false
+        // }
+
+        let res = await axios.post(url, body, headers);
         console.log('requested token data, res-->' + res.toString());
         let res_json = JSON.parse(res);
         if(res_json.status == 1){
