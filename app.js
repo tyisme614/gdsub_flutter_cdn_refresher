@@ -713,7 +713,7 @@ async function refresh_chuangcache_resource(refresh_type, cache){
 
 }
 
-async function request_token(){
+async function initialize_chuang(){
     if(!fs.existsSync(__dirname + '/auth.json')){
         console.error('unable to find auth.json');
         return null;
@@ -1166,7 +1166,7 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 // flutter_checker.startCheckTask();
-
+initialize_chuang();
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
