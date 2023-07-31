@@ -15,6 +15,7 @@
   "author": "yuan",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.4.0",
     "https": "^1.0.0",
     "jslint": "^0.12.1",
     "needle": "^3.0.0",

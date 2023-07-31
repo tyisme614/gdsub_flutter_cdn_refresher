@@ -1,5 +1,6 @@
 const request = require('request');
 const { spawn } = require('child_process');
+const axios = require('axios');
 
 const http_server = require('./http_server');
 const fs = require('fs');
@@ -725,7 +726,6 @@ async function request_token(){
             sk: j.chuangcache.sk
         };
         let options = {
-            method: 'POST',
             uri: 'https://api.chuangcache.com/OAuth/authorize',
             body: JSON.stringify(auth),
             headers: {
@@ -735,8 +735,8 @@ async function request_token(){
             json: false
         }
 
-        let res = await request.post(options);
-        console.log('requested token data, res-->' + res.body.toString());
+        let res = await axios.post(options);
+        console.log('requested token data, res-->' + res.toString());
         let res_json = JSON.parse(res);
         if(res_json.status == 1){
             let access_token = res_json.data.access_token;
