@@ -742,8 +742,9 @@ async function request_token(){
         //     json: false
         // }
 
-        let res = await axios.post(url, body, headers);
-        console.log('requested token data, res-->' + res.data);
+        // let res = await axios.post(url, body, headers);
+        axios.post(url, body, headers).then((data) => {console.log(data)});
+        // console.log('requested token data, res-->' + res.data.toString());
         let res_json = JSON.parse(res);
         if(res_json.status == 1){
             let access_token = res_json.data.access_token;
