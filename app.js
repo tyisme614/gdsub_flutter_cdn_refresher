@@ -654,8 +654,8 @@ async function refresh_chuangcache_resource(refresh_type, cache){
 
     if((current_ts - token_refresh_time) > token_expire_time){
         //access token has expired, request a new one
-        access_token = await request_token();
-        if(access_token == null){
+        chuangcache_token = await request_token();
+        if(chuangcache_token == null){
             console.log('failed to retrieve access token ,try again later');
             return;
         }
@@ -717,6 +717,7 @@ async function request_token(){
     }
 
     let data = fs.readFileSync(__dirname + '/auth.json');
+    console.log('parsing auth.json for chuang_cache authentication');
     try{
         let j = JSON.parse(data);
         let auth = {
