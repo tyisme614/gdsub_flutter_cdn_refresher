@@ -83,6 +83,8 @@ let refresh_directory = true;
 
 let refresh_cache_chuangcache_file = [];
 let refresh_cache_chuangcache_dir = [];
+let refresh_chuang_worker;
+let refresh_chuang_worker_dir;
 
 let chuangcache_token = '';
 let token_refresh_time = 0;
@@ -731,28 +733,14 @@ async function request_token(){
             'Accept': 'application/json',
             'Content-Type' : 'application/json; charset=utf-8'
         };
-
-        // let options = {
-        //     uri: 'https://api.chuangcache.com/OAuth/authorize',
-        //     body: JSON.stringify(auth),
-        //     headers: {
-        //         'Accept': 'application/json',
-        //         'Content-Type' : 'application/json; charset=utf-8'
-        //     },
-        //     json: false
-        // }
-
         // let res = await axios.post(url, body, headers);
-        axios.post(url, body, headers).then((data) => {console.log(data)});
-        // console.log('requested token data, res-->' + res.data.toString());
-        let res_json = JSON.parse(res);
-        if(res_json.status == 1){
-            let access_token = res_json.data.access_token;
-            token_refresh_time = currentTimeInMilliseconds();
-            token_expire_time = res_json.data.expires_in;
-            console.log('retrieved new access token from remote server, token -->' + access_token);
-            return access_token;
-        }
+        axios.post(url, body, headers).then((data) => {
+            console.log(data.data.access_token)
+            // chuangcache_token
+            // refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
+            // refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
+        });
+
 
     }catch(e){
         console.error(e.message);
@@ -1178,9 +1166,6 @@ check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source sit
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 // flutter_checker.startCheckTask();
-
-refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
-refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
 
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
