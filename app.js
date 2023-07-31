@@ -735,6 +735,7 @@ async function initialize_chuang(){
         };
         // let res = await axios.post(url, body, headers);
         axios.post(url, body, headers).then((data) => {
+            console.log(data.data)
             console.log(data.data.access_token)
             // chuangcache_token
             // refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
