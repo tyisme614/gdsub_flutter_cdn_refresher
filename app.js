@@ -655,18 +655,14 @@ function refresh_ali_cdn(){
 
 async function refresh_chuangcache_resource(refresh_type, cache){
 
-    while(chuangcache_token == null){
-        //waiting for valid token
-        ;
-    }
     let url_arr = [];
 
     for(let item of cache){
 
-        let url = {
-            url_name: item.addr
+        let target = {
+            url_name: item.url
         };
-        url_arr.push(url);
+        url_arr.push(target);
     }
 
     let data =  {
@@ -687,22 +683,9 @@ async function refresh_chuangcache_resource(refresh_type, cache){
         json: false
     }
 
-    request(options)
-        .then((res) => {
-            if(debug){
-                console.log('response from server after cdn refreshing request, res -->' + JSON.stringify(res));
-            }
-            if(res.status != 1){
-                if(typeof(callback) != 'undefined' && callback != null){
-                    // callback(urls, type);
-                }
-            }
-        }).catch((err) => {
-        // POST failed...
-        console.error('failed to refresh resources, error:' + err.message);
-
-        if(typeof(callback) != 'undefined' && callback != null){
-            // callback(urls, type);
+    request(options, (error, response, body)=>{
+        if(debug){
+            console.log('response from server after cdn refreshing request, res -->' + JSON.stringify(body));
         }
     });
 
