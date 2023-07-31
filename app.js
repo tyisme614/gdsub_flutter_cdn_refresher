@@ -657,6 +657,10 @@ async function refresh_chuangcache_resource(refresh_type, cache){
 
     let url_arr = [];
 
+    if(cache.length == 0 ){
+        console.log('no item found in chuang cache');
+        return;
+    }
     for(let item of cache){
 
         let target = {
