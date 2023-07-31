@@ -23,9 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ad9c4127-4ac9-4129-b2e4-082fb9df95b8" name="Default" comment="v0.3.7&#10;deprecated pub.dartlang.org, use pub.dev instead">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/app.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app_chuangcache.js" beforeDir="false" afterPath="$PROJECT_DIR$/app_chuangcache.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -204,7 +204,9 @@
       <workItem from="1685110951076" duration="72000" />
       <workItem from="1685200263459" duration="1306000" />
       <workItem from="1685630293103" duration="189000" />
-      <workItem from="1690587140457" duration="499000" />
+      <workItem from="1690587140457" duration="736000" />
+      <workItem from="1690693708128" duration="917000" />
+      <workItem from="1690814631814" duration="3120000" />
     </task>
     <task id="LOCAL-00054" summary="v0.2.6&#10;enabled dir refresh,&#10;changed path of pkg list log files">
       <created>1590419738670</created>

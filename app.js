@@ -59,6 +59,9 @@ eventHandler.on('checkPage', (page) => {
 
 const TYPE_FILE = 'File';
 const TYPE_DIRECTORY = 'Directory';
+
+const TYPE_FILE_CHUANG = 'file';
+const TYPE_DIRECTORY_CHUANG = 'dir';
 // let json_test = '{"name":"quill_zefyr_bijection","latest":{"version":"0.3.0","pubspec":{"name":"quill_zefyr_bijection","description":"Converts Quill.Js JSON to Zefyr Compatible JSON Delta fo user with Zefyr editor flutter package.","version":"0.3.0","homepage":"https://github.com/essuraj/Quill-Zefyr-Bijection","environment":{"sdk":">=2.1.0 <3.0.0"},"dependencies":{"flutter":{"sdk":"flutter"},"quill_delta":"^1.0.2"},"dev_dependencies":{"flutter_test":{"sdk":"flutter"}},"flutter":null},"archive_url":"https://pub.dartlang.org/packages/quill_zefyr_bijection/versions/0.3.0.tar.gz","package_url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection","url":"https://pub.dartlang.org/api/packages/quill_zefyr_bijection/versions/0.3.0"}}';
 // let first_package = '';//JSON.parse(json_test);
 // let legacy_pkg = '';
@@ -76,6 +79,13 @@ let refresh_cache = [];
 let refresh_list = [];
 let refresh_dir_list = [];
 let refresh_directory = true;
+
+let refresh_cache_chuangcache_file = [];
+let refresh_cache_chuangcache_dir = [];
+
+let chuangcache_token = '';
+let token_refresh_time = 0;
+let token_expire_time = 0;
 
 let pkg_map = null;
 let tmp_pkg_map = new Map();
@@ -133,14 +143,11 @@ function cdnRefreshChecker(){
                     console.log('stop current refresh task');
                     clearInterval(check_task);
                 }
-
                 //stop refresh worker
                 // if(debug){
                 //     console.log('stop refresh worker');
                 //     clearInterval(refresh_worker);
                 // }
-
-
                 //get the start date of conservative refresh
                 present_day = new Date().getDate();
                 //start conservative strategy
@@ -233,13 +240,10 @@ function retrievePackageData(page){
                         eventHandler.emit('checkPage', page);
                     }
 
-
                 }
 
             }//end of processing block
-
         }
-
     });
 }
 
@@ -370,23 +374,27 @@ function refreshTargetPackage(pkg, refreshDir){
     let browser_package = {};
     browser_package.url = cdn_browser_resource_address + pkg.name;
     browser_package.type = TYPE_FILE;
-    refresh_cache.push(browser_package);
+    // refresh_cache.push(browser_package);
+    refresh_cache_chuangcache_file.push(browser_package);
 
     let browser_package2 = {};
     browser_package2.url = cdn_browser_resource_address + pkg.name + '/';
     browser_package2.type = TYPE_FILE;
-    refresh_cache.push(browser_package2);
+    // refresh_cache.push(browser_package2);
+    refresh_cache_chuangcache_file.push(browser_package2);
 
     let browser_package_versions = {};
     browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
     browser_package_versions.type = TYPE_FILE;
-    refresh_cache.push(browser_package_versions);
+    // refresh_cache.push(browser_package_versions);
+    refresh_cache_chuangcache_file.push(browser_package_versions);
 
     if (refresh_directory && refreshDir) {
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkg.name + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
-        refresh_cache.push(browser_document);
+        // refresh_cache.push(browser_document);
+        refresh_cache_chuangcache_dir.push(browser_document);
     }
 }
 
@@ -639,6 +647,115 @@ function refresh_ali_cdn(){
     cmd.on('close', (code) => {
         console.log(`child process exited with code ${code}`);
     });
+}
+
+async function refresh_chuangcache_resource(refresh_type, cache){
+    let current_ts = currentTimeInMilliseconds();
+
+    if((current_ts - token_refresh_time) > token_expire_time){
+        //access token has expired, request a new one
+        access_token = await request_token();
+        if(access_token == null){
+            console.log('failed to retrieve access token ,try again later');
+            return;
+        }
+    }
+
+    let url_arr = [];
+
+    for(let item of cache){
+
+        let url = {
+            url_name: item.addr
+        };
+        url_arr.push(url);
+    }
+
+    let data =  {
+        access_token: chuangcache_token,
+        type: refresh_type,
+        urls: url_arr
+    };
+    console.log('data->' + JSON.stringify(data));
+
+    let options = {
+        method: 'POST',
+        uri: 'https://api.chuangcache.com/content/purge',
+        body: JSON.stringify(data),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json; charset=utf-8',
+        },
+        json: false
+    }
+
+    request(options)
+        .then((res) => {
+            if(debug){
+                console.log('response from server after cdn refreshing request, res -->' + JSON.stringify(res));
+            }
+            if(res.status != 1){
+                if(typeof(callback) != 'undefined' && callback != null){
+                    // callback(urls, type);
+                }
+            }
+        }).catch((err) => {
+        // POST failed...
+        console.error('failed to refresh resources, error:' + err.message);
+
+        if(typeof(callback) != 'undefined' && callback != null){
+            // callback(urls, type);
+        }
+    });
+
+}
+
+async function request_token(){
+    if(!fs.existsSync(__dirname + '/auth.json')){
+        console.error('unable to find auth.json');
+        return null;
+    }
+
+    let data = fs.readFileSync(__dirname + '/auth.json');
+    try{
+        let j = JSON.parse(data);
+        let auth = {
+            ak: j.chuangcache.ak,
+            sk: j.chuangcache.sk
+        };
+        let options = {
+            method: 'POST',
+            uri: 'https://api.chuangcache.com/OAuth/authorize',
+            body: JSON.stringify(auth),
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type' : 'application/json; charset=utf-8'
+            },
+            json: false
+        }
+
+        let res = await request.post(options);
+        let res_json = JSON.parse(res);
+        if(res_json.status == 1){
+            let access_token = res_json.data.access_token;
+            token_refresh_time = currentTimeInMilliseconds();
+            token_expire_time = res_json.data.expires_in;
+            console.log('retrieved new access token from remote server, token -->' + access_token);
+            return access_token;
+        }
+
+    }catch(e){
+        console.error(e.message);
+        return null;
+    }
+
+
+}
+
+function currentTimeInMilliseconds(){
+    let timezone = new Date().getTimezoneOffset();//in minutes
+    let timestamp = Date.now() - timezone * 60000;
+    return timestamp;
 }
 
 //batch refresh
@@ -1041,18 +1158,19 @@ function currentTimestamp(){
  *
  */
 
-
 //start processing
 //intialize first package information
 // check_first_package();
 //start refresh worker
-
 refresh_worker = setInterval(refresh_target_from_cache, 100);//send 10 refresh requests per second
 //start interval task
 check_task = setInterval(cdnRefreshChecker, refresh_interval);//check source site per refresh_interval
 // check_task = setInterval(check_first_package, refresh_interval);//check source site per 5 min aka 300 sec
 //start aliyun service checker
 // flutter_checker.startCheckTask();
+
+refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
+refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
 
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);

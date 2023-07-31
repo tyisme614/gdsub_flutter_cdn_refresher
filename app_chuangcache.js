@@ -348,8 +348,6 @@ async function refresh_chuangcache_cdn_of_target(urls, type, callback){
         }
     });
 
-
-
 }
 
 function refresh_chuangcache_cdn(){
