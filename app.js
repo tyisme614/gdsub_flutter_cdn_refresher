@@ -661,8 +661,9 @@ async function refresh_chuangcache_resource(refresh_type, cache){
         // console.log('no item found in chuang cache');
         return;
     }
-    for(let item of cache){
 
+    while(cache.length > 0){
+        let item = cache.pop();
         let target = {
             url_name: item.url
         };
@@ -729,10 +730,9 @@ function initialize_chuang(){
                 chuangcache_token = res.data.data.access_token;
                 console.log('requested new token-->' + chuangcache_token);
                 console.log('starting refresh_chuang_worker');
-                refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 1000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
+                refresh_chuang_worker = setInterval(refresh_chuangcache_resource, 600000, TYPE_FILE_CHUANG, refresh_cache_chuangcache_file);
                 console.log('starting refresh_chuang_worker_dir')
-                refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 1000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
-
+                refresh_chuang_worker_dir = setInterval(refresh_chuangcache_resource, 600000, TYPE_DIRECTORY_CHUANG, refresh_cache_chuangcache_dir);
 
             });
         }
