@@ -83,8 +83,8 @@ let refresh_directory = true;
 
 let refresh_cache_chuangcache_file = [];
 let refresh_cache_chuangcache_dir = [];
-let refresh_chuang_worker;
-let refresh_chuang_worker_dir;
+let refresh_chuang_worker = null;
+let refresh_chuang_worker_dir = null;
 let refresh_chuang_token;
 
 let chuangcache_token = '';
@@ -197,7 +197,7 @@ function retrievePackageData(page){
         }else {
             console.log('cache package data');
 
-            fs.appendFile(__dirname + '/logs/' + currentTimestamp() + '.dartlang.log', body, (err) => {
+            fs.appendFile(__dirname + '/logs/' + currentTimestamp() + '.dartlang.log', body, { encoding: "utf8", mode: 0o666, flag: "a" }, (err) => {
                 if (err) console.error(currentTimestamp() + 'encountered error while caching package list, e-->' + err.message);
                 console.log('file cached');
             });
@@ -698,8 +698,13 @@ async function refresh_chuangcache_resource(refresh_type, cache){
 
 function initialize_chuang(){
     console.log('cleaning up workers');
-    clearInterval(refresh_chuang_worker);
-    clearInterval(refresh_chuang_worker_dir);
+    if(refresh_chuang_worker != null){
+        clearInterval(refresh_chuang_worker);
+    }
+    if(refresh_chuang_worker_dir != null){
+        clearInterval(refresh_chuang_worker_dir);
+    }
+
 
     console.log('refreshing token...');
     if(!fs.existsSync(__dirname + '/auth.json')){
