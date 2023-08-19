@@ -325,9 +325,23 @@ function composeFileRefreshUrl(target){
     let res = 'https://'+ cdn_base_address + '/api/packages/' + target;
 
     res += '\n' + 'https://'+ cdn_base_address + '/api/documentation/' + target;
-    res += '\n' + cdn_browser_resource_address + target;
-    res += '\n' + cdn_browser_resource_address + target + '/';
-    res += '\n' + cdn_browser_resource_address + target + '/versions';
+    // res += '\n' + cdn_browser_resource_address + target;
+    // res += '\n' + cdn_browser_resource_address + target + '/';
+    // res += '\n' + cdn_browser_resource_address + target + '/versions';
+    let browser_package = {};
+    browser_package.url = cdn_browser_resource_address + target;
+    browser_package.type = TYPE_FILE;
+    refresh_cache_chuangcache_file.push(browser_package);
+
+    browser_package = {};
+    browser_package.url = cdn_browser_resource_address + target + '/';
+    browser_package.type = TYPE_FILE;
+    refresh_cache_chuangcache_file.push(browser_package);
+
+    browser_package = {};
+    browser_package.url = cdn_browser_resource_address + target + '/versions';
+    browser_package.type = TYPE_FILE;
+    refresh_cache_chuangcache_file.push(browser_package);
 
     return res;
 }
@@ -360,19 +374,19 @@ function refreshTargetPackage(pkg, refreshDir){
             'User-Agent' : 'pub.flutter-io.cn'
         }
     };
-    request.get(options, (err, response, body) => {
-        try {
-            let j = JSON.parse(body);
-            if (j.publisherId != null) {
-                let publisher_url = {};
-                publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
-                publisher_url.type = TYPE_FILE;
-                // refresh_cache.push(publisher_url);
-            }
-        } catch (e) {
-            console.error(currentTimestamp() + 'failed to parse JSON, response-->' + res);
-        }
-    });
+    // request.get(options, (err, response, body) => {
+    //     try {
+    //         let j = JSON.parse(body);
+    //         if (j.publisherId != null) {
+    //             let publisher_url = {};
+    //             publisher_url.url = cdn_publisher_resource_address + j.publisherId + '/packages';
+    //             publisher_url.type = TYPE_FILE;
+    //             // refresh_cache.push(publisher_url);
+    //         }
+    //     } catch (e) {
+    //         console.error(currentTimestamp() + 'failed to parse JSON, response-->' + res);
+    //     }
+    // });
 
     //add browser resources
     let browser_package = {};
@@ -1113,20 +1127,27 @@ let onHTTPEventListener = function(pkgName){
     let browser_package = {};
     browser_package.url = cdn_browser_resource_address + pkgName;
     browser_package.type = TYPE_FILE;
-    refresh_cache.push(browser_package);
+    // refresh_cache.push(browser_package);
+    refresh_cache_chuangcache_file.push(browser_package);
+
     let browser_package2 = {};
     browser_package2.url = cdn_browser_resource_address + pkgName + '/';
     browser_package2.type = TYPE_FILE;
-    refresh_cache.push(browser_package2);
+    // refresh_cache.push(browser_package2);
+    refresh_cache_chuangcache_file.push(browser_package2);
+
     let browser_package_versions = {};
     browser_package_versions.url = cdn_browser_resource_address + pkgName + '/versions';
     browser_package_versions.type = TYPE_FILE;
-    refresh_cache.push(browser_package_versions);
+    // refresh_cache.push(browser_package_versions);
+    refresh_cache_chuangcache_file.push(browser_package_versions);
+
     if(refresh_directory){
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkgName + '/latest/';
         browser_document.type = TYPE_DIRECTORY;
-        refresh_cache.push(browser_document);
+        // refresh_cache.push(browser_document);
+        refresh_cache_chuangcache_dir.push(browser_document);
     }
 };
 
