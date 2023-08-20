@@ -413,6 +413,11 @@ function refreshTargetPackage(pkg, refreshDir){
         browser_document.type = TYPE_DIRECTORY;
         // refresh_cache.push(browser_document);
         refresh_cache_chuangcache_dir.push(browser_document);
+
+        browser_document.url = cdn_browser_document_address + pkg.name + '/p_limit/';
+        browser_document.type = TYPE_DIRECTORY;
+        // refresh_cache.push(browser_document);
+        refresh_cache_chuangcache_dir.push(browser_document);
     }
 }
 
@@ -1145,6 +1150,11 @@ let onHTTPEventListener = function(pkgName){
     if(refresh_directory){
         let browser_document = {};
         browser_document.url = cdn_browser_document_address + pkgName + '/latest/';
+        browser_document.type = TYPE_DIRECTORY;
+        // refresh_cache.push(browser_document);
+        refresh_cache_chuangcache_dir.push(browser_document);
+
+        browser_document.url = cdn_browser_document_address + pkgName + '/p_limit/';
         browser_document.type = TYPE_DIRECTORY;
         // refresh_cache.push(browser_document);
         refresh_cache_chuangcache_dir.push(browser_document);
