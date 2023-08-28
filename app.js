@@ -414,6 +414,7 @@ function refreshTargetPackage(pkg, refreshDir){
         // refresh_cache.push(browser_document);
         refresh_cache_chuangcache_dir.push(browser_document);
 
+        browser_document = {};
         browser_document.url = cdn_browser_document_address + pkg.name + '/p_limit/';
         browser_document.type = TYPE_DIRECTORY;
         // refresh_cache.push(browser_document);
@@ -777,54 +778,22 @@ function currentTimeInMilliseconds(){
 //batch refresh
 function refresh_target_directory_from_cache(){
     if(refresh_dir_list.length > 0){
-        let url_collection = '';
         for(let i=0; i<refresh_dir_list.length; i++){
             let target = refresh_dir_list[i];
-            let url = cdn_browser_document_address + target + '/latest/'
-            url_collection += url + '\n';
+            let browser_document = {};
+            browser_document.url = cdn_browser_document_address + target + '/latest/';
+            browser_document.type = TYPE_DIRECTORY;
+            // refresh_cache.push(browser_document);
+            refresh_cache_chuangcache_dir.push(browser_document);
+
+            browser_document = {};
+            browser_document.url = cdn_browser_document_address + target + '/p_limit/';
+            browser_document.type = TYPE_DIRECTORY;
+            // refresh_cache.push(browser_document);
+            refresh_cache_chuangcache_dir.push(browser_document);
         }
-        console.log('length of refresh_dir_list -->' + refresh_dir_list.length);
-        refresh_dir_list = [];
-        console.log(currentTimestamp() + ' [refresh_target_directory_from_cache]');
-        console.log('the url list-->' + url_collection);
-        let cmd = spawn(aliyuncli_cmd, ['cdn', 'RefreshObjectCaches', '--ObjectPath', url_collection, '--ObjectType', TYPE_DIRECTORY, '--secure']);
 
-        cmd.stdout.on('data', (data) => {
-
-            console.log(currentTimestamp() +`stdout: ${data}`);
-            try{
-                cdn_refresh_info = JSON.parse(data);
-                if(typeof(cdn_refresh_info.RefreshTaskId) != 'undefined'){
-                    console.log(currentTimestamp() +'RefreshTaskId=' + cdn_refresh_info.RefreshTaskId);
-                }
-
-                if(typeof(cdn_refresh_info.RequestId) != 'undefined'){
-                    console.log(currentTimestamp() +'RequestId=' + cdn_refresh_info.RequestId);
-                }
-
-                if(typeof(cdn_refresh_info.Code) != 'undefined'){
-                    console.log(currentTimestamp() +'Aliyun CDN response:\n' + cdn_refresh_info.Code +'\nMessage: ' + cdn_refresh_info.Message);
-                }
-
-            }catch(e){
-                console.log(currentTimestamp() +'[refresh_ali_cdn_of_target] encountered error while parsing response data, exception:' + e.message);
-                // if(debug){
-                //     console.log('unable to refresh cdn, url -->' + url);
-                // }
-
-            }
-        });
-
-        cmd.stderr.on('data', (data) => {
-            console.log(currentTimestamp() +`stderr: ${data}`);
-        });
-
-        cmd.on('close', (code) => {
-            console.log(currentTimestamp() +`child process exited with code ${code}`);
-        });
     }
-
-
 }
 
 //batch refresh
@@ -920,7 +889,7 @@ function refresh_package_by_update_time(){
                     if(base_time != update_time){
                         pkg.last_updated_time = update_time;
                         extra_pkg_map.set(name, pkg);
-                        refreshTargetPackage(pkg.package, false);
+                        refreshTargetPackage(pkg.package, true);
                     }
                 }else{
                     console.log('[extra check] package ' + name + '  not found in extra_pkg_map, cache it');
