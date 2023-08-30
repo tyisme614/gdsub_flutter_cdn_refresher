@@ -885,6 +885,7 @@ function refresh_package_by_update_time(){
                     let base_time = pkg.last_updated_time;
                     console.log('[extra check] update_time-->' + update_time + '\nbase_time-->' + base_time);
                     if(base_time != update_time){
+                        console.log(currentTimestamp() + ': enqueue package ' + pkg.name );
                         pkg.last_updated_time = update_time;
                         extra_pkg_map.set(name, pkg);
                         refreshTargetPackage(pkg.package, true);
