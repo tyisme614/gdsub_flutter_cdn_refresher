@@ -133,7 +133,7 @@ function cdnRefreshChecker(){
 
         //refresh cdn resources cached in list
         refresh_target_file_from_cache();
-        refresh_target_directory_from_cache();
+        // refresh_target_directory_from_cache();
 
         isProcessing = true;
         retry_time = 0;
@@ -213,7 +213,6 @@ function retrievePackageData(page){
                     for(let i=0; i<pkg_list.length; i++){
                         let pkg = pkg_list[i];
                         tmp_pkg_map.set(pkg.name, pkg);
-
                     }
                 }
                 if(pkg_map == null){
@@ -864,8 +863,7 @@ function refresh_package_by_update_time(){
         let options= {
             url: flutter_base_url + target.name,
             gzip: true,
-            headers: {
-                'User-Agent' : 'pub.flutter-io.cn'
+            headers: {'User-Agent' : 'pub.flutter-io.cn'
             }
 
         };
@@ -889,7 +887,7 @@ function refresh_package_by_update_time(){
                     if(base_time != update_time){
                         pkg.last_updated_time = update_time;
                         extra_pkg_map.set(name, pkg);
-                        refreshTargetPackage(pkg.package, true);
+                        refreshTargetPackage(pkg.package, false);
                     }
                 }else{
                     console.log('[extra check] package ' + name + '  not found in extra_pkg_map, cache it');
