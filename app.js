@@ -887,7 +887,7 @@ function refresh_package_by_update_time(){
                     if(base_time != update_time){
                         pkg.last_updated_time = update_time;
                         extra_pkg_map.set(name, pkg);
-                        refreshTargetPackage(pkg.package, false);
+                        refreshTargetPackage(pkg.package, true);
                     }
                 }else{
                     console.log('[extra check] package ' + name + '  not found in extra_pkg_map, cache it');
