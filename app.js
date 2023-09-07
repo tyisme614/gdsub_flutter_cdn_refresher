@@ -273,15 +273,17 @@ function traversePackages(pkg_json){
             if(res.needUpdate){
                 console.log(currentTimestamp() + 'needUpdate is true, push package ' + pkgName + ' to refresh_list');
                 // refreshTargetPackage(pkg, true);
-                if(!refresh_dir_list.includes(pkgName)){
-                    refresh_dir_list.push(pkgName);
+                if(!refresh_cache_chuangcache_dir.includes(pkgName)){
+                    console.log(currentTimestamp() + 'needUpdate is true, refreshing package ' + pkgName + ' in chuang_cache');
+                    refresh_cache_chuangcache_dir.push(pkgName);
+                    composeFileRefreshUrl(pkgName);
                 }else{
-                    console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_dir_list, this package might be ignored');
+                    console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_cache_chuangcache_dir, this package might be ignored');
                 }
                 if(!refresh_list.includes(pkgName)){
                     refresh_list.push(pkgName);
                 }else{
-                    console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_list, this package might be ignored');
+                    console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_list(aliyun cache), this package might be ignored');
                 }
 
             }else{
