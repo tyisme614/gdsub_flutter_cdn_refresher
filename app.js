@@ -340,6 +340,11 @@ function composeFileRefreshUrl(target){
     refresh_cache_chuangcache_file.push(browser_package);
 
     browser_package = {};
+    browser_package.url = cdn_browser_resource_address + target + '/';
+    browser_package.type = TYPE_DIRECTORY;
+    refresh_cache_chuangcache_dir.push(browser_package);
+
+    browser_package = {};
     browser_package.url = cdn_browser_resource_address + target + '/versions';
     browser_package.type = TYPE_FILE;
     refresh_cache_chuangcache_file.push(browser_package);
@@ -401,6 +406,12 @@ function refreshTargetPackage(pkg, refreshDir){
     browser_package2.type = TYPE_FILE;
     // refresh_cache.push(browser_package2);
     refresh_cache_chuangcache_file.push(browser_package2);
+
+    let browser_package_dir = {};
+    browser_package_dir.url = cdn_browser_resource_address + pkg.name + '/';
+    browser_package_dir.type = TYPE_DIRECTORY;
+    // refresh_cache.push(browser_package2);
+    refresh_cache_chuangcache_dir.push(browser_package_dir);
 
     let browser_package_versions = {};
     browser_package_versions.url = cdn_browser_resource_address + pkg.name + '/versions';
@@ -1110,6 +1121,12 @@ let onHTTPEventListener = function(pkgName){
     browser_package2.type = TYPE_FILE;
     // refresh_cache.push(browser_package2);
     refresh_cache_chuangcache_file.push(browser_package2);
+
+    let browser_package_dir = {};
+    browser_package_dir.url = cdn_browser_resource_address + pkgName + '/';
+    browser_package_dir.type = TYPE_DIRECTORY;
+    // refresh_cache.push(browser_package2);
+    refresh_cache_chuangcache_dir.push(browser_package_dir);
 
     let browser_package_versions = {};
     browser_package_versions.url = cdn_browser_resource_address + pkgName + '/versions';
