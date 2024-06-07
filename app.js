@@ -449,7 +449,8 @@ function refreshTargetPackage(pkg, refreshDir){
  */
 
 function initializeCloudflareAuth(){
-    let config = fs.readFileSync(__dirname + '/auth.json');
+    let raw = fs.readFileSync(__dirname + '/auth.json');
+    let config = JSON.parse(raw);
     zone_id = config.zone_id;
     api_key = config.api_key;
     console.log(currentTimestamp() + ': initializing cloudflare auth, zone_id -->' + zone_id + '  api_key-->' + api_key);
