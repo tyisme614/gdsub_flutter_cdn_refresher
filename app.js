@@ -70,6 +70,7 @@ let cdn_refresh_info = '';
 let cdn_refresh_service_remain = 0;
 let present_day = 0;
 let refresh_interval = 666000;//11 minutes
+let refresh_interval_cloudflare = 3000;
 let alert_threshold = 50;//conservative strategy is not used
 let allowed_maximum_dir_refresh_times = 1000;
 
@@ -86,6 +87,9 @@ let refresh_cache_chuangcache_dir = [];
 let refresh_chuang_worker = null;
 let refresh_chuang_worker_dir = null;
 let refresh_chuang_token;
+
+let refresh_cache_cloudflare = [];
+let refresh_cloudflare_worker = null;
 
 let chuangcache_token = '';
 let token_refresh_time = 0;
@@ -277,6 +281,8 @@ function traversePackages(pkg_json){
                     console.log(currentTimestamp() + 'needUpdate is true, refreshing package ' + pkgName + ' in chuang_cache');
                     refresh_cache_chuangcache_dir.push(pkgName);
                     composeFileRefreshUrl(pkgName);
+                    //refresh cloudflare
+                    refresh_cache_cloudflare.push(pkgName);
                 }else{
                     console.log(currentTimestamp() + 'found package  ' + pkgName + ' in refresh_cache_chuangcache_dir, this package might be ignored');
                 }
@@ -434,6 +440,45 @@ function refreshTargetPackage(pkg, refreshDir){
     }
 }
 
+/**
+ *
+ * refresh cloudflare cache
+ *
+ */
+function refreshCloudflare(pkg){
+    let config = fs.readFileSync(__dirname + '/auth.json');
+    let zone_id = config.zone_id;
+    let api_key = config.api_key;
+
+
+    let data =  {
+        files: ["https://pub-web.flutter-io.cn/packages/" + pkg,
+            "https://pub-web.flutter-io.cn/packages/" + pkg +"/",
+            "https://pub-web.flutter-io.cn/packages/" + pkg +"/changelog",
+            "https://pub-web.flutter-io.cn/packages/" + pkg + "/example",
+            "https://pub-web.flutter-io.cn/packages/" + pkg + "/install",
+            "https://pub-web.flutter-io.cn/packages/" + pkg + "/versions",
+            "https://pub-web.flutter-io.cn/packages/" + pkg + "/score"]
+    };
+    console.log('refresh cloudflare resource -->' + JSON.stringify(data));
+
+    let options = {
+        method: 'POST',
+        uri: 'https://api.cloudflare.com/client/v4/zones/' + zone_id + '/purge_cache',
+        body: JSON.stringify(data),
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + api_key,
+        },
+        json: false
+    }
+
+    request(options, (error, response, body)=>{
+        if(debug){
+            console.log('response from server after cdn refreshing request, res -->' + JSON.stringify(body));
+        }
+    });
+}
 
 /**
  * check the difference between the information of pkg1 and pkg2
@@ -870,6 +915,17 @@ function refresh_target_from_cache(){
     }
 }
 
+function refresh_cloudflare_process(){
+
+    if(refresh_cache_cloudflare.length > 0){
+        console.log(currentTimestamp() + ' refresh_cache_cloudflare length is ' + refresh_cache_cloudflare.length);
+        let target = refresh_cache_cloudflare.pop();
+        if(typeof(target) != 'undefined' && target != null){
+            refreshCloudflare(target);
+        }
+    }
+}
+
 function refresh_package_by_update_time(){
     if(extra_cache.length > 0){
         let target = extra_cache.pop();
@@ -1146,6 +1202,9 @@ let onHTTPEventListener = function(pkgName){
         // refresh_cache.push(browser_document);
         refresh_cache_chuangcache_dir.push(browser_document);
     }
+
+    //refresh cloudflare
+    refresh_cache_cloudflare.push(pkgName);
 };
 
 function currentTimestamp(){
@@ -1187,6 +1246,8 @@ initialize_chuang();
 refresh_chuang_token = setInterval(initialize_chuang, 86000000);
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
+
+refresh_cloudflare_worker = setInterval(refresh_cloudflare_process, refresh_interval_cloudflare);
 
 //check aliyun cdn refresh service status
 check_service_status();
