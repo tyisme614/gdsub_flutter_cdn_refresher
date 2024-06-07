@@ -88,6 +88,8 @@ let refresh_chuang_worker = null;
 let refresh_chuang_worker_dir = null;
 let refresh_chuang_token;
 
+let zone_id = null;
+let api_key = null;
 let refresh_cache_cloudflare = [];
 let refresh_cloudflare_worker = null;
 
@@ -445,11 +447,19 @@ function refreshTargetPackage(pkg, refreshDir){
  * refresh cloudflare cache
  *
  */
-function refreshCloudflare(pkg){
-    let config = fs.readFileSync(__dirname + '/auth.json');
-    let zone_id = config.zone_id;
-    let api_key = config.api_key;
 
+function initializeCloudflareAuth(){
+    let config = fs.readFileSync(__dirname + '/auth.json');
+    zone_id = config.zone_id;
+    api_key = config.api_key;
+}
+function refreshCloudflare(pkg){
+
+    if(zone_id == null && api_key == null){
+
+        initializeCloudflareAuth();
+        console.log(currentTimestamp() + ': initializing cloudflare auth, zone_id -->' + zone_id + '  api_key-->' + api_key);
+    }
 
     let data =  {
         files: ["https://pub-web.flutter-io.cn/packages/" + pkg,
