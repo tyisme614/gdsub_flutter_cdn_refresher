@@ -452,6 +452,8 @@ function initializeCloudflareAuth(){
     let config = fs.readFileSync(__dirname + '/auth.json');
     zone_id = config.zone_id;
     api_key = config.api_key;
+    console.log(currentTimestamp() + ': initializing cloudflare auth, zone_id -->' + zone_id + '  api_key-->' + api_key);
+
 }
 function refreshCloudflare(pkg){
 
@@ -1257,6 +1259,7 @@ refresh_chuang_token = setInterval(initialize_chuang, 86000000);
 //start extra refresh worker
 extra_refresh_worker = setInterval(refresh_package_by_update_time, 1000);
 
+initializeCloudflareAuth();
 refresh_cloudflare_worker = setInterval(refresh_cloudflare_process, refresh_interval_cloudflare);
 
 //check aliyun cdn refresh service status
